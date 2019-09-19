@@ -12,6 +12,7 @@ namespace ImageProcessing
         private Bitmap _bitmapAtual;
         private Bitmap _bitmapPreAreaCrop;
         private ImageType imageType = ImageType.color;
+        private int maxColorValue = 255;
         //public int Pos { get; set; }
         public ImagemBool MatrizBool;
         public ImagemInt MatrizInt;
@@ -332,7 +333,219 @@ namespace ImageProcessing
             _bitmapAtual = (Bitmap)bmap.Clone();
             imageType = ImageType.gray;
         }
+        public Image FiltroMediana()
+        {
+            this.ToInt();
+            int[] r = new int[9];
+            int[] g = new int[9];
+            int[] b = new int[9];
+            int x, y, i, j, pos = 0;
+            int w = BitmapAtual.Width - 1;
+            int h = BitmapAtual.Height - 1;
+            //Color color;
+            for (x = 1; x < w; x++)
+            {
+                for (y = 1; y < h; y++)
+                {
+                    for (i = x - 1; i < x + 2; i++)
+                    {
+                        for (j = y - 1; j < y + 2; j++)
+                        {
+                            r[pos] = MatrizInt.Matriz[i, j, 0];
+                            g[pos] = MatrizInt.Matriz[i, j, 1];
+                            b[pos] = MatrizInt.Matriz[i, j, 2];
+                            pos++;
+                        }
+                    }
+                    Array.Sort(r);
+                    Array.Sort(g);
+                    Array.Sort(b);
+                    MatrizInt.Matriz[x, y, 0] = r[4];
+                    MatrizInt.Matriz[x, y, 1] = g[4];
+                    MatrizInt.Matriz[x, y, 2] = b[4];
+                    //imagemA.BitmapAtual.SetPixel(x, y, Color.FromArgb(r[4], g[4], b[4]));
+                    pos = 0;
+                }
+            }
+            this.ToImage();
+            return (Image)this.BitmapAtual;
+        }
+        public Image FiltroMedia()
+        {
+            this.ToInt();
+            int r = 0, g = 0, b = 0, x, y, i, j;
+            int width = BitmapAtual.Width;
+            int height = BitmapAtual.Height;
 
+            //int[] aux = new int[9];
+            for (x = 1; x < width - 1; x++)
+            {
+                for (y = 1; y < height - 1; y++)
+                {
+                    for (i = x - 1; i < x + 2; i++)
+                    {
+                        for (j = y - 1; j < y + 2; j++)
+                        {
+                            r += MatrizInt.Matriz[i, j, 0];
+                            g += MatrizInt.Matriz[i, j, 1];
+                            b += MatrizInt.Matriz[i, j, 2];
+                        }
+                    }
+                    r /= 9;
+                    g /= 9;
+                    b /= 9;
+
+                    MatrizInt.Matriz[x, y, 0] = r;
+                    MatrizInt.Matriz[x, y, 1] = g;
+                    MatrizInt.Matriz[x, y, 2] = b;
+
+                    r = 0; g = 0; b = 0;
+                }
+            }
+            this.ToImage();
+            return (Image)BitmapAtual;
+        }
+
+        public Image LogicOp(LogicOperationType operation, ManipuladorImagem imagemB)
+        {
+            this.ToBool();
+            if (imagemB == null)
+                imagemB = this;
+
+            imagemB.ToBool();
+            int x, y;
+            for (x = 0; x < imagemB.MatrizBool.Width; x++)
+            {
+                for (y = 0; y < imagemB.MatrizBool.Height; y++)
+                {
+                    switch (operation)
+                    {
+                        case LogicOperationType.not:
+                            this.MatrizBool.Matriz[x, y] = !this.MatrizBool.Matriz[x, y];
+                            break;
+                        case LogicOperationType.and:
+                            this.MatrizBool.Matriz[x, y] = this.MatrizBool.Matriz[x, y] && imagemB.MatrizBool.Matriz[x, y];
+                            break;
+                        case LogicOperationType.or:
+                            this.MatrizBool.Matriz[x, y] = this.MatrizBool.Matriz[x, y] || imagemB.MatrizBool.Matriz[x, y];
+                            break;
+                        case LogicOperationType.sub:
+                            this.MatrizBool.Matriz[x, y] = this.MatrizBool.Matriz[x, y] && !imagemB.MatrizBool.Matriz[x, y];
+                            break;
+                        case LogicOperationType.xor:
+                            this.MatrizBool.Matriz[x, y] = this.MatrizBool.Matriz[x, y] && !imagemB.MatrizBool.Matriz[x, y] || !this.MatrizBool.Matriz[x, y] && this.MatrizBool.Matriz[x, y];
+                            break;
+                    }
+                }
+            }
+            this.ToImage();
+
+            return this.BitmapAtual;
+        }
+
+        public Image MathOp(MathOperationType operation, ManipuladorImagem imagemB)
+        {
+            this.ToInt();
+            if (imagemB != null)
+            {
+                imagemB.ToInt();
+                int width = imagemB.BitmapAtual.Width;
+                int height = imagemB.BitmapAtual.Height;
+                int x, y, ra, ga, ba, rb, gb, bb;
+                for (x = 0; x < width; x++)
+                {
+                    for (y = 0; y < height; y++)
+                    {
+                        ra = this.MatrizInt.Matriz[x, y, 0];
+                        rb = imagemB.MatrizInt.Matriz[x, y, 0];
+                        ga = this.MatrizInt.Matriz[x, y, 1];
+                        gb = imagemB.MatrizInt.Matriz[x, y, 1];
+                        ba = this.MatrizInt.Matriz[x, y, 2];
+                        bb = imagemB.MatrizInt.Matriz[x, y, 2];
+                        switch (operation)
+                        {
+                            case MathOperationType.adicaoLimiar:
+                                ra += rb; ra = (ra <= 255) ? ra : 255;
+                                ga += gb; ga = (ga <= 255) ? ga : 255;
+                                ba += bb; ba = (ba <= 255) ? ba : 255;
+                                break;
+                            case MathOperationType.adicaoMedia:
+                                ra = (ra + rb) / 2;
+                                ga = (ga + gb) / 2;
+                                ba = (ba + bb) / 2;
+                                break;
+                            case MathOperationType.divisao:
+                                rb = (rb == 0) ? 1 : rb;
+                                gb = (gb == 0) ? 1 : gb;
+                                rb = (bb == 0) ? 1 : bb;
+                                ra /= rb;
+                                ga /= gb;
+                                ba /= bb;
+                                break;
+                            case MathOperationType.multiplicacao:
+                                ra *= rb / maxColorValue;
+                                ga *= gb / maxColorValue;
+                                ba *= bb / maxColorValue;
+                                break;
+                            case MathOperationType.subtracaoLimiar:
+                                ra -= rb; ra = (ra >= 0) ? ra : 0;
+                                ga -= gb; ga = (ga >= 0) ? ga : 0;
+                                ba -= bb; ba = (ba >= 0) ? ba : 0;
+                                break;
+                            case MathOperationType.subtracaoMedia:
+                                ra = (ra - rb + maxColorValue) / 2;
+                                ga = (ga - gb + maxColorValue) / 2;
+                                ba = (ba - bb + maxColorValue) / 2;
+                                break;
+                        }
+                    }
+                }
+            }
+            this.ToImage();
+            return this.BitmapAtual;
+        }
+
+        public Image CorrecaoHistograma()
+        {
+            this.ToInt();
+            int canal;
+            int[] histograma = new int[256];
+            int[] histogramaAc = new int[256];
+            int[] histogramaCalc = new int[256];
+            int x, y, width = this.BitmapAtual.Width, height = this.BitmapAtual.Height;
+            for (x = 0; x < width; x++)
+            {
+                for (y = 0; y < height; y++)
+                {
+                    histograma[MatrizInt.Matriz[x, y, 0]]++;
+                }
+            }
+            histogramaAc[0] = histograma[0];
+            for (x = 1; x < 256; x++)
+            {
+                histogramaAc[x] = histogramaAc[x - 1] + histograma[x];
+            }
+
+            for (x = 0; x < 256; x++)
+            {
+                histogramaCalc[x] = (int)(255 * histogramaAc[x] / (width * height) );
+                Console.WriteLine(histogramaCalc[x]);
+            }
+            int aux;
+            for (x = 0; x < width; x++)
+            {
+                for (y = 0; y < height; y++)
+                {
+                    aux = histogramaCalc[MatrizInt.Matriz[x, y, 0]];
+                    MatrizInt.Matriz[x, y, 0] = aux;
+                    MatrizInt.Matriz[x, y, 1] = aux;
+                    MatrizInt.Matriz[x, y, 2] = aux;
+                }
+            }
+            this.ToImage();
+
+            return (Image)BitmapAtual;
+        }
         public void SetInvert()
         {
             Bitmap temp = (Bitmap)_bitmapAtual;

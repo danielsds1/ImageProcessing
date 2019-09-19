@@ -35,6 +35,7 @@
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.sairToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editarMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.desfazer = new System.Windows.Forms.ToolStripMenuItem();
             this.operaçõesAritméticasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.adicaoLimiar = new System.Windows.Forms.ToolStripMenuItem();
             this.adicaoMedia = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,7 +54,7 @@
             this.filtroMediana = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.desfazer = new System.Windows.Forms.ToolStripMenuItem();
+            this.histograma = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -74,7 +75,7 @@
             // 
             this.abrirArquivoToolStripMenuItem.Name = "abrirArquivoToolStripMenuItem";
             this.abrirArquivoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.abrirArquivoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.abrirArquivoToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.abrirArquivoToolStripMenuItem.Text = "Abrir";
             this.abrirArquivoToolStripMenuItem.Click += new System.EventHandler(this.AbrirArquivo_Click);
             // 
@@ -82,26 +83,26 @@
             // 
             this.salvarToolStripMenuItem.Name = "salvarToolStripMenuItem";
             this.salvarToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.salvarToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.salvarToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.salvarToolStripMenuItem.Text = "Salvar";
             this.salvarToolStripMenuItem.Click += new System.EventHandler(this.SalvarArquivo_Click);
             // 
             // fecharToolStripMenuItem
             // 
             this.fecharToolStripMenuItem.Name = "fecharToolStripMenuItem";
-            this.fecharToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.fecharToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.fecharToolStripMenuItem.Text = "Fechar";
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(142, 6);
             // 
             // sairToolStripMenuItem
             // 
             this.sairToolStripMenuItem.Name = "sairToolStripMenuItem";
             this.sairToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.sairToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.sairToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.sairToolStripMenuItem.Text = "Sair";
             this.sairToolStripMenuItem.Click += new System.EventHandler(this.Sair_Click);
             // 
@@ -115,6 +116,14 @@
             this.editarMenu.Name = "editarMenu";
             this.editarMenu.Size = new System.Drawing.Size(49, 20);
             this.editarMenu.Text = "Editar";
+            // 
+            // desfazer
+            // 
+            this.desfazer.Name = "desfazer";
+            this.desfazer.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+            this.desfazer.Size = new System.Drawing.Size(193, 22);
+            this.desfazer.Text = "Desfazer";
+            this.desfazer.Click += new System.EventHandler(this.Desfazer_Click);
             // 
             // operaçõesAritméticasToolStripMenuItem
             // 
@@ -132,42 +141,42 @@
             // adicaoLimiar
             // 
             this.adicaoLimiar.Name = "adicaoLimiar";
-            this.adicaoLimiar.Size = new System.Drawing.Size(180, 22);
+            this.adicaoLimiar.Size = new System.Drawing.Size(163, 22);
             this.adicaoLimiar.Text = "Adição Limiar";
             this.adicaoLimiar.Click += new System.EventHandler(this.Adicao_Click);
             // 
             // adicaoMedia
             // 
             this.adicaoMedia.Name = "adicaoMedia";
-            this.adicaoMedia.Size = new System.Drawing.Size(180, 22);
+            this.adicaoMedia.Size = new System.Drawing.Size(163, 22);
             this.adicaoMedia.Text = "Adição Média";
             this.adicaoMedia.Click += new System.EventHandler(this.AdicaoMedia_Click);
             // 
             // subtracaoLimiar
             // 
             this.subtracaoLimiar.Name = "subtracaoLimiar";
-            this.subtracaoLimiar.Size = new System.Drawing.Size(180, 22);
+            this.subtracaoLimiar.Size = new System.Drawing.Size(163, 22);
             this.subtracaoLimiar.Text = "Subtração Limiar";
             this.subtracaoLimiar.Click += new System.EventHandler(this.SubtracaoLimiar_Click);
             // 
             // subtracaoMedia
             // 
             this.subtracaoMedia.Name = "subtracaoMedia";
-            this.subtracaoMedia.Size = new System.Drawing.Size(180, 22);
+            this.subtracaoMedia.Size = new System.Drawing.Size(163, 22);
             this.subtracaoMedia.Text = "Subtração Média";
             this.subtracaoMedia.Click += new System.EventHandler(this.SubtracaoMedia_Click);
             // 
             // multiplicacao
             // 
             this.multiplicacao.Name = "multiplicacao";
-            this.multiplicacao.Size = new System.Drawing.Size(180, 22);
+            this.multiplicacao.Size = new System.Drawing.Size(163, 22);
             this.multiplicacao.Text = "Multiplicação";
             this.multiplicacao.Click += new System.EventHandler(this.Multiplicacao_Click);
             // 
             // divisao
             // 
             this.divisao.Name = "divisao";
-            this.divisao.Size = new System.Drawing.Size(180, 22);
+            this.divisao.Size = new System.Drawing.Size(163, 22);
             this.divisao.Text = "Divisão";
             this.divisao.Click += new System.EventHandler(this.Divisao_Click);
             // 
@@ -187,35 +196,35 @@
             // 
             this.not.Name = "not";
             this.not.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.not.Size = new System.Drawing.Size(180, 22);
+            this.not.Size = new System.Drawing.Size(137, 22);
             this.not.Text = "Not";
             this.not.Click += new System.EventHandler(this.LogicNot_Click);
             // 
             // logicOr
             // 
             this.logicOr.Name = "logicOr";
-            this.logicOr.Size = new System.Drawing.Size(180, 22);
+            this.logicOr.Size = new System.Drawing.Size(137, 22);
             this.logicOr.Text = "Or";
             this.logicOr.Click += new System.EventHandler(this.LogicOr_Click);
             // 
             // LogicAnd
             // 
             this.LogicAnd.Name = "LogicAnd";
-            this.LogicAnd.Size = new System.Drawing.Size(180, 22);
+            this.LogicAnd.Size = new System.Drawing.Size(137, 22);
             this.LogicAnd.Text = "And";
             this.LogicAnd.Click += new System.EventHandler(this.LogicAnd_Click);
             // 
             // logicXor
             // 
             this.logicXor.Name = "logicXor";
-            this.logicXor.Size = new System.Drawing.Size(180, 22);
+            this.logicXor.Size = new System.Drawing.Size(137, 22);
             this.logicXor.Text = "Xor";
             this.logicXor.Click += new System.EventHandler(this.LogicXor_Click);
             // 
             // LogicSub
             // 
             this.LogicSub.Name = "LogicSub";
-            this.LogicSub.Size = new System.Drawing.Size(180, 22);
+            this.LogicSub.Size = new System.Drawing.Size(137, 22);
             this.LogicSub.Text = "Sub";
             this.LogicSub.Click += new System.EventHandler(this.LogicSub_Click);
             // 
@@ -223,7 +232,8 @@
             // 
             this.filtrosToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.filtroMedia,
-            this.filtroMediana});
+            this.filtroMediana,
+            this.histograma});
             this.filtrosToolStripMenuItem.Name = "filtrosToolStripMenuItem";
             this.filtrosToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
             this.filtrosToolStripMenuItem.Text = "Filtros";
@@ -231,14 +241,14 @@
             // filtroMedia
             // 
             this.filtroMedia.Name = "filtroMedia";
-            this.filtroMedia.Size = new System.Drawing.Size(120, 22);
+            this.filtroMedia.Size = new System.Drawing.Size(180, 22);
             this.filtroMedia.Text = "Média";
             this.filtroMedia.Click += new System.EventHandler(this.FiltroMedia_Click);
             // 
             // filtroMediana
             // 
             this.filtroMediana.Name = "filtroMediana";
-            this.filtroMediana.Size = new System.Drawing.Size(120, 22);
+            this.filtroMediana.Size = new System.Drawing.Size(180, 22);
             this.filtroMediana.Text = "Mediana";
             this.filtroMediana.Click += new System.EventHandler(this.FiltroMediana_Click);
             // 
@@ -261,13 +271,13 @@
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
             // 
-            // desfazer
+            // histograma
             // 
-            this.desfazer.Name = "desfazer";
-            this.desfazer.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.desfazer.Size = new System.Drawing.Size(193, 22);
-            this.desfazer.Text = "Desfazer";
-            this.desfazer.Click += new System.EventHandler(this.Desfazer_Click);
+            this.histograma.Name = "histograma";
+            this.histograma.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
+            this.histograma.Size = new System.Drawing.Size(180, 22);
+            this.histograma.Text = "Histograma";
+            this.histograma.Click += new System.EventHandler(this.Histograma_Click);
             // 
             // ImageProcessing
             // 
@@ -315,6 +325,7 @@
         private System.Windows.Forms.ToolStripMenuItem logicXor;
         private System.Windows.Forms.ToolStripMenuItem LogicSub;
         private System.Windows.Forms.ToolStripMenuItem desfazer;
+        private System.Windows.Forms.ToolStripMenuItem histograma;
     }
 }
 
