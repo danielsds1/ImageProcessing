@@ -30,7 +30,7 @@ namespace ImageProcessing
         {
             InitializeComponent();
             oDlg = new OpenFileDialog(); // Open Dialog Initialization
-            oDlg.RestoreDirectory = true;
+            oDlg.RestoreDirectory = false;
             oDlg.InitialDirectory = "C:\\Users\\";
             oDlg.FilterIndex = 1;
             editarMenu.Enabled = false;
@@ -38,7 +38,7 @@ namespace ImageProcessing
             oDlg.Filter = "Arquivo de Imagem|*.jpg; *.gif; *.png;*.PNG;*.bmp";
             /*************************/
             sDlg = new SaveFileDialog(); // Save Dialog Initialization
-            sDlg.RestoreDirectory = true;
+            sDlg.RestoreDirectory = false;
             sDlg.InitialDirectory = "C:\\Users\\";
             sDlg.FilterIndex = 1;
             sDlg.Filter = "jpg Files (*.jpg)|*.jpg|gif Files (*.gif)|*.gif|png Files (*.png)|*.png;*.PNG |bmp Files (*.bmp)|*.bmp";
@@ -70,10 +70,12 @@ namespace ImageProcessing
                     editarMenu.Enabled = true;
                 }
                 this.Invalidate();
+
                 if (imagemA.BitmapAtual.Height > MinHeight) zoomFactor = Convert.ToDouble(MinHeight) / imagemA.BitmapAtual.Height;
                 pictureBox1.Size = new Size(Convert.ToInt32(imagemA.BitmapAtual.Width * zoomFactor), Convert.ToInt32(imagemA.BitmapAtual.Height * zoomFactor));
                 pictureBox1.Image = (Image)imagemA.BitmapAtual;
                 pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+                
             }
         }
 
@@ -126,8 +128,8 @@ namespace ImageProcessing
 
         private void LogicOr_Click(object sender, EventArgs e)
         {
-                imagemA = LogicOp(LogicOperationType.or);
-                pictureBox1.Image = imagemA.BitmapAtual;   
+            imagemA = LogicOp(LogicOperationType.or);
+            pictureBox1.Image = imagemA.BitmapAtual;
         }
 
         private void LogicAnd_Click(object sender, EventArgs e)
@@ -148,29 +150,7 @@ namespace ImageProcessing
             pictureBox1.Image = imagemA.BitmapAtual;
         }
 
-        public enum LogicOperationType
-        {
-            not = 0,
-            and = 1,
-            or = 2,
-            xor = 3,
-            sub = 4
-        }
-        public enum MathOperationType
-        {
-            adicaoLimiar = 1,
-            adicaoMedia = 2,
-            subtracaoLimiar = 3,
-            subtracaoMedia = 4,
-            multiplicacao = 5,
-            divisao = 6
-        }
-        public enum ImageType
-        {
-            binary = 2,
-            gray = 256,
-            color = 0
-        }
+
         public ManipuladorImagem MathOp(MathOperationType operation)
         {
             var imagemB = GetImagemB();
@@ -229,7 +209,7 @@ namespace ImageProcessing
 
                     }
                 }
-                
+
             }
             return imagemA;
         }
@@ -256,7 +236,7 @@ namespace ImageProcessing
         {
             ManipuladorImagem imagemB;
             imagemA.ToBool();
-            if (operation!= LogicOperationType.not)
+            if (operation != LogicOperationType.not)
             {
                 imagemB = GetImagemB();
             }
@@ -264,7 +244,7 @@ namespace ImageProcessing
             {
                 imagemB = imagemA;
             }
-            if (imagemB != null&& imagemA != null)
+            if (imagemB != null && imagemA != null)
             {
                 imagemB.ToBool();
                 int x, y;
@@ -297,16 +277,12 @@ namespace ImageProcessing
             return imagemA;
         }
 
-        
-        
-
         private void FiltroMedia_Click(object sender, EventArgs e)
         {
             int r = 0, g = 0, b = 0, x, y, i, k;
-
+            //int[] aux = new int[9];
             for (x = 1; x < imagemA.BitmapAtual.Width - 1; x++)
             {
-
                 for (y = 1; y < imagemA.BitmapAtual.Height - 1; y++)
                 {
                     for (i = x - 1; i < x + 2; i++)
@@ -330,40 +306,131 @@ namespace ImageProcessing
             pictureBox1.Image = (Image)imagemA.BitmapAtual;
         }
 
+        //private void FiltroMediana_Click(object sender, EventArgs e)
+        //{
+        //    int[] r = new int[9];
+        //    int[] g = new int[9];
+        //    int[] b = new int[9];
+        //    int x, y, i, k, pos = 0;
+        //    int w = imagemA.BitmapAtual.Width-1;
+        //    int h = imagemA.BitmapAtual.Height-1;
+        //    Color color;
+        //    for (x = 1; x < w; x++)
+        //    {
+        //        for (y = 1; y < h; y++)
+        //        {
+        //            for (i = x - 1; i < x + 2; i++)
+        //            {
+        //                for (k = y - 1; k < y + 2; k++)
+        //                {
+        //                    color = imagemA.BitmapAtual.GetPixel(i, k);
+        //                    r[pos] = color.R;
+        //                    g[pos] = color.G;
+        //                    b[pos] = color.B;
+        //                    pos++;
+        //                }
+        //            }
+        //            Array.Sort(r);
+        //            Array.Sort(g);
+        //            Array.Sort(b);
+        //            imagemA.BitmapAtual.SetPixel(x, y, Color.FromArgb((int)r[4], (int)g[4], (int)b[4]));
+        //            pos = 0;
+        //        }
+        //    }
+        //    pictureBox1.Image = (Image)imagemA.BitmapAtual;
+        //}
         private void FiltroMediana_Click(object sender, EventArgs e)
         {
+            imagemA.ToInt();
             int[] r = new int[9];
             int[] g = new int[9];
             int[] b = new int[9];
             int x, y, i, k, pos = 0;
-
-            for (x = 1; x < imagemA.BitmapAtual.Width - 1; x++)
+            int w = imagemA.BitmapAtual.Width - 1;
+            int h = imagemA.BitmapAtual.Height - 1;
+            //Color color;
+            for (x = 1; x < w; x++)
             {
-                for (y = 1; y < imagemA.BitmapAtual.Height - 1; y++)
+                for (y = 1; y < h; y++)
                 {
                     for (i = x - 1; i < x + 2; i++)
                     {
                         for (k = y - 1; k < y + 2; k++)
                         {
-                            r[pos] = (int)imagemA.BitmapAtual.GetPixel(i, k).R;
-                            g[pos] = (int)imagemA.BitmapAtual.GetPixel(i, k).G;
-                            b[pos] = (int)imagemA.BitmapAtual.GetPixel(i, k).B;
+                            r[pos] = imagemA.MatrizInt.Matriz[i, k, 0];
+                            g[pos] = imagemA.MatrizInt.Matriz[i, k, 1];
+                            b[pos] = imagemA.MatrizInt.Matriz[i, k, 2];
                             pos++;
                         }
                     }
                     Array.Sort(r);
                     Array.Sort(g);
                     Array.Sort(b);
-                    imagemA.BitmapAtual.SetPixel(x, y, Color.FromArgb(r[4], g[4], b[4]));
+                    imagemA.MatrizInt.Matriz[x, y, 0] = r[4];
+                    imagemA.MatrizInt.Matriz[x, y, 1] = g[4];
+                    imagemA.MatrizInt.Matriz[x, y, 2] = b[4];
+                    //imagemA.BitmapAtual.SetPixel(x, y, Color.FromArgb(r[4], g[4], b[4]));
                     pos = 0;
                 }
             }
+            imagemA.ToImage();
+            
             pictureBox1.Image = (Image)imagemA.BitmapAtual;
         }
+        //private void FiltroMediana_Click(object sender, EventArgs e)
+        //{
+        //    int[] r = new int[9];
+        //    int[] g = new int[9];
+        //    int[] b = new int[9];
+        //    int x, y, i, k;
 
+        //    for (x = 1; x < imagemA.BitmapAtual.Width - 1; x++)
+        //    {
+        //        for (y = 1; y < imagemA.BitmapAtual.Height - 1; y++)
+        //        {
+        //            r[0] = (int)imagemA.BitmapAtual.GetPixel(x - 1, y - 1).R;
+        //            r[1] = (int)imagemA.BitmapAtual.GetPixel(x, y - 1).R;
+        //            r[2] = (int)imagemA.BitmapAtual.GetPixel(x + 1, y - 1).R;
+        //            r[3] = (int)imagemA.BitmapAtual.GetPixel(x - 1, y).R;
+        //            r[4] = (int)imagemA.BitmapAtual.GetPixel(x, y).R;
+        //            r[5] = (int)imagemA.BitmapAtual.GetPixel(x + 1, y).R;
+        //            r[6] = (int)imagemA.BitmapAtual.GetPixel(x - 1, y + 1).R;
+        //            r[7] = (int)imagemA.BitmapAtual.GetPixel(x, y + 1).R;
+        //            r[8] = (int)imagemA.BitmapAtual.GetPixel(x + 1, y + 1).R;
+
+        //            g[0] = (int)imagemA.BitmapAtual.GetPixel(x - 1, y - 1).G;
+        //            g[1] = (int)imagemA.BitmapAtual.GetPixel(x, y - 1).G;
+        //            g[2] = (int)imagemA.BitmapAtual.GetPixel(x + 1, y - 1).G;
+        //            g[3] = (int)imagemA.BitmapAtual.GetPixel(x - 1, y).G;
+        //            g[4] = (int)imagemA.BitmapAtual.GetPixel(x, y).G;
+        //            g[5] = (int)imagemA.BitmapAtual.GetPixel(x + 1, y).G;
+        //            g[6] = (int)imagemA.BitmapAtual.GetPixel(x - 1, y + 1).G;
+        //            g[7] = (int)imagemA.BitmapAtual.GetPixel(x, y + 1).G;
+        //            g[8] = (int)imagemA.BitmapAtual.GetPixel(x + 1, y + 1).G;
+
+        //            b[0] = (int)imagemA.BitmapAtual.GetPixel(x - 1, y - 1).B;
+        //            b[1] = (int)imagemA.BitmapAtual.GetPixel(x, y - 1).B;
+        //            b[2] = (int)imagemA.BitmapAtual.GetPixel(x + 1, y - 1).B;
+        //            b[3] = (int)imagemA.BitmapAtual.GetPixel(x - 1, y).B;
+        //            b[4] = (int)imagemA.BitmapAtual.GetPixel(x, y).B;
+        //            b[5] = (int)imagemA.BitmapAtual.GetPixel(x + 1, y).B;
+        //            b[6] = (int)imagemA.BitmapAtual.GetPixel(x - 1, y + 1).B;
+        //            b[7] = (int)imagemA.BitmapAtual.GetPixel(x, y + 1).B;
+        //            b[8] = (int)imagemA.BitmapAtual.GetPixel(x + 1, y + 1).B;
+
+
+        //            Array.Sort(r);
+        //            Array.Sort(g);
+        //            Array.Sort(b);
+        //            imagemA.BitmapAtual.SetPixel(x, y, Color.FromArgb(r[4], g[4], b[4]));
+
+        //        }
+        //    }
+        //    pictureBox1.Image = (Image)imagemA.BitmapAtual;
+        //}
         private void Desfazer_Click(object sender, EventArgs e)
         {
-            imagemA.BitmapAtual=imagemA.BitmapPreProcess;
+            imagemA.BitmapAtual = imagemA.BitmapPreProcess;
             pictureBox1.Image = imagemA.BitmapAtual;
         }
     }

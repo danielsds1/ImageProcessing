@@ -5,33 +5,33 @@ using System.Text;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
-
 namespace ImageProcessing
 {
     public class ManipuladorImagem
     {
         private Bitmap _bitmapAtual;
         private Bitmap _bitmapPreAreaCrop;
-        private ImageProcessing.ImageType imageType;
+        private ImageType imageType = ImageType.color;
         //public int Pos { get; set; }
-
         public ImagemBool MatrizBool;
-
+        public ImagemInt MatrizInt;
         public ManipuladorImagem()
         {
 
         }
-        
+
         public Bitmap BitmapAtual
         {
-            get 
+            get
             {
                 if (_bitmapAtual == null)
                     _bitmapAtual = new Bitmap(1, 1);
-                return _bitmapAtual; 
+                return _bitmapAtual;
             }
-            set { _bitmapAtual = value;
-                imageType = ImageProcessing.ImageType.color;
+            set
+            {
+                _bitmapAtual = value;
+                imageType = ImageType.color;
             }
         }
 
@@ -46,7 +46,7 @@ namespace ImageProcessing
         {
             return Path.GetExtension(BitmapCaminho);
         }
-        
+
         public enum ColorFilterTypes
         {
             Vermelho,
@@ -263,19 +263,56 @@ namespace ImageProcessing
                     MatrizBool.Matriz[x, y] = (r > 127) ? true : false;
                 }
             }
-            
+            imageType = ImageType.binary;
+        }
+        public void ToInt()
+        {
+            int x, y;
+
+            MatrizInt.Matriz = new int[BitmapAtual.Width, BitmapAtual.Height, 3];
+            MatrizInt.Width = BitmapAtual.Width;
+            MatrizInt.Height = BitmapAtual.Height;
+            Color color;
+            for (x = 0; x < BitmapAtual.Width; x++)
+            {
+                for (y = 0; y < BitmapAtual.Height; y++)
+                {
+                    color = BitmapAtual.GetPixel(x, y);
+                    MatrizInt.Matriz[x, y, 0] = (int)color.R;
+                    MatrizInt.Matriz[x, y, 1] = (int)color.G;
+                    MatrizInt.Matriz[x, y, 2] = (int)color.B;
+                }
+            }
+            imageType = ImageType.integer;
         }
         public void ToImage()
         {
             int r, x, y;
-            for (x = 0; x < MatrizBool.Width; x++)
+            switch (imageType)
             {
-                for (y = 0; y < MatrizBool.Height; y++)
-                {
-                    r = MatrizBool.Matriz[x, y] ? 255 : 0;
-                    BitmapAtual.SetPixel(x, y, Color.FromArgb(r, r, r));
-                }
+                case ImageType.binary:
+                    for (x = 0; x < MatrizBool.Width; x++)
+                    {
+                        for (y = 0; y < MatrizBool.Height; y++)
+                        {
+                            r = MatrizBool.Matriz[x, y] ? 255 : 0;
+                            BitmapAtual.SetPixel(x, y, Color.FromArgb(r, r, r));
+                        }
+                    }
+                    break;
+                case ImageType.integer:
+                    for (x = 0; x < MatrizInt.Width; x++)
+                    {
+                        for (y = 0; y < MatrizInt.Height; y++)
+                        {
+                            BitmapAtual.SetPixel(x, y, Color.FromArgb(MatrizInt.Matriz[x, y, 0], MatrizInt.Matriz[x, y, 1], MatrizInt.Matriz[x, y, 2]));
+                        }
+                    }
+                    break;
             }
+
+            imageType = ImageType.color;
+
         }
         public void ToGray()
         {
@@ -293,7 +330,7 @@ namespace ImageProcessing
                 }
             }
             _bitmapAtual = (Bitmap)bmap.Clone();
-            imageType = ImageProcessing.ImageType.gray;
+            imageType = ImageType.gray;
         }
 
         public void SetInvert()
@@ -504,7 +541,7 @@ namespace ImageProcessing
                 default:
                     gr.DrawRectangle(pen, xPosition, yPosition, width, height);
                     break;
-               
+
             }
             _bitmapAtual = (Bitmap)bmap.Clone();
         }
