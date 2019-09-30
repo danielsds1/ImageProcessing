@@ -310,6 +310,15 @@ namespace ImageProcessing
                         }
                     }
                     break;
+                case ImageType.gray:
+                    for (x = 0; x < MatrizInt.Width; x++)
+                    {
+                        for (y = 0; y < MatrizInt.Height; y++)
+                        {
+                            BitmapAtual.SetPixel(x, y, Color.FromArgb(MatrizInt.Matriz[x, y, 0], MatrizInt.Matriz[x, y, 0], MatrizInt.Matriz[x, y, 0]));
+                        }
+                    }
+                    break;
             }
 
             imageType = ImageType.color;
@@ -317,20 +326,27 @@ namespace ImageProcessing
         }
         public void ToGray()
         {
-            Bitmap temp = (Bitmap)_bitmapAtual;
-            Bitmap bmap = (Bitmap)temp.Clone();
-            Color c;
-            for (int i = 0; i < bmap.Width; i++)
+            this.ToInt();
+            //Bitmap temp = (Bitmap)_bitmapAtual;
+            //Bitmap bmap = (Bitmap)temp.Clone();
+            //Color c;
+            int gray = 0;
+            int i, j;
+            for (i = 0; i < this.BitmapAtual.Width; i++)
             {
-                for (int j = 0; j < bmap.Height; j++)
+                for (j = 0; j < this.BitmapAtual.Height; j++)
                 {
-                    c = bmap.GetPixel(i, j);
-                    byte gray = (byte)(.299 * c.R + .587 * c.G + .114 * c.B);
-
-                    bmap.SetPixel(i, j, Color.FromArgb(gray, gray, gray));
+                    //c = bmap.GetPixel(i, j);
+                    gray += (int)(.299 * (double)MatrizInt.Matriz[i, j, 0]);
+                    gray += (int)(.587 * (double)MatrizInt.Matriz[i, j, 1]);
+                    gray += (int)(.114 * (double)MatrizInt.Matriz[i, j, 2]);
+                    MatrizInt.Matriz[i, j, 0] = gray;
+                    MatrizInt.Matriz[i, j, 1] = gray;
+                    MatrizInt.Matriz[i, j, 2] = gray;
+                    gray = 0;
                 }
             }
-            _bitmapAtual = (Bitmap)bmap.Clone();
+            this.ToImage();
             imageType = ImageType.gray;
         }
         public Image FiltroMediana()
@@ -475,9 +491,9 @@ namespace ImageProcessing
                                 ba = (ba + bb) / 2;
                                 break;
                             case MathOperationType.divisao:
-                                rb = (rb == 0) ? 1 : rb;
-                                gb = (gb == 0) ? 1 : gb;
-                                rb = (bb == 0) ? 1 : bb;
+                                rb = (rb < 1) ? 1 : rb;
+                                gb = (gb < 1) ? 1 : gb;
+                                bb = (bb < 1) ? 1 : bb;
                                 ra /= rb;
                                 ga /= gb;
                                 ba /= bb;
@@ -498,6 +514,9 @@ namespace ImageProcessing
                                 ba = (ba - bb + maxColorValue) / 2;
                                 break;
                         }
+                        this.MatrizInt.Matriz[x, y, 0] = ra;
+                        this.MatrizInt.Matriz[x, y, 1] = ga;
+                        this.MatrizInt.Matriz[x, y, 2] = ba;
                     }
                 }
             }
@@ -508,7 +527,6 @@ namespace ImageProcessing
         public Image CorrecaoHistograma()
         {
             this.ToInt();
-            int canal;
             int[] histograma = new int[256];
             int[] histogramaAc = new int[256];
             int[] histogramaCalc = new int[256];
@@ -528,7 +546,7 @@ namespace ImageProcessing
 
             for (x = 0; x < 256; x++)
             {
-                histogramaCalc[x] = (int)(255 * histogramaAc[x] / (width * height) );
+                histogramaCalc[x] = (int)(255 * histogramaAc[x] / (width * height));
                 Console.WriteLine(histogramaCalc[x]);
             }
             int aux;
