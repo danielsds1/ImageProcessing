@@ -68,7 +68,7 @@
             this.stLinear = new System.Windows.Forms.ToolStripMenuItem();
             this.stQuadrado = new System.Windows.Forms.ToolStripMenuItem();
             this.stRaizQuadrada = new System.Windows.Forms.ToolStripMenuItem();
-            this.stLogarítmico = new System.Windows.Forms.ToolStripMenuItem();
+            this.stLogaritmico = new System.Windows.Forms.ToolStripMenuItem();
             this.stNegativo = new System.Windows.Forms.ToolStripMenuItem();
             this.histograma = new System.Windows.Forms.ToolStripMenuItem();
             this.mediaImagens = new System.Windows.Forms.ToolStripMenuItem();
@@ -318,55 +318,55 @@
             // filtroMedia
             // 
             this.filtroMedia.Name = "filtroMedia";
-            this.filtroMedia.Size = new System.Drawing.Size(180, 22);
+            this.filtroMedia.Size = new System.Drawing.Size(127, 22);
             this.filtroMedia.Text = "Média";
             this.filtroMedia.Click += new System.EventHandler(this.FiltroMedia_Click);
             // 
             // filtroMediana
             // 
             this.filtroMediana.Name = "filtroMediana";
-            this.filtroMediana.Size = new System.Drawing.Size(180, 22);
+            this.filtroMediana.Size = new System.Drawing.Size(127, 22);
             this.filtroMediana.Text = "Mediana";
             this.filtroMediana.Click += new System.EventHandler(this.FiltroMediana_Click);
             // 
             // passaAltaToolStripMenuItem
             // 
             this.passaAltaToolStripMenuItem.Name = "passaAltaToolStripMenuItem";
-            this.passaAltaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.passaAltaToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.passaAltaToolStripMenuItem.Text = "Passa Alta";
             // 
             // sobelToolStripMenuItem
             // 
             this.sobelToolStripMenuItem.Name = "sobelToolStripMenuItem";
-            this.sobelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.sobelToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.sobelToolStripMenuItem.Text = "Sobel";
             this.sobelToolStripMenuItem.Click += new System.EventHandler(this.SobelToolStripMenuItem_Click);
             // 
             // prewittToolStripMenuItem
             // 
             this.prewittToolStripMenuItem.Name = "prewittToolStripMenuItem";
-            this.prewittToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.prewittToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.prewittToolStripMenuItem.Text = "Prewitt";
             this.prewittToolStripMenuItem.Click += new System.EventHandler(this.PrewittToolStripMenuItem_Click);
             // 
             // robertsToolStripMenuItem
             // 
             this.robertsToolStripMenuItem.Name = "robertsToolStripMenuItem";
-            this.robertsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.robertsToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.robertsToolStripMenuItem.Text = "Roberts";
             this.robertsToolStripMenuItem.Click += new System.EventHandler(this.RobertsToolStripMenuItem_Click);
             // 
             // bordasIsotropico
             // 
             this.bordasIsotropico.Name = "bordasIsotropico";
-            this.bordasIsotropico.Size = new System.Drawing.Size(180, 22);
+            this.bordasIsotropico.Size = new System.Drawing.Size(127, 22);
             this.bordasIsotropico.Text = "Isotrópico";
             this.bordasIsotropico.Click += new System.EventHandler(this.BordasIsotropico_Click);
             // 
             // laplaceToolStripMenuItem
             // 
             this.laplaceToolStripMenuItem.Name = "laplaceToolStripMenuItem";
-            this.laplaceToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.laplaceToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.laplaceToolStripMenuItem.Text = "Laplace";
             this.laplaceToolStripMenuItem.Click += new System.EventHandler(this.LaplaceToolStripMenuItem_Click);
             // 
@@ -376,7 +376,7 @@
             this.stLinear,
             this.stQuadrado,
             this.stRaizQuadrada,
-            this.stLogarítmico,
+            this.stLogaritmico,
             this.stNegativo});
             this.stretching.Name = "stretching";
             this.stretching.Size = new System.Drawing.Size(263, 22);
@@ -385,32 +385,37 @@
             // stLinear
             // 
             this.stLinear.Name = "stLinear";
-            this.stLinear.Size = new System.Drawing.Size(150, 22);
+            this.stLinear.Size = new System.Drawing.Size(180, 22);
             this.stLinear.Text = "Linear";
+            this.stLinear.Click += new System.EventHandler(this.StLinear_Click);
             // 
             // stQuadrado
             // 
             this.stQuadrado.Name = "stQuadrado";
-            this.stQuadrado.Size = new System.Drawing.Size(150, 22);
+            this.stQuadrado.Size = new System.Drawing.Size(180, 22);
             this.stQuadrado.Text = "Quadrado";
+            this.stQuadrado.Click += new System.EventHandler(this.StQuadrado_Click);
             // 
             // stRaizQuadrada
             // 
             this.stRaizQuadrada.Name = "stRaizQuadrada";
-            this.stRaizQuadrada.Size = new System.Drawing.Size(150, 22);
+            this.stRaizQuadrada.Size = new System.Drawing.Size(180, 22);
             this.stRaizQuadrada.Text = "Raiz Quadrada";
+            this.stRaizQuadrada.Click += new System.EventHandler(this.StRaizQuadrada_Click);
             // 
-            // stLogarítmico
+            // stLogaritmico
             // 
-            this.stLogarítmico.Name = "stLogarítmico";
-            this.stLogarítmico.Size = new System.Drawing.Size(150, 22);
-            this.stLogarítmico.Text = "Logarítmico";
+            this.stLogaritmico.Name = "stLogaritmico";
+            this.stLogaritmico.Size = new System.Drawing.Size(180, 22);
+            this.stLogaritmico.Text = "Logarítmico";
+            this.stLogaritmico.Click += new System.EventHandler(this.StLogaritmico_Click);
             // 
             // stNegativo
             // 
             this.stNegativo.Name = "stNegativo";
-            this.stNegativo.Size = new System.Drawing.Size(150, 22);
+            this.stNegativo.Size = new System.Drawing.Size(180, 22);
             this.stNegativo.Text = "Negativo";
+            this.stNegativo.Click += new System.EventHandler(this.StNegativo_Click);
             // 
             // histograma
             // 
@@ -509,7 +514,7 @@
         private System.Windows.Forms.ToolStripMenuItem stLinear;
         private System.Windows.Forms.ToolStripMenuItem stQuadrado;
         private System.Windows.Forms.ToolStripMenuItem stRaizQuadrada;
-        private System.Windows.Forms.ToolStripMenuItem stLogarítmico;
+        private System.Windows.Forms.ToolStripMenuItem stLogaritmico;
         private System.Windows.Forms.ToolStripMenuItem stNegativo;
         private System.Windows.Forms.ToolStripMenuItem histograma;
         private System.Windows.Forms.ToolStripMenuItem abrirVarios;
