@@ -43,4 +43,20 @@ namespace ImageProcessing
         gray = 256,
         color = 0
     }
+    //public enum MaskType
+    //{
+    //    media = 0,
+    //    mediana = 1,
+    //    passaAlta = 2,
+    //    sobel = 3,
+    //    prewitt = 4,
+    //    roberts = 5,
+    //    Isotropico =6,
+    //    laplace=7
+    //}
+    //public struct MaskMatrix
+    //{
+    //    public double[,] passaAlta = new double[,] { { -1.0, -1.0, -1.0 }, { -1.0, -1.0, -1.0 }, { -1.0, -1.0, -1.0 } };
+        
+    //}
 }

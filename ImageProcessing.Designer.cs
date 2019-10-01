@@ -40,6 +40,8 @@
             this.opBasicas = new System.Windows.Forms.ToolStripMenuItem();
             this.opQuantizacao = new System.Windows.Forms.ToolStripMenuItem();
             this.opMinMax = new System.Windows.Forms.ToolStripMenuItem();
+            this.toTonsDeCinza = new System.Windows.Forms.ToolStripMenuItem();
+            this.inverterCores = new System.Windows.Forms.ToolStripMenuItem();
             this.opAritmeticas = new System.Windows.Forms.ToolStripMenuItem();
             this.adicaoLimiar = new System.Windows.Forms.ToolStripMenuItem();
             this.adicaoMedia = new System.Windows.Forms.ToolStripMenuItem();
@@ -60,7 +62,7 @@
             this.sobelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.prewittToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.robertsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.isotrópicoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.bordasIsotropico = new System.Windows.Forms.ToolStripMenuItem();
             this.laplaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stretching = new System.Windows.Forms.ToolStripMenuItem();
             this.stLinear = new System.Windows.Forms.ToolStripMenuItem();
@@ -72,7 +74,6 @@
             this.mediaImagens = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.toTonsDeCinza = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -163,7 +164,8 @@
             this.opBasicas.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.opQuantizacao,
             this.opMinMax,
-            this.toTonsDeCinza});
+            this.toTonsDeCinza,
+            this.inverterCores});
             this.opBasicas.Name = "opBasicas";
             this.opBasicas.Size = new System.Drawing.Size(263, 22);
             this.opBasicas.Text = "Operações Básicas";
@@ -181,6 +183,20 @@
             this.opMinMax.Size = new System.Drawing.Size(181, 22);
             this.opMinMax.Text = "Correção (Min-Max)";
             // 
+            // toTonsDeCinza
+            // 
+            this.toTonsDeCinza.Name = "toTonsDeCinza";
+            this.toTonsDeCinza.Size = new System.Drawing.Size(181, 22);
+            this.toTonsDeCinza.Text = "Tons de Cinza";
+            this.toTonsDeCinza.Click += new System.EventHandler(this.TonsDeCinzaToolStripMenuItem_Click);
+            // 
+            // inverterCores
+            // 
+            this.inverterCores.Name = "inverterCores";
+            this.inverterCores.Size = new System.Drawing.Size(181, 22);
+            this.inverterCores.Text = "Inverter Cores";
+            this.inverterCores.Click += new System.EventHandler(this.InverterCores_Click);
+            // 
             // opAritmeticas
             // 
             this.opAritmeticas.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -197,42 +213,42 @@
             // adicaoLimiar
             // 
             this.adicaoLimiar.Name = "adicaoLimiar";
-            this.adicaoLimiar.Size = new System.Drawing.Size(180, 22);
+            this.adicaoLimiar.Size = new System.Drawing.Size(163, 22);
             this.adicaoLimiar.Text = "Adição Limiar";
             this.adicaoLimiar.Click += new System.EventHandler(this.Adicao_Click);
             // 
             // adicaoMedia
             // 
             this.adicaoMedia.Name = "adicaoMedia";
-            this.adicaoMedia.Size = new System.Drawing.Size(180, 22);
+            this.adicaoMedia.Size = new System.Drawing.Size(163, 22);
             this.adicaoMedia.Text = "Adição Média";
             this.adicaoMedia.Click += new System.EventHandler(this.AdicaoMedia_Click);
             // 
             // subtracaoLimiar
             // 
             this.subtracaoLimiar.Name = "subtracaoLimiar";
-            this.subtracaoLimiar.Size = new System.Drawing.Size(180, 22);
+            this.subtracaoLimiar.Size = new System.Drawing.Size(163, 22);
             this.subtracaoLimiar.Text = "Subtração Limiar";
             this.subtracaoLimiar.Click += new System.EventHandler(this.SubtracaoLimiar_Click);
             // 
             // subtracaoMedia
             // 
             this.subtracaoMedia.Name = "subtracaoMedia";
-            this.subtracaoMedia.Size = new System.Drawing.Size(180, 22);
+            this.subtracaoMedia.Size = new System.Drawing.Size(163, 22);
             this.subtracaoMedia.Text = "Subtração Média";
             this.subtracaoMedia.Click += new System.EventHandler(this.SubtracaoMedia_Click);
             // 
             // multiplicacao
             // 
             this.multiplicacao.Name = "multiplicacao";
-            this.multiplicacao.Size = new System.Drawing.Size(180, 22);
+            this.multiplicacao.Size = new System.Drawing.Size(163, 22);
             this.multiplicacao.Text = "Multiplicação";
             this.multiplicacao.Click += new System.EventHandler(this.Multiplicacao_Click);
             // 
             // divisao
             // 
             this.divisao.Name = "divisao";
-            this.divisao.Size = new System.Drawing.Size(180, 22);
+            this.divisao.Size = new System.Drawing.Size(163, 22);
             this.divisao.Text = "Divisão";
             this.divisao.Click += new System.EventHandler(this.Divisao_Click);
             // 
@@ -252,35 +268,35 @@
             // 
             this.not.Name = "not";
             this.not.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.not.Size = new System.Drawing.Size(180, 22);
+            this.not.Size = new System.Drawing.Size(137, 22);
             this.not.Text = "Not";
             this.not.Click += new System.EventHandler(this.LogicNot_Click);
             // 
             // logicOr
             // 
             this.logicOr.Name = "logicOr";
-            this.logicOr.Size = new System.Drawing.Size(180, 22);
+            this.logicOr.Size = new System.Drawing.Size(137, 22);
             this.logicOr.Text = "Or";
             this.logicOr.Click += new System.EventHandler(this.LogicOr_Click);
             // 
             // LogicAnd
             // 
             this.LogicAnd.Name = "LogicAnd";
-            this.LogicAnd.Size = new System.Drawing.Size(180, 22);
+            this.LogicAnd.Size = new System.Drawing.Size(137, 22);
             this.LogicAnd.Text = "And";
             this.LogicAnd.Click += new System.EventHandler(this.LogicAnd_Click);
             // 
             // logicXor
             // 
             this.logicXor.Name = "logicXor";
-            this.logicXor.Size = new System.Drawing.Size(180, 22);
+            this.logicXor.Size = new System.Drawing.Size(137, 22);
             this.logicXor.Text = "Xor";
             this.logicXor.Click += new System.EventHandler(this.LogicXor_Click);
             // 
             // LogicSub
             // 
             this.LogicSub.Name = "LogicSub";
-            this.LogicSub.Size = new System.Drawing.Size(180, 22);
+            this.LogicSub.Size = new System.Drawing.Size(137, 22);
             this.LogicSub.Text = "Sub";
             this.LogicSub.Click += new System.EventHandler(this.LogicSub_Click);
             // 
@@ -293,7 +309,7 @@
             this.sobelToolStripMenuItem,
             this.prewittToolStripMenuItem,
             this.robertsToolStripMenuItem,
-            this.isotrópicoToolStripMenuItem,
+            this.bordasIsotropico,
             this.laplaceToolStripMenuItem});
             this.filtrosToolStripMenuItem.Name = "filtrosToolStripMenuItem";
             this.filtrosToolStripMenuItem.Size = new System.Drawing.Size(263, 22);
@@ -324,30 +340,35 @@
             this.sobelToolStripMenuItem.Name = "sobelToolStripMenuItem";
             this.sobelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.sobelToolStripMenuItem.Text = "Sobel";
+            this.sobelToolStripMenuItem.Click += new System.EventHandler(this.SobelToolStripMenuItem_Click);
             // 
             // prewittToolStripMenuItem
             // 
             this.prewittToolStripMenuItem.Name = "prewittToolStripMenuItem";
             this.prewittToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.prewittToolStripMenuItem.Text = "Prewitt";
+            this.prewittToolStripMenuItem.Click += new System.EventHandler(this.PrewittToolStripMenuItem_Click);
             // 
             // robertsToolStripMenuItem
             // 
             this.robertsToolStripMenuItem.Name = "robertsToolStripMenuItem";
             this.robertsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.robertsToolStripMenuItem.Text = "Roberts";
+            this.robertsToolStripMenuItem.Click += new System.EventHandler(this.RobertsToolStripMenuItem_Click);
             // 
-            // isotrópicoToolStripMenuItem
+            // bordasIsotropico
             // 
-            this.isotrópicoToolStripMenuItem.Name = "isotrópicoToolStripMenuItem";
-            this.isotrópicoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.isotrópicoToolStripMenuItem.Text = "Isotrópico";
+            this.bordasIsotropico.Name = "bordasIsotropico";
+            this.bordasIsotropico.Size = new System.Drawing.Size(180, 22);
+            this.bordasIsotropico.Text = "Isotrópico";
+            this.bordasIsotropico.Click += new System.EventHandler(this.BordasIsotropico_Click);
             // 
             // laplaceToolStripMenuItem
             // 
             this.laplaceToolStripMenuItem.Name = "laplaceToolStripMenuItem";
             this.laplaceToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.laplaceToolStripMenuItem.Text = "Laplace";
+            this.laplaceToolStripMenuItem.Click += new System.EventHandler(this.LaplaceToolStripMenuItem_Click);
             // 
             // stretching
             // 
@@ -364,31 +385,31 @@
             // stLinear
             // 
             this.stLinear.Name = "stLinear";
-            this.stLinear.Size = new System.Drawing.Size(180, 22);
+            this.stLinear.Size = new System.Drawing.Size(150, 22);
             this.stLinear.Text = "Linear";
             // 
             // stQuadrado
             // 
             this.stQuadrado.Name = "stQuadrado";
-            this.stQuadrado.Size = new System.Drawing.Size(180, 22);
+            this.stQuadrado.Size = new System.Drawing.Size(150, 22);
             this.stQuadrado.Text = "Quadrado";
             // 
             // stRaizQuadrada
             // 
             this.stRaizQuadrada.Name = "stRaizQuadrada";
-            this.stRaizQuadrada.Size = new System.Drawing.Size(180, 22);
+            this.stRaizQuadrada.Size = new System.Drawing.Size(150, 22);
             this.stRaizQuadrada.Text = "Raiz Quadrada";
             // 
             // stLogarítmico
             // 
             this.stLogarítmico.Name = "stLogarítmico";
-            this.stLogarítmico.Size = new System.Drawing.Size(180, 22);
+            this.stLogarítmico.Size = new System.Drawing.Size(150, 22);
             this.stLogarítmico.Text = "Logarítmico";
             // 
             // stNegativo
             // 
             this.stNegativo.Name = "stNegativo";
-            this.stNegativo.Size = new System.Drawing.Size(180, 22);
+            this.stNegativo.Size = new System.Drawing.Size(150, 22);
             this.stNegativo.Text = "Negativo";
             // 
             // histograma
@@ -428,13 +449,6 @@
             this.pictureBox1.Size = new System.Drawing.Size(800, 422);
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
-            // 
-            // toTonsDeCinza
-            // 
-            this.toTonsDeCinza.Name = "toTonsDeCinza";
-            this.toTonsDeCinza.Size = new System.Drawing.Size(181, 22);
-            this.toTonsDeCinza.Text = "Tons de Cinza";
-            this.toTonsDeCinza.Click += new System.EventHandler(this.TonsDeCinzaToolStripMenuItem_Click);
             // 
             // ImageProcessing
             // 
@@ -489,7 +503,7 @@
         private System.Windows.Forms.ToolStripMenuItem sobelToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem prewittToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem robertsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem isotrópicoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem bordasIsotropico;
         private System.Windows.Forms.ToolStripMenuItem laplaceToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem stretching;
         private System.Windows.Forms.ToolStripMenuItem stLinear;
@@ -501,6 +515,7 @@
         private System.Windows.Forms.ToolStripMenuItem abrirVarios;
         private System.Windows.Forms.ToolStripMenuItem mediaImagens;
         private System.Windows.Forms.ToolStripMenuItem toTonsDeCinza;
+        private System.Windows.Forms.ToolStripMenuItem inverterCores;
     }
 }
 

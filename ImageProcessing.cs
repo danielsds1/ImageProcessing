@@ -26,7 +26,7 @@ namespace ImageProcessing
         };*/
         //private MenuItem cZoom;
         //public ManipuladorImagem imagemA = new ManipuladorImagem();
-        public List<ManipuladorImagem> imagens = new List<ManipuladorImagem>();
+        public List<Imagem> imagens = new List<Imagem>();
         //public ManipuladorImagem imagemA = new ManipuladorImagem();
         public ImageProcessing()
         {
@@ -63,7 +63,7 @@ namespace ImageProcessing
 
         private void AbrirArquivo_Click(object sender, EventArgs e)
         {
-            ManipuladorImagem imagemA = new ManipuladorImagem();
+            Imagem imagemA = new Imagem();
             oDlg.Multiselect = false;
             oDlg.Title = "Abrir Imagem";
             if (DialogResult.OK == oDlg.ShowDialog())
@@ -117,7 +117,7 @@ namespace ImageProcessing
                     // Create a PictureBox.
                     try
                     {
-                        ManipuladorImagem imagemA = new ManipuladorImagem();
+                        Imagem imagemA = new Imagem();
                         //Visualizador janela = new Visualizador();
                         imagemA.BitmapAtual = (Bitmap)Bitmap.FromFile(file);
                         //imagemA.BitmapPreProcess = imagemA.BitmapAtual;
@@ -227,9 +227,9 @@ namespace ImageProcessing
             pictureBox1.Image = imagens[0].LogicOp(LogicOperationType.sub, GetImagemB());
         }
 
-        public ManipuladorImagem GetImagemB()
+        public Imagem GetImagemB()
         {
-            ManipuladorImagem imagemB = new ManipuladorImagem();
+            Imagem imagemB = new Imagem();
 
             if (DialogResult.OK == oDlg.ShowDialog())
             {
@@ -278,12 +278,12 @@ namespace ImageProcessing
         private void MediaImagens_Click(object sender, EventArgs e)
         {
             //_ = new ManipuladorImagem();
-            ManipuladorImagem imagemA = imagens[0];
+            Imagem imagemA = imagens[0];
             var numImg = imagens.Count();
             int MaxW = imagemA.BitmapAtual.Width;
             int MaxH = imagemA.BitmapAtual.Height;
             int x, y, z, r = 0, g = 0, b = 0;
-            foreach (ManipuladorImagem imagem in imagens)
+            foreach (Imagem imagem in imagens)
                 imagem.ToInt();
 
             for (x = 0; x < MaxW; x++)
@@ -317,7 +317,7 @@ namespace ImageProcessing
                 //imagens[0].ToGray();
                 //imagens[0].ToInt();
 
-                int x, y, k, h = imagens[0].MatrizInt.Height, w = imagens[0].MatrizInt.Width;
+                int x, y, h = imagens[0].MatrizInt.Height, w = imagens[0].MatrizInt.Width;
 
                 for (x = 0; x < w; x++)
                 {
@@ -337,6 +337,37 @@ namespace ImageProcessing
         {
             imagens[0].ToGray();
             pictureBox1.Image = imagens[0].BitmapAtual;
+        }
+
+        private void SobelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            pictureBox1.Image = imagens[0].BordasSobel();
+        }
+
+        private void InverterCores_Click(object sender, EventArgs e)
+        {
+            imagens[0].InverterCores();
+            pictureBox1.Image = imagens[0].BitmapAtual;
+        }
+
+        private void PrewittToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            pictureBox1.Image = imagens[0].BordasPrewitt();
+        }
+
+        private void RobertsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            pictureBox1.Image = imagens[0].BordasRoberts();
+        }
+
+        private void BordasIsotropico_Click(object sender, EventArgs e)
+        {
+            pictureBox1.Image = imagens[0].BordasIsotropico();
+        }
+
+        private void LaplaceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            pictureBox1.Image = imagens[0].BordasLaplace();
         }
     }
 }
