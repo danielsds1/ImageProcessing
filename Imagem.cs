@@ -11,6 +11,7 @@ namespace ImageProcessing
     {
         private Bitmap _bitmapAtual;
         private ImageType imageType = ImageType.color;
+        public int niveisCinza = 256;
         private int maxColorValue = 255;
         //public int Pos { get; set; }
         public ImagemBool MatrizBool;
@@ -63,15 +64,6 @@ namespace ImageProcessing
             _bitmapAtual.Save(saveFilePath);
         }
 
-        public void LimparImagem()
-        {
-            _bitmapAtual = new Bitmap(1, 1);
-        }
-
-        public void RestorePrevious()
-        {
-            BitmapPreProcess = _bitmapAtual;
-        }
         public void InverterCores()
         {
             int x, y;
@@ -136,7 +128,7 @@ namespace ImageProcessing
         public void ToBool()
         {
             int r, x, y;
-
+            
             MatrizBool.Matriz = new bool[BitmapAtual.Width, BitmapAtual.Height];
             MatrizBool.Width = BitmapAtual.Width;
             MatrizBool.Height = BitmapAtual.Height;
@@ -150,6 +142,7 @@ namespace ImageProcessing
                 }
             }
             imageType = ImageType.binary;
+            niveisCinza = 2;
         }
         public void ToInt()
         {
@@ -204,6 +197,15 @@ namespace ImageProcessing
                         }
                     }
                     break;
+                case ImageType.quant:
+                    for (x = 0; x < MatrizInt.Width; x++)
+                    {
+                        for (y = 0; y < MatrizInt.Height; y++)
+                        {
+                            BitmapAtual.SetPixel(x, y, Color.FromArgb(MatrizInt.Matriz[x, y, 0]*(256/niveisCinza), MatrizInt.Matriz[x, y, 0] * (256 / niveisCinza), MatrizInt.Matriz[x, y, 0] * (256 / niveisCinza)));
+                        }
+                    }
+                    break;
             }
 
             imageType = ImageType.color;
@@ -233,6 +235,23 @@ namespace ImageProcessing
             }
             this.ToImage();
             imageType = ImageType.gray;
+        }
+        public void ToQuant(int niveis)
+        {
+            if(this.imageType!=ImageType.gray){ this.ToGray(); }
+            
+            int x, y, h = this.MatrizInt.Height, w = this.MatrizInt.Width;
+
+            for (x = 0; x < w; x++)
+            {
+                for (y = 0; y < h; y++)
+                {
+                    this.MatrizInt.Matriz[x, y, 0] /= (this.niveisCinza / niveis);
+                }
+            }
+            this.imageType = ImageType.quant;
+            this.niveisCinza = niveis;
+
         }
         public Image FiltroMediana()
         {
@@ -484,9 +503,9 @@ namespace ImageProcessing
             {
                 for (y = 0; y < height - 1; y++)
                 {
-                    for (i = x ; i < x + 2; i++)
+                    for (i = x; i < x + 2; i++)
                     {
-                        for (j = y ; j < y + 2; j++)
+                        for (j = y; j < y + 2; j++)
                         {
                             rx += (MatrizInt.Matriz[i, j, 0] * maskX[k, l]);
                             gx += (MatrizInt.Matriz[i, j, 1] * maskX[k, l]);

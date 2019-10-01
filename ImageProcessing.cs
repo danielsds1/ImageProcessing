@@ -314,21 +314,10 @@ namespace ImageProcessing
 
             if (quant.ShowDialog() == DialogResult.OK)
             {
-                //imagens[0].ToGray();
-                //imagens[0].ToInt();
-
-                int x, y, h = imagens[0].MatrizInt.Height, w = imagens[0].MatrizInt.Width;
-
-                for (x = 0; x < w; x++)
-                {
-                    for (y = 0; y < h; y++)
-                    {
-                        imagens[0].MatrizInt.Matriz[x, y, 0] /= (256 / quant.niveis);
-                        imagens[0].MatrizInt.Matriz[x, y, 0] *= (256 / quant.niveis);
-                    }
-                }
+                imagens[0].ToQuant(quant.niveis);
+                imagens[0].ToImage();
             }
-            imagens[0].ToImage();
+            //imagens[0].ToImage();
             pictureBox1.Image = imagens[0].BitmapAtual;
 
         }

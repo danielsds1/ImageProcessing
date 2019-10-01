@@ -41,8 +41,10 @@ namespace ImageProcessing
         binary = 2,
         integer = 1,
         gray = 256,
-        color = 0
+        color = 0,
+        quant = 8
     }
+    
     //public enum MaskType
     //{
     //    media = 0,
