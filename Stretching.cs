@@ -17,13 +17,13 @@ namespace ImageProcessing
             InitializeComponent();
         }
 
-        public int A { get; set; }
-        public int B { get; set; }
+        public double A { get; set; }
+        public double B { get; set; }
 
         private void BtnOK_Click(object sender, EventArgs e)
         {
-            A = (int)ValorA.Value;
-            B = (int)ValorB.Value;
+            A = (double)ValorA.Value;
+            B = (double)ValorB.Value;
             this.Invalidate();
             this.Close();
         }

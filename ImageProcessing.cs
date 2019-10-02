@@ -374,9 +374,9 @@ namespace ImageProcessing
                 {
                     for (y = 0; y < h; y++)
                     {
-                        r = imagens[0].MatrizInt.Matriz[x, y, 0] * stretching.A + stretching.B;
-                        g = imagens[0].MatrizInt.Matriz[x, y, 1] * stretching.A + stretching.B;
-                        b = imagens[0].MatrizInt.Matriz[x, y, 2] * stretching.A + stretching.B;
+                        r = (int)(imagens[0].MatrizInt.Matriz[x, y, 0] * stretching.A + stretching.B);
+                        g = (int)(imagens[0].MatrizInt.Matriz[x, y, 1] * stretching.A + stretching.B);
+                        b = (int)(imagens[0].MatrizInt.Matriz[x, y, 2] * stretching.A + stretching.B);
                         imagens[0].MatrizInt.Matriz[x, y, 0] = (r > 255) ? 255 : (r < 0) ? 0 : r;
                         imagens[0].MatrizInt.Matriz[x, y, 1] = (g > 255) ? 255 : (g < 0) ? 0 : g;
                         imagens[0].MatrizInt.Matriz[x, y, 2] = (b > 255) ? 255 : (g < 0) ? 0 : b;
@@ -394,7 +394,7 @@ namespace ImageProcessing
             if (stretching.ShowDialog() == DialogResult.OK)
             {
                 //imagens[0].ToGray();
-                imagens[0].ToInt();
+                if(imagens[0].imageType!=ImageType.integer) imagens[0].ToInt();
 
                 int x, y, h = imagens[0].MatrizInt.Height, w = imagens[0].MatrizInt.Width, r = 0, g = 0, b = 0;
 
@@ -403,8 +403,8 @@ namespace ImageProcessing
                     for (y = 0; y < h; y++)
                     {
                         r = (int)((double)stretching.A * Math.Pow(imagens[0].MatrizInt.Matriz[x, y, 0], 2));
-                        g = (int)((double)stretching.A * Math.Pow(imagens[1].MatrizInt.Matriz[x, y, 0], 2));
-                        b = (int)((double)stretching.A * Math.Pow(imagens[2].MatrizInt.Matriz[x, y, 0], 2));
+                        g = (int)((double)stretching.A * Math.Pow(imagens[0].MatrizInt.Matriz[x, y, 1], 2));
+                        b = (int)((double)stretching.A * Math.Pow(imagens[0].MatrizInt.Matriz[x, y, 2], 2));
                         imagens[0].MatrizInt.Matriz[x, y, 0] = (r > 255) ? 255 : (r < 0) ? 0 : r;
                         imagens[0].MatrizInt.Matriz[x, y, 1] = (g > 255) ? 255 : (g < 0) ? 0 : g;
                         imagens[0].MatrizInt.Matriz[x, y, 2] = (b > 255) ? 255 : (g < 0) ? 0 : b;
@@ -431,8 +431,8 @@ namespace ImageProcessing
                     for (y = 0; y < h; y++)
                     {
                         r = (int)((double)stretching.A * Math.Sqrt(imagens[0].MatrizInt.Matriz[x, y, 0]));
-                        g = (int)((double)stretching.A * Math.Sqrt(imagens[1].MatrizInt.Matriz[x, y, 0]));
-                        b = (int)((double)stretching.A * Math.Sqrt(imagens[2].MatrizInt.Matriz[x, y, 0]));
+                        g = (int)((double)stretching.A * Math.Sqrt(imagens[0].MatrizInt.Matriz[x, y, 1]));
+                        b = (int)((double)stretching.A * Math.Sqrt(imagens[0].MatrizInt.Matriz[x, y, 2]));
                         imagens[0].MatrizInt.Matriz[x, y, 0] = (r > 255) ? 255 : (r < 0) ? 0 : r;
                         imagens[0].MatrizInt.Matriz[x, y, 1] = (g > 255) ? 255 : (g < 0) ? 0 : g;
                         imagens[0].MatrizInt.Matriz[x, y, 2] = (b > 255) ? 255 : (g < 0) ? 0 : b;
@@ -458,9 +458,9 @@ namespace ImageProcessing
                 {
                     for (y = 0; y < h; y++)
                     {
-                        r = (int)((double)stretching.A * Math.Log10(imagens[0].MatrizInt.Matriz[x, y, 0] + 1));
-                        g = (int)((double)stretching.A * Math.Log10(imagens[1].MatrizInt.Matriz[x, y, 0] + 1));
-                        b = (int)((double)stretching.A * Math.Log10(imagens[2].MatrizInt.Matriz[x, y, 0] + 1));
+                        r = (int)(stretching.A * Math.Log10(imagens[0].MatrizInt.Matriz[x, y, 0] + 1));
+                        g = (int)(stretching.A * Math.Log10(imagens[0].MatrizInt.Matriz[x, y, 1] + 1));
+                        b = (int)(stretching.A * Math.Log10(imagens[0].MatrizInt.Matriz[x, y, 2] + 1));
                         imagens[0].MatrizInt.Matriz[x, y, 0] = (r > 255) ? 255 : (r < 0) ? 0 : r;
                         imagens[0].MatrizInt.Matriz[x, y, 1] = (g > 255) ? 255 : (g < 0) ? 0 : g;
                         imagens[0].MatrizInt.Matriz[x, y, 2] = (b > 255) ? 255 : (g < 0) ? 0 : b;
@@ -486,9 +486,9 @@ namespace ImageProcessing
                 {
                     for (y = 0; y < h; y++)
                     {
-                        r = -(imagens[0].MatrizInt.Matriz[x, y, 0] * stretching.A + stretching.B);
-                        g = -(imagens[0].MatrizInt.Matriz[x, y, 1] * stretching.A + stretching.B);
-                        b = -(imagens[0].MatrizInt.Matriz[x, y, 2] * stretching.A + stretching.B);
+                        r = (int)(-(imagens[0].MatrizInt.Matriz[x, y, 0] * stretching.A + stretching.B));
+                        g = (int)(-(imagens[0].MatrizInt.Matriz[x, y, 1] * stretching.A + stretching.B));
+                        b = (int)(-(imagens[0].MatrizInt.Matriz[x, y, 2] * stretching.A + stretching.B));
                         imagens[0].MatrizInt.Matriz[x, y, 0] = (r > 255) ? 255 : (r < 0) ? 0 : r;
                         imagens[0].MatrizInt.Matriz[x, y, 1] = (g > 255) ? 255 : (g < 0) ? 0 : g;
                         imagens[0].MatrizInt.Matriz[x, y, 2] = (b > 255) ? 255 : (g < 0) ? 0 : b;

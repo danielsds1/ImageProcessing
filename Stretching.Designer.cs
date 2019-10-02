@@ -72,6 +72,7 @@
             // 
             // ValorA
             // 
+            this.ValorA.DecimalPlaces = 5;
             this.ValorA.Location = new System.Drawing.Point(99, 7);
             this.ValorA.Maximum = new decimal(new int[] {
             255,
@@ -93,6 +94,7 @@
             // 
             // ValorB
             // 
+            this.ValorB.DecimalPlaces = 5;
             this.ValorB.Location = new System.Drawing.Point(99, 33);
             this.ValorB.Maximum = new decimal(new int[] {
             255,

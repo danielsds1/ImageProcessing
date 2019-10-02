@@ -157,6 +157,7 @@
             this.desfazer.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
             this.desfazer.Size = new System.Drawing.Size(263, 22);
             this.desfazer.Text = "Desfazer";
+            this.desfazer.Visible = false;
             this.desfazer.Click += new System.EventHandler(this.Desfazer_Click);
             // 
             // opBasicas
@@ -173,27 +174,28 @@
             // opQuantizacao
             // 
             this.opQuantizacao.Name = "opQuantizacao";
-            this.opQuantizacao.Size = new System.Drawing.Size(181, 22);
+            this.opQuantizacao.Size = new System.Drawing.Size(185, 22);
             this.opQuantizacao.Text = "Quantização";
             this.opQuantizacao.Click += new System.EventHandler(this.OpQuantizacao_Click);
             // 
             // opMinMax
             // 
             this.opMinMax.Name = "opMinMax";
-            this.opMinMax.Size = new System.Drawing.Size(181, 22);
+            this.opMinMax.Size = new System.Drawing.Size(185, 22);
             this.opMinMax.Text = "Correção (Min-Max)";
+            this.opMinMax.Visible = false;
             // 
             // toTonsDeCinza
             // 
             this.toTonsDeCinza.Name = "toTonsDeCinza";
-            this.toTonsDeCinza.Size = new System.Drawing.Size(181, 22);
-            this.toTonsDeCinza.Text = "Tons de Cinza";
+            this.toTonsDeCinza.Size = new System.Drawing.Size(185, 22);
+            this.toTonsDeCinza.Text = "Descolorir para Cinza";
             this.toTonsDeCinza.Click += new System.EventHandler(this.TonsDeCinzaToolStripMenuItem_Click);
             // 
             // inverterCores
             // 
             this.inverterCores.Name = "inverterCores";
-            this.inverterCores.Size = new System.Drawing.Size(181, 22);
+            this.inverterCores.Size = new System.Drawing.Size(185, 22);
             this.inverterCores.Text = "Inverter Cores";
             this.inverterCores.Click += new System.EventHandler(this.InverterCores_Click);
             // 
@@ -385,35 +387,35 @@
             // stLinear
             // 
             this.stLinear.Name = "stLinear";
-            this.stLinear.Size = new System.Drawing.Size(180, 22);
+            this.stLinear.Size = new System.Drawing.Size(150, 22);
             this.stLinear.Text = "Linear";
             this.stLinear.Click += new System.EventHandler(this.StLinear_Click);
             // 
             // stQuadrado
             // 
             this.stQuadrado.Name = "stQuadrado";
-            this.stQuadrado.Size = new System.Drawing.Size(180, 22);
+            this.stQuadrado.Size = new System.Drawing.Size(150, 22);
             this.stQuadrado.Text = "Quadrado";
             this.stQuadrado.Click += new System.EventHandler(this.StQuadrado_Click);
             // 
             // stRaizQuadrada
             // 
             this.stRaizQuadrada.Name = "stRaizQuadrada";
-            this.stRaizQuadrada.Size = new System.Drawing.Size(180, 22);
+            this.stRaizQuadrada.Size = new System.Drawing.Size(150, 22);
             this.stRaizQuadrada.Text = "Raiz Quadrada";
             this.stRaizQuadrada.Click += new System.EventHandler(this.StRaizQuadrada_Click);
             // 
             // stLogaritmico
             // 
             this.stLogaritmico.Name = "stLogaritmico";
-            this.stLogaritmico.Size = new System.Drawing.Size(180, 22);
+            this.stLogaritmico.Size = new System.Drawing.Size(150, 22);
             this.stLogaritmico.Text = "Logarítmico";
             this.stLogaritmico.Click += new System.EventHandler(this.StLogaritmico_Click);
             // 
             // stNegativo
             // 
             this.stNegativo.Name = "stNegativo";
-            this.stNegativo.Size = new System.Drawing.Size(180, 22);
+            this.stNegativo.Size = new System.Drawing.Size(150, 22);
             this.stNegativo.Text = "Negativo";
             this.stNegativo.Click += new System.EventHandler(this.StNegativo_Click);
             // 

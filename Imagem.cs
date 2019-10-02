@@ -10,7 +10,7 @@ namespace ImageProcessing
     public class Imagem
     {
         private Bitmap _bitmapAtual;
-        private ImageType imageType = ImageType.color;
+        public ImageType imageType = ImageType.color;
         public int niveisCinza = 256;
         private int maxColorValue = 255;
         //public int Pos { get; set; }
@@ -262,6 +262,7 @@ namespace ImageProcessing
             int x, y, i, j, pos = 0;
             int w = BitmapAtual.Width - 1;
             int h = BitmapAtual.Height - 1;
+            var aux = MatrizInt;
             //Color color;
             for (x = 1; x < w; x++)
             {
@@ -280,13 +281,14 @@ namespace ImageProcessing
                     Array.Sort(r);
                     Array.Sort(g);
                     Array.Sort(b);
-                    MatrizInt.Matriz[x, y, 0] = r[4];
-                    MatrizInt.Matriz[x, y, 1] = g[4];
-                    MatrizInt.Matriz[x, y, 2] = b[4];
+                    aux.Matriz[x, y, 0] = r[4];
+                    aux.Matriz[x, y, 1] = g[4];
+                    aux.Matriz[x, y, 2] = b[4];
                     //imagemA.BitmapAtual.SetPixel(x, y, Color.FromArgb(r[4], g[4], b[4]));
                     pos = 0;
                 }
             }
+            MatrizInt = aux;
             this.ToImage();
             return (Image)this.BitmapAtual;
         }
@@ -296,6 +298,7 @@ namespace ImageProcessing
             int r = 0, g = 0, b = 0, x, y, i, j;
             int width = BitmapAtual.Width;
             int height = BitmapAtual.Height;
+            var aux = MatrizInt;
 
             //int[] aux = new int[9];
             for (x = 1; x < width - 1; x++)
@@ -315,13 +318,14 @@ namespace ImageProcessing
                     g /= 9;
                     b /= 9;
 
-                    MatrizInt.Matriz[x, y, 0] = r;
-                    MatrizInt.Matriz[x, y, 1] = g;
-                    MatrizInt.Matriz[x, y, 2] = b;
+                    aux.Matriz[x, y, 0] = r;
+                    aux.Matriz[x, y, 1] = g;
+                    aux.Matriz[x, y, 2] = b;
 
                     r = 0; g = 0; b = 0;
                 }
             }
+            MatrizInt = aux;
             this.ToImage();
             return (Image)BitmapAtual;
         }
