@@ -335,12 +335,10 @@ namespace ImageProcessing
 
             //this.ToGray();
             this.ToInt();
-            int[,] maskX = new int[3, 3] { { -1, 00, 01 },
-                                           { -2, 00, 02 },
-                                           { -1, 00, 01 } };
-            int[,] maskY = new int[3, 3] { { -1, -2, -1 },
-                                           { 00, 00, 00 },
-                                           { 01, 02, 01 } };
+            int[,] maskX = new int[3, 3] { { -1, -1, -1 },
+                                           { -1, 8, -1 },
+                                           { -1, -1, -1 } };
+
 
             int rx = 0, gx = 0, bx = 0, ry = 0, gy = 0, by = 0, x, y, i, j, k = 0, l = 0;
 
@@ -362,9 +360,6 @@ namespace ImageProcessing
                             rx += (MatrizInt.Matriz[i, j, 0] * maskX[k, l]);
                             gx += MatrizInt.Matriz[i, j, 1] * maskX[k, l];
                             bx += MatrizInt.Matriz[i, j, 2] * maskX[k, l];
-                            ry += (MatrizInt.Matriz[i, j, 0] * maskY[k, l]);
-                            gy += MatrizInt.Matriz[i, j, 1] * maskY[k, l];
-                            by += MatrizInt.Matriz[i, j, 2] * maskY[k, l];
                             k++;
                         }
                         k = 0;
@@ -373,13 +368,13 @@ namespace ImageProcessing
 
                     //aux= (int)Math.Sqrt(Math.Pow((double)rx,2.0) + Math.Pow((double)ry,2.0))/9;
 
-                    G[x, y, 0] = (int)Math.Sqrt(Math.Pow((double)rx, 2.0) + Math.Pow((double)ry, 2.0)) / 9;
-                    G[x, y, 1] = (int)Math.Sqrt(Math.Pow((double)gx, 2.0) + Math.Pow((double)gy, 2.0)) / 9;
-                    G[x, y, 2] = (int)Math.Sqrt(Math.Pow((double)bx, 2.0) + Math.Pow((double)by, 2.0)) / 9;
+                    G[x, y, 0] = (int)Math.Abs(rx) / 9;
+                    G[x, y, 1] = (int)Math.Abs(gx) / 9;
+                    G[x, y, 2] = (int)Math.Abs(bx) / 9;
 
 
                     rx = 0; gx = 0; bx = 0;
-                    ry = 0; gy = 0; by = 0;
+                    //ry = 0; gy = 0; by = 0;
                     l = 0;
                 }
             }

@@ -338,7 +338,11 @@ namespace ImageProcessing
             imagens[0].InverterCores();
             pictureBox1.Image = imagens[0].BitmapAtual;
         }
+        private void PassaAltaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            pictureBox1.Image = imagens[0].FiltroPassaAlta();
 
+        }
         private void PrewittToolStripMenuItem_Click(object sender, EventArgs e)
         {
             pictureBox1.Image = imagens[0].BordasPrewitt();
@@ -498,5 +502,7 @@ namespace ImageProcessing
             imagens[0].ToImage();
             pictureBox1.Image = imagens[0].BitmapAtual;
         }
+
+
     }
 }

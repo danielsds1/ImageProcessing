@@ -320,55 +320,56 @@
             // filtroMedia
             // 
             this.filtroMedia.Name = "filtroMedia";
-            this.filtroMedia.Size = new System.Drawing.Size(127, 22);
+            this.filtroMedia.Size = new System.Drawing.Size(180, 22);
             this.filtroMedia.Text = "Média";
             this.filtroMedia.Click += new System.EventHandler(this.FiltroMedia_Click);
             // 
             // filtroMediana
             // 
             this.filtroMediana.Name = "filtroMediana";
-            this.filtroMediana.Size = new System.Drawing.Size(127, 22);
+            this.filtroMediana.Size = new System.Drawing.Size(180, 22);
             this.filtroMediana.Text = "Mediana";
             this.filtroMediana.Click += new System.EventHandler(this.FiltroMediana_Click);
             // 
             // passaAltaToolStripMenuItem
             // 
             this.passaAltaToolStripMenuItem.Name = "passaAltaToolStripMenuItem";
-            this.passaAltaToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.passaAltaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.passaAltaToolStripMenuItem.Text = "Passa Alta";
+            this.passaAltaToolStripMenuItem.Click += new System.EventHandler(this.PassaAltaToolStripMenuItem_Click);
             // 
             // sobelToolStripMenuItem
             // 
             this.sobelToolStripMenuItem.Name = "sobelToolStripMenuItem";
-            this.sobelToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.sobelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.sobelToolStripMenuItem.Text = "Sobel";
             this.sobelToolStripMenuItem.Click += new System.EventHandler(this.SobelToolStripMenuItem_Click);
             // 
             // prewittToolStripMenuItem
             // 
             this.prewittToolStripMenuItem.Name = "prewittToolStripMenuItem";
-            this.prewittToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.prewittToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.prewittToolStripMenuItem.Text = "Prewitt";
             this.prewittToolStripMenuItem.Click += new System.EventHandler(this.PrewittToolStripMenuItem_Click);
             // 
             // robertsToolStripMenuItem
             // 
             this.robertsToolStripMenuItem.Name = "robertsToolStripMenuItem";
-            this.robertsToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.robertsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.robertsToolStripMenuItem.Text = "Roberts";
             this.robertsToolStripMenuItem.Click += new System.EventHandler(this.RobertsToolStripMenuItem_Click);
             // 
             // bordasIsotropico
             // 
             this.bordasIsotropico.Name = "bordasIsotropico";
-            this.bordasIsotropico.Size = new System.Drawing.Size(127, 22);
+            this.bordasIsotropico.Size = new System.Drawing.Size(180, 22);
             this.bordasIsotropico.Text = "Isotrópico";
             this.bordasIsotropico.Click += new System.EventHandler(this.BordasIsotropico_Click);
             // 
             // laplaceToolStripMenuItem
             // 
             this.laplaceToolStripMenuItem.Name = "laplaceToolStripMenuItem";
-            this.laplaceToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.laplaceToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.laplaceToolStripMenuItem.Text = "Laplace";
             this.laplaceToolStripMenuItem.Click += new System.EventHandler(this.LaplaceToolStripMenuItem_Click);
             // 
