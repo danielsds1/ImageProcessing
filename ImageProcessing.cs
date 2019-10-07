@@ -16,7 +16,7 @@ namespace ImageProcessing
         private int maxColorValue = 255;
         OpenFileDialog oDlg;
         SaveFileDialog sDlg;
-        public int MinHeight = 360;
+        public int MinHeight = 480;
         public int NumImg = 0;
         public double zoomFactor = 1.0;
         /*public struct ImagemBool
@@ -79,22 +79,24 @@ namespace ImageProcessing
                 imagemA.BitmapAtual = (Bitmap)Bitmap.FromFile(oDlg.FileName);
                 //imagemA.BitmapPreProcess = imagemA.BitmapAtual;
                 imagemA.BitmapCaminho = oDlg.FileName;
-                imagens.Add(imagemA);
-
-                //imagens[0].BitmapAtual = (Bitmap)Bitmap.FromFile(oDlg.FileName);
-                //imagens[0].BitmapPreProcess = imagens[0].BitmapAtual;
-                //imagens[0].BitmapCaminho = oDlg.FileName;
+                imagemA.ToInt();
+                //imagens.Add(imagemA);
+                Visualizar(imagemA);
 
                 if (imagens[0] != null)
                 {
+                    salvarArquivo.Enabled = true;
                     editarMenu.Enabled = true;
                 }
                 //this.Invalidate();
 
-                if (imagens[0].BitmapAtual.Height > MinHeight) zoomFactor = Convert.ToDouble(MinHeight) / imagens[0].BitmapAtual.Height;
-                pictureBox1.Size = new Size(Convert.ToInt32(imagens[0].BitmapAtual.Width * zoomFactor), Convert.ToInt32(imagens[0].BitmapAtual.Height * zoomFactor));
-                pictureBox1.Image = (Image)imagens[0].BitmapAtual;
-                pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+                //if (imagens[0].BitmapAtual.Height > MinHeight) zoomFactor = Convert.ToDouble(MinHeight) / imagens[0].BitmapAtual.Height;
+                //pictureBox1.Size = new Size((int)((double)imagens[0].MatrizInt.Width), (int)((double)(imagens[0].MatrizInt.Height)));
+                //pictureBox1.Image = (Image)imagens[0].BitmapAtual;
+                //pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+                //pictureBox1.Anchor = AnchorStyles.Left;
+                //pictureBox1.
+
 
             }
         }
@@ -109,39 +111,17 @@ namespace ImageProcessing
             oDlg.Title = "Abrir Várias Imagens";
             if (DialogResult.OK == oDlg.ShowDialog())
             {
-                //imagemA.BitmapAtual = (Bitmap)Bitmap.FromFile(oDlg.FileNames[0]);
-                //int z = 0;
-                //List < Visualizador > = new List<Visualizador>(numImagens);
                 foreach (String file in oDlg.FileNames)
                 {
-                    // Create a PictureBox.
                     try
                     {
                         Imagem imagemA = new Imagem();
-                        //Visualizador janela = new Visualizador();
                         imagemA.BitmapAtual = (Bitmap)Bitmap.FromFile(file);
-                        //imagemA.BitmapPreProcess = imagemA.BitmapAtual;
                         imagemA.BitmapCaminho = file;
-
-                        PictureBox pb = new PictureBox
-                        {
-
-                            //Image loadedImage = Image.FromFile(file);
-                            Height = imagemA.BitmapAtual.Height,
-                            Width = imagemA.BitmapAtual.Width,
-                            Image = imagemA.BitmapAtual
-                        };
-                        imagens.Add(imagemA);
-                        Visualizador visualizador = new Visualizador();
+                        imagemA.ToInt();
+                        Visualizar(imagemA);
+                        salvarArquivo.Enabled = true;
                         //imagens.Add(imagemA);
-                        visualizador.Controls.Add(pb);
-                        visualizador.Show();
-                        //imagens.Add(imagemA);
-                        //this.Controls.Add(pb);
-                        //pictureBox1.Image= (Image)imagens[z].BitmapAtual;
-                        //z++;
-
-                        //flowLayoutPanel1.Controls.Add(pb);
                     }
                     catch (SecurityException ex)
                     {
@@ -166,6 +146,48 @@ namespace ImageProcessing
                 }
             }
 
+        }
+        private void Visualizar(Imagem imagemA)
+        {
+            PictureBox pb = new PictureBox
+            {
+                Height = imagemA.BitmapAtual.Height,
+                Width = imagemA.BitmapAtual.Width,
+                Image = imagemA.BitmapAtual,
+                SizeMode = PictureBoxSizeMode.Zoom
+            };
+            //pb.
+            imagens.Add(imagemA);
+            Visualizador visualizador = new Visualizador
+            {
+                //visualizador.
+                Text = imagemA.NomeArquivo(),
+            };
+            visualizador.Controls.Add(pb);
+            //visualizador.Controls.
+
+            visualizador.Show();
+        }
+        private void Visualizar(Imagem imagemA,string text)
+        {
+            PictureBox pb = new PictureBox
+            {
+                Height = imagemA.BitmapAtual.Height,
+                Width = imagemA.BitmapAtual.Width,
+                Image = imagemA.BitmapAtual,
+                SizeMode = PictureBoxSizeMode.Zoom
+            };
+            //pb.
+            imagens.Add(imagemA);
+            Visualizador visualizador = new Visualizador
+            {
+                //visualizador.
+                Text =text,
+            };
+            visualizador.Controls.Add(pb);
+            //visualizador.Controls.
+
+            visualizador.Show();
         }
         private void Sair_Click(object sender, EventArgs e)
         {
@@ -240,6 +262,7 @@ namespace ImageProcessing
                     MessageBox.Show("A imagem de destino é maior do que a de origem!", "Erro!");
                     return null;
                 }
+                Visualizar(imagemB);
                 return imagemB;
             }
             return null;
@@ -341,7 +364,6 @@ namespace ImageProcessing
         private void PassaAltaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             pictureBox1.Image = imagens[0].FiltroPassaAlta();
-
         }
         private void PrewittToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -398,7 +420,7 @@ namespace ImageProcessing
             if (stretching.ShowDialog() == DialogResult.OK)
             {
                 //imagens[0].ToGray();
-                if(imagens[0].imageType!=ImageType.integer) imagens[0].ToInt();
+                if (imagens[0].imageType != ImageType.integer) imagens[0].ToInt();
 
                 int x, y, h = imagens[0].MatrizInt.Height, w = imagens[0].MatrizInt.Width, r = 0, g = 0, b = 0;
 
@@ -503,6 +525,64 @@ namespace ImageProcessing
             pictureBox1.Image = imagens[0].BitmapAtual;
         }
 
+        private void Limiar_Click(object sender, EventArgs e)
+        {
+            Dithering dithering = new Dithering();
 
+            if (dithering.ShowDialog() == DialogResult.OK)
+            {
+                pictureBox1.Image = imagens[0].ToLimiar(dithering.limiar);
+            }
+            //imagens[0].ToImage();
+            //pictureBox1.Image = imagens[0].BitmapAtual;
+        }
+
+        private void LimiarComRuido_Click(object sender, EventArgs e)
+        {
+            Dithering dithering = new Dithering();
+            Imagem B = new Imagem
+            {
+                MatrizInt = imagens[0].MatrizInt,
+                BitmapAtual = (Bitmap)imagens[0].BitmapAtual.Clone()
+            };
+
+            if (dithering.ShowDialog() == DialogResult.OK)
+            {
+                pictureBox1.Image = B.ToLimiarAleatorio(dithering.limiar, dithering.rinf, dithering.rsup);
+                Visualizar(B);
+            }
+        }
+
+        private void DtPeriodicoDispersão_Click(object sender, EventArgs e)
+        {
+            Dithering dithering = new Dithering();
+            Imagem B = new Imagem
+            {
+                MatrizInt = imagens[0].MatrizInt,
+                BitmapAtual = (Bitmap)imagens[0].BitmapAtual.Clone()
+            };
+
+            if (dithering.ShowDialog() == DialogResult.OK)
+            {
+                pictureBox1.Image = B.ToPeriodicoDispersao(dithering.dispersao);
+                Visualizar(B,"Dithering "+ dithering.dispersao+"X"+ dithering.dispersao +" "+ imagens[0].NomeArquivo()+ imagens[0].ExtensaoArquivo());
+            }
+        }
+
+        private void DtAperiodicoDispersao_Click(object sender, EventArgs e)
+        {
+            Dithering dithering = new Dithering();
+            Imagem B = new Imagem
+            {
+                MatrizInt = imagens[0].MatrizInt,
+                BitmapAtual = (Bitmap)imagens[0].BitmapAtual.Clone()
+            };
+
+            if (dithering.ShowDialog() == DialogResult.OK)
+            {
+                pictureBox1.Image = B.ToAperiodicoDispersao(dithering.dispersao);
+                Visualizar(B, "Dithering " + dithering.dispersao + "X" + dithering.dispersao + " " + imagens[0].NomeArquivo() + imagens[0].ExtensaoArquivo());
+            }
+        }
     }
 }

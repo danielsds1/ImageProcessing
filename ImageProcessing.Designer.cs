@@ -74,6 +74,11 @@
             this.mediaImagens = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.dtLimiarComRuido = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.dtLimiar = new System.Windows.Forms.ToolStripMenuItem();
+            this.dtPeriodicoDispersao = new System.Windows.Forms.ToolStripMenuItem();
+            this.dtAperiodicoDispersao = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -146,7 +151,8 @@
             this.filtrosToolStripMenuItem,
             this.stretching,
             this.histograma,
-            this.mediaImagens});
+            this.mediaImagens,
+            this.toolStripMenuItem2});
             this.editarMenu.Name = "editarMenu";
             this.editarMenu.Size = new System.Drawing.Size(49, 20);
             this.editarMenu.Text = "Editar";
@@ -449,14 +455,51 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox1.Location = new System.Drawing.Point(0, 28);
+            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 24);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(800, 422);
+            this.pictureBox1.Size = new System.Drawing.Size(800, 426);
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
+            // 
+            // dtLimiarComRuido
+            // 
+            this.dtLimiarComRuido.Name = "dtLimiarComRuido";
+            this.dtLimiarComRuido.Size = new System.Drawing.Size(207, 22);
+            this.dtLimiarComRuido.Text = "Limiar Com Ruído";
+            this.dtLimiarComRuido.Click += new System.EventHandler(this.LimiarComRuido_Click);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.dtLimiar,
+            this.dtLimiarComRuido,
+            this.dtPeriodicoDispersao,
+            this.dtAperiodicoDispersao});
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(263, 22);
+            this.toolStripMenuItem2.Text = "Dithering";
+            // 
+            // dtLimiar
+            // 
+            this.dtLimiar.Name = "dtLimiar";
+            this.dtLimiar.Size = new System.Drawing.Size(207, 22);
+            this.dtLimiar.Text = "Limiar";
+            this.dtLimiar.Click += new System.EventHandler(this.Limiar_Click);
+            // 
+            // dtPeriodicoDispersao
+            // 
+            this.dtPeriodicoDispersao.Name = "dtPeriodicoDispersao";
+            this.dtPeriodicoDispersao.Size = new System.Drawing.Size(207, 22);
+            this.dtPeriodicoDispersao.Text = "Periódico por Dispersão";
+            this.dtPeriodicoDispersao.Click += new System.EventHandler(this.DtPeriodicoDispersão_Click);
+            // 
+            // dtAperiodicoDispersao
+            // 
+            this.dtAperiodicoDispersao.Name = "dtAperiodicoDispersao";
+            this.dtAperiodicoDispersao.Size = new System.Drawing.Size(207, 22);
+            this.dtAperiodicoDispersao.Text = "Aperiódico por Dispersão";
+            this.dtAperiodicoDispersao.Click += new System.EventHandler(this.DtAperiodicoDispersao_Click);
             // 
             // ImageProcessing
             // 
@@ -524,6 +567,11 @@
         private System.Windows.Forms.ToolStripMenuItem mediaImagens;
         private System.Windows.Forms.ToolStripMenuItem toTonsDeCinza;
         private System.Windows.Forms.ToolStripMenuItem inverterCores;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem dtLimiarComRuido;
+        private System.Windows.Forms.ToolStripMenuItem dtLimiar;
+        private System.Windows.Forms.ToolStripMenuItem dtPeriodicoDispersao;
+        private System.Windows.Forms.ToolStripMenuItem dtAperiodicoDispersao;
     }
 }
 

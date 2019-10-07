@@ -44,7 +44,11 @@ namespace ImageProcessing
         color = 0,
         quant = 8
     }
-    
+    public enum Correcao
+    {
+        limiar=0,
+        proporcao=1
+    }
     //public enum MaskType
     //{
     //    media = 0,
