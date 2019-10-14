@@ -37,9 +37,14 @@
             // 
             // niveisCinza
             // 
+            this.niveisCinza.Increment = new decimal(new int[] {
+            8,
+            0,
+            0,
+            0});
             this.niveisCinza.Location = new System.Drawing.Point(185, 12);
             this.niveisCinza.Maximum = new decimal(new int[] {
-            255,
+            256,
             0,
             0,
             0});
@@ -52,7 +57,7 @@
             this.niveisCinza.Size = new System.Drawing.Size(75, 20);
             this.niveisCinza.TabIndex = 0;
             this.niveisCinza.Value = new decimal(new int[] {
-            1,
+            16,
             0,
             0,
             0});

@@ -19,6 +19,12 @@ namespace ImageProcessing
         public int Width, Height;
         public int[,,] Matriz;
     };
+    public struct ImagemGray
+    {
+
+        public int Width, Height;
+        public int[,] Matriz;
+    };
     public enum LogicOperationType
     {
         not = 0,
@@ -42,7 +48,6 @@ namespace ImageProcessing
         integer = 1,
         gray = 256,
         color = 0,
-        quant = 8
     }
     public enum Correcao
     {

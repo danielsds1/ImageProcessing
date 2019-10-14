@@ -72,13 +72,13 @@
             this.stNegativo = new System.Windows.Forms.ToolStripMenuItem();
             this.histograma = new System.Windows.Forms.ToolStripMenuItem();
             this.mediaImagens = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.dtLimiarComRuido = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.dtLimiar = new System.Windows.Forms.ToolStripMenuItem();
+            this.dtLimiarComRuido = new System.Windows.Forms.ToolStripMenuItem();
             this.dtPeriodicoDispersao = new System.Windows.Forms.ToolStripMenuItem();
             this.dtAperiodicoDispersao = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -326,56 +326,56 @@
             // filtroMedia
             // 
             this.filtroMedia.Name = "filtroMedia";
-            this.filtroMedia.Size = new System.Drawing.Size(180, 22);
+            this.filtroMedia.Size = new System.Drawing.Size(127, 22);
             this.filtroMedia.Text = "Média";
             this.filtroMedia.Click += new System.EventHandler(this.FiltroMedia_Click);
             // 
             // filtroMediana
             // 
             this.filtroMediana.Name = "filtroMediana";
-            this.filtroMediana.Size = new System.Drawing.Size(180, 22);
+            this.filtroMediana.Size = new System.Drawing.Size(127, 22);
             this.filtroMediana.Text = "Mediana";
             this.filtroMediana.Click += new System.EventHandler(this.FiltroMediana_Click);
             // 
             // passaAltaToolStripMenuItem
             // 
             this.passaAltaToolStripMenuItem.Name = "passaAltaToolStripMenuItem";
-            this.passaAltaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.passaAltaToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.passaAltaToolStripMenuItem.Text = "Passa Alta";
             this.passaAltaToolStripMenuItem.Click += new System.EventHandler(this.PassaAltaToolStripMenuItem_Click);
             // 
             // sobelToolStripMenuItem
             // 
             this.sobelToolStripMenuItem.Name = "sobelToolStripMenuItem";
-            this.sobelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.sobelToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.sobelToolStripMenuItem.Text = "Sobel";
             this.sobelToolStripMenuItem.Click += new System.EventHandler(this.SobelToolStripMenuItem_Click);
             // 
             // prewittToolStripMenuItem
             // 
             this.prewittToolStripMenuItem.Name = "prewittToolStripMenuItem";
-            this.prewittToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.prewittToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.prewittToolStripMenuItem.Text = "Prewitt";
             this.prewittToolStripMenuItem.Click += new System.EventHandler(this.PrewittToolStripMenuItem_Click);
             // 
             // robertsToolStripMenuItem
             // 
             this.robertsToolStripMenuItem.Name = "robertsToolStripMenuItem";
-            this.robertsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.robertsToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.robertsToolStripMenuItem.Text = "Roberts";
             this.robertsToolStripMenuItem.Click += new System.EventHandler(this.RobertsToolStripMenuItem_Click);
             // 
             // bordasIsotropico
             // 
             this.bordasIsotropico.Name = "bordasIsotropico";
-            this.bordasIsotropico.Size = new System.Drawing.Size(180, 22);
+            this.bordasIsotropico.Size = new System.Drawing.Size(127, 22);
             this.bordasIsotropico.Text = "Isotrópico";
             this.bordasIsotropico.Click += new System.EventHandler(this.BordasIsotropico_Click);
             // 
             // laplaceToolStripMenuItem
             // 
             this.laplaceToolStripMenuItem.Name = "laplaceToolStripMenuItem";
-            this.laplaceToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.laplaceToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.laplaceToolStripMenuItem.Text = "Laplace";
             this.laplaceToolStripMenuItem.Click += new System.EventHandler(this.LaplaceToolStripMenuItem_Click);
             // 
@@ -432,6 +432,7 @@
             this.histograma.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
             this.histograma.Size = new System.Drawing.Size(263, 22);
             this.histograma.Text = "Equalização de  Histograma";
+            this.histograma.Click += new System.EventHandler(this.Histograma_Click_1);
             // 
             // mediaImagens
             // 
@@ -441,6 +442,45 @@
             this.mediaImagens.Size = new System.Drawing.Size(263, 22);
             this.mediaImagens.Text = "Média de Imagens";
             this.mediaImagens.Click += new System.EventHandler(this.MediaImagens_Click);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.dtLimiar,
+            this.dtLimiarComRuido,
+            this.dtPeriodicoDispersao,
+            this.dtAperiodicoDispersao});
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(263, 22);
+            this.toolStripMenuItem2.Text = "Dithering";
+            // 
+            // dtLimiar
+            // 
+            this.dtLimiar.Name = "dtLimiar";
+            this.dtLimiar.Size = new System.Drawing.Size(207, 22);
+            this.dtLimiar.Text = "Limiar";
+            this.dtLimiar.Click += new System.EventHandler(this.Limiar_Click);
+            // 
+            // dtLimiarComRuido
+            // 
+            this.dtLimiarComRuido.Name = "dtLimiarComRuido";
+            this.dtLimiarComRuido.Size = new System.Drawing.Size(207, 22);
+            this.dtLimiarComRuido.Text = "Limiar Com Ruído";
+            this.dtLimiarComRuido.Click += new System.EventHandler(this.LimiarComRuido_Click);
+            // 
+            // dtPeriodicoDispersao
+            // 
+            this.dtPeriodicoDispersao.Name = "dtPeriodicoDispersao";
+            this.dtPeriodicoDispersao.Size = new System.Drawing.Size(207, 22);
+            this.dtPeriodicoDispersao.Text = "Periódico por Dispersão";
+            this.dtPeriodicoDispersao.Click += new System.EventHandler(this.DtPeriodicoDispersão_Click);
+            // 
+            // dtAperiodicoDispersao
+            // 
+            this.dtAperiodicoDispersao.Name = "dtAperiodicoDispersao";
+            this.dtAperiodicoDispersao.Size = new System.Drawing.Size(207, 22);
+            this.dtAperiodicoDispersao.Text = "Aperiódico por Dispersão";
+            this.dtAperiodicoDispersao.Click += new System.EventHandler(this.DtAperiodicoDispersao_Click);
             // 
             // menuStrip1
             // 
@@ -461,45 +501,6 @@
             this.pictureBox1.Size = new System.Drawing.Size(800, 426);
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
-            // 
-            // dtLimiarComRuido
-            // 
-            this.dtLimiarComRuido.Name = "dtLimiarComRuido";
-            this.dtLimiarComRuido.Size = new System.Drawing.Size(207, 22);
-            this.dtLimiarComRuido.Text = "Limiar Com Ruído";
-            this.dtLimiarComRuido.Click += new System.EventHandler(this.LimiarComRuido_Click);
-            // 
-            // toolStripMenuItem2
-            // 
-            this.toolStripMenuItem2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.dtLimiar,
-            this.dtLimiarComRuido,
-            this.dtPeriodicoDispersao,
-            this.dtAperiodicoDispersao});
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(263, 22);
-            this.toolStripMenuItem2.Text = "Dithering";
-            // 
-            // dtLimiar
-            // 
-            this.dtLimiar.Name = "dtLimiar";
-            this.dtLimiar.Size = new System.Drawing.Size(207, 22);
-            this.dtLimiar.Text = "Limiar";
-            this.dtLimiar.Click += new System.EventHandler(this.Limiar_Click);
-            // 
-            // dtPeriodicoDispersao
-            // 
-            this.dtPeriodicoDispersao.Name = "dtPeriodicoDispersao";
-            this.dtPeriodicoDispersao.Size = new System.Drawing.Size(207, 22);
-            this.dtPeriodicoDispersao.Text = "Periódico por Dispersão";
-            this.dtPeriodicoDispersao.Click += new System.EventHandler(this.DtPeriodicoDispersão_Click);
-            // 
-            // dtAperiodicoDispersao
-            // 
-            this.dtAperiodicoDispersao.Name = "dtAperiodicoDispersao";
-            this.dtAperiodicoDispersao.Size = new System.Drawing.Size(207, 22);
-            this.dtAperiodicoDispersao.Text = "Aperiódico por Dispersão";
-            this.dtAperiodicoDispersao.Click += new System.EventHandler(this.DtAperiodicoDispersao_Click);
             // 
             // ImageProcessing
             // 
