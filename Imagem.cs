@@ -12,8 +12,6 @@ namespace ImageProcessing
         private Bitmap _imagemBMP;
         public ImageType imageType = ImageType.color;
         public int niveisCinza = 256;
-        private int maxColorValue = 255;
-        //public int Pos { get; set; }
         public ImagemBool MatrizBool;
         public ImagemInt MatrizCor;
         public ImagemGray MatrizGray;
@@ -132,81 +130,59 @@ namespace ImageProcessing
             if (this.imageType == ImageType.gray)
             {
                 int x, y, h = MatrizGray.Height, w = MatrizGray.Width;
-
-                if (tipo == Correcao.limiar)
+                int max = MatrizGray.Matriz.Cast<int>().Max();
+                int min = MatrizGray.Matriz.Cast<int>().Min();
+                if (max > 255 || min < 0)
                 {
-                    for (x = 0; x < w; x++)
-                    {
-                        for (y = 0; y < h; y++)
-                        {
-                            if (MatrizGray.Matriz[x, y] > 255)
+                    if (tipo == Correcao.limiar)
+                        for (x = 0; x < w; x++)
+                            for (y = 0; y < h; y++)
                             {
-                                MatrizGray.Matriz[x, y] = 255;
+                                if (MatrizGray.Matriz[x, y] > 255)
+                                    MatrizGray.Matriz[x, y] = 255;
+                                if (MatrizGray.Matriz[x, y] < 0)
+                                    MatrizGray.Matriz[x, y] = 0;
                             }
-                            if (MatrizGray.Matriz[x, y] < 0)
-                            {
-                                MatrizGray.Matriz[x, y] = 0;
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    int max = MatrizGray.Matriz.Cast<int>().Max();
-                    int min = MatrizGray.Matriz.Cast<int>().Min();
-                    for (x = 0; x < w; x++)
+                    else
                     {
-                        for (y = 0; y < h; y++)
-                        {
-                            MatrizGray.Matriz[x, y] = (MatrizGray.Matriz[x, y] - min) * 255 / (max - min);
-                        }
+                        for (x = 0; x < w; x++)
+                            for (y = 0; y < h; y++)
+                                MatrizGray.Matriz[x, y] = (MatrizGray.Matriz[x, y] - min) * 255 / (max - min);
                     }
                 }
             }
             else
             {
-                int canal = 0, x, y, h = MatrizCor.Height, w = MatrizCor.Width;
-
-                if (tipo == Correcao.limiar)
+                int canal, x, y, h = MatrizCor.Height, w = MatrizCor.Width;
+                int max = MatrizCor.Matriz.Cast<int>().Max();
+                int min = MatrizCor.Matriz.Cast<int>().Min();
+                if (max > 255 || min < 00)
                 {
-                    for (x = 0; x < w; x++)
+                    if (tipo == Correcao.limiar)
                     {
-                        for (y = 0; y < h; y++)
-                        {
-                            for (canal = 0; canal < 3; canal++)
-                            {
-                                if (MatrizCor.Matriz[x, y, canal] > 255)
+                        for (x = 0; x < w; x++)
+                            for (y = 0; y < h; y++)
+                                for (canal = 0; canal < 3; canal++)
                                 {
-                                    MatrizCor.Matriz[x, y, canal] = 255;
+                                    if (MatrizCor.Matriz[x, y, canal] > 255)
+                                        MatrizCor.Matriz[x, y, canal] = 255;
+                                    if (MatrizCor.Matriz[x, y, canal] < 0)
+                                        MatrizCor.Matriz[x, y, canal] = 0;
                                 }
-                                if (MatrizCor.Matriz[x, y, canal] < 0)
-                                {
-                                    MatrizCor.Matriz[x, y, canal] = 0;
-                                }
-                            }
-                        }
                     }
-                }
-                else
-                {
-                    int max = MatrizCor.Matriz.Cast<int>().Max();
-                    int min = MatrizCor.Matriz.Cast<int>().Min();
-                    for (x = 0; x < w; x++)
+                    else
                     {
-                        for (y = 0; y < h; y++)
-                        {
-                            for (canal = 0; canal < 3; canal++)
-                            {
-                                MatrizCor.Matriz[x, y,canal] = (MatrizCor.Matriz[x, y, canal] - min) * 255 / (max - min);
-                            }
-                        }
+                        for (x = 0; x < w; x++)
+                            for (y = 0; y < h; y++)
+                                for (canal = 0; canal < 3; canal++)
+                                    MatrizCor.Matriz[x, y, canal] = (MatrizCor.Matriz[x, y, canal] - min) * 255 / (max - min);
                     }
                 }
             }
         }
         public void ToBool()
         {
-            int r, x, y;
+            int x, y;
             if (this.imageType != ImageType.gray) { this.ToGray(); }
             MatrizBool.Matriz = new bool[MatrizGray.Width, MatrizGray.Height];
             MatrizBool.Width = ImagemBMP.Width;
@@ -413,81 +389,57 @@ namespace ImageProcessing
             this.niveisCinza = niveis;
 
         }
-        public Image FiltroMediana()
+        public void FiltroMediana(int raio)
         {
             if (this.imageType != ImageType.integer) { this.ToInt(); }
-            int[] r = new int[9];
-            int[] g = new int[9];
-            int[] b = new int[9];
-            int x, y, i, j, pos = 0;
-            int w = ImagemBMP.Width - 1;
-            int h = ImagemBMP.Height - 1;
-            var aux = MatrizCor;
-            //Color color;
-            for (x = 1; x < w; x++)
-            {
-                for (y = 1; y < h; y++)
-                {
-                    for (i = x - 1; i < x + 2; i++)
-                    {
-                        for (j = y - 1; j < y + 2; j++)
-                        {
-                            r[pos] = MatrizCor.Matriz[i, j, 0];
-                            g[pos] = MatrizCor.Matriz[i, j, 1];
-                            b[pos] = MatrizCor.Matriz[i, j, 2];
-                            pos++;
-                        }
+            int size = ((2 * raio + 1) * (2 * raio + 1));
+            int[] r = new int[size];
+            int x, y, i, j, pos = 0,canal;
+            int w = MatrizCor.Width - 1;
+            int h = MatrizCor.Height - 1;
+            var aux = this.MatrizCor;
+            for (x = raio; x <= w - raio; x++)
+                for (y = raio; y <= h - raio; y++)
+                    for (canal = 0; canal < 3; canal++){
+                        for (i = x - raio; i <= x + raio; i++)
+                            for (j = y - raio; j <= y + raio; j++)
+                                r[pos++] = MatrizCor.Matriz[i, j, canal];
+                        Array.Sort(r);                     
+                        aux.Matriz[x, y, canal] = r[size / 2];
+                        pos = 0;
                     }
-                    Array.Sort(r);
-                    Array.Sort(g);
-                    Array.Sort(b);
-                    aux.Matriz[x, y, 0] = r[4];
-                    aux.Matriz[x, y, 1] = g[4];
-                    aux.Matriz[x, y, 2] = b[4];
-                    //imagemA.BitmapAtual.SetPixel(x, y, Color.FromArgb(r[4], g[4], b[4]));
-                    pos = 0;
-                }
-            }
             MatrizCor = aux;
-            this.ToImage();
-            return (Image)this.ImagemBMP;
         }
-        public Image FiltroMedia()
+        public void FiltroMedia(int raio)
         {
             if (this.imageType != ImageType.integer) { this.ToInt(); }
-            int r = 0, g = 0, b = 0, x, y, i, j;
-            int width = ImagemBMP.Width;
-            int height = ImagemBMP.Height;
+            int r = 0, g = 0, b = 0, x, y, i, j, canal;
+            //int[] rgb = { 0, 0, 0 };
+            int width = MatrizCor.Width;
+            int height = MatrizCor.Height;
             var aux = MatrizCor;
 
             //int[] aux = new int[9];
-            for (x = 1; x < width - 1; x++)
+            for (x = raio; x < width - raio; x++)
             {
-                for (y = 1; y < height - 1; y++)
+                for (y = raio; y < height - raio; y++)
                 {
-                    for (i = x - 1; i < x + 2; i++)
+                    for (canal = 0; canal < 3; canal++)
                     {
-                        for (j = y - 1; j < y + 2; j++)
+                        for (i = x - raio; i <= x + raio; i++)
                         {
-                            r += MatrizCor.Matriz[i, j, 0];
-                            g += MatrizCor.Matriz[i, j, 1];
-                            b += MatrizCor.Matriz[i, j, 2];
+                            for (j = y - raio; j <= y + raio; j++)
+                            {
+                                r += aux.Matriz[i, j, canal];
+                            }
                         }
+                        r /= 9;
+                        aux.Matriz[x, y, canal] = r;
+                        r = 0; 
                     }
-                    r /= 9;
-                    g /= 9;
-                    b /= 9;
-
-                    aux.Matriz[x, y, 0] = r;
-                    aux.Matriz[x, y, 1] = g;
-                    aux.Matriz[x, y, 2] = b;
-
-                    r = 0; g = 0; b = 0;
                 }
             }
             MatrizCor = aux;
-            this.ToImage();
-            return (Image)ImagemBMP;
         }
 
         public Image FiltroPassaAlta()
@@ -828,69 +780,42 @@ namespace ImageProcessing
             return this.ImagemBMP;
         }
 
-        public Image MathOp(MathOperationType operation, Imagem imagemB)
+        public void MathOp(MathOperationType operation, Imagem imagemB)
         {
             if (this.imageType != ImageType.integer) { this.ToInt(); }
             if (imagemB != null)
             {
                 imagemB.ToInt();
-                int width = imagemB.ImagemBMP.Width;
-                int height = imagemB.ImagemBMP.Height;
-                int x, y, ra, ga, ba, rb, gb, bb;
+                int width = imagemB.MatrizCor.Width;
+                int height = imagemB.MatrizCor.Height;
+                int[] rgbA = { 0, 0, 0 }, rgbB = { 0, 0, 0 };
+                int x, y, canal;
+
                 for (x = 0; x < width; x++)
-                {
                     for (y = 0; y < height; y++)
-                    {
-                        ra = this.MatrizCor.Matriz[x, y, 0];
-                        rb = imagemB.MatrizCor.Matriz[x, y, 0];
-                        ga = this.MatrizCor.Matriz[x, y, 1];
-                        gb = imagemB.MatrizCor.Matriz[x, y, 1];
-                        ba = this.MatrizCor.Matriz[x, y, 2];
-                        bb = imagemB.MatrizCor.Matriz[x, y, 2];
-                        switch (operation)
+                        for (canal = 0; canal < 3; canal++)
                         {
-                            case MathOperationType.adicaoLimiar:
-                                ra += rb; ra = (ra <= 255) ? ra : 255;
-                                ga += gb; ga = (ga <= 255) ? ga : 255;
-                                ba += bb; ba = (ba <= 255) ? ba : 255;
-                                break;
-                            case MathOperationType.adicaoMedia:
-                                ra = (ra + rb) / 2;
-                                ga = (ga + gb) / 2;
-                                ba = (ba + bb) / 2;
-                                break;
-                            case MathOperationType.divisao:
-                                rb = (rb < 1) ? 1 : rb;
-                                gb = (gb < 1) ? 1 : gb;
-                                bb = (bb < 1) ? 1 : bb;
-                                ra /= rb;
-                                ga /= gb;
-                                ba /= bb;
-                                break;
-                            case MathOperationType.multiplicacao:
-                                ra *= rb / maxColorValue;
-                                ga *= gb / maxColorValue;
-                                ba *= bb / maxColorValue;
-                                break;
-                            case MathOperationType.subtracaoLimiar:
-                                ra -= rb; ra = (ra >= 0) ? ra : 0;
-                                ga -= gb; ga = (ga >= 0) ? ga : 0;
-                                ba -= bb; ba = (ba >= 0) ? ba : 0;
-                                break;
-                            case MathOperationType.subtracaoMedia:
-                                ra = (ra - rb + maxColorValue) / 2;
-                                ga = (ga - gb + maxColorValue) / 2;
-                                ba = (ba - bb + maxColorValue) / 2;
-                                break;
+                            rgbA[canal] = this.MatrizCor.Matriz[x, y, canal];
+                            rgbB[canal] = imagemB.MatrizCor.Matriz[x, y, canal];
+                            switch (operation)
+                            {
+                                case MathOperationType.adicao:
+                                    rgbA[canal] += rgbB[canal];
+                                    break;
+                                case MathOperationType.divisao:
+                                    rgbA[canal] = (rgbA[canal] < 1) ? 1 : rgbA[canal];
+                                    rgbA[canal] /= rgbB[canal];
+                                    break;
+                                case MathOperationType.multiplicacao:
+                                    rgbA[canal] *= rgbB[canal];
+                                    break;
+                                case MathOperationType.subtracao:
+                                    rgbA[canal] -= rgbB[canal];
+                                    break;
+                            }
+                            this.MatrizCor.Matriz[x, y, canal] = rgbA[canal];
                         }
-                        this.MatrizCor.Matriz[x, y, 0] = ra;
-                        this.MatrizCor.Matriz[x, y, 1] = ga;
-                        this.MatrizCor.Matriz[x, y, 2] = ba;
-                    }
-                }
             }
-            this.ToImage();
-            return this.ImagemBMP;
         }
 
         public Image CorrecaoHistograma()
@@ -1034,7 +959,7 @@ namespace ImageProcessing
         }
         public Image ToAperiodicoDispersao(int quant)
         {
-            int i, j, x, y, h = MatrizCor.Height - 1, w = MatrizCor.Width - 1, erro;
+            int x, y, h = MatrizCor.Height - 1, w = MatrizCor.Width - 1, erro;
 
             if (this.imageType != ImageType.gray) { this.ToGray(); }
 

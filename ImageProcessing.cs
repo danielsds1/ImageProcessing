@@ -13,7 +13,6 @@ namespace ImageProcessing
 {
     public partial class ImageProcessing : Form
     {
-        private int maxColorValue = 255;
         OpenFileDialog oDlg;
         SaveFileDialog sDlg;
         public int MinHeight = 480;
@@ -56,8 +55,6 @@ namespace ImageProcessing
                 imagens.Clear();
                 imagens.Add(imagemA);
                 count = 1;
-
-
             }
         }
 
@@ -68,14 +65,6 @@ namespace ImageProcessing
             oDlg.Title = "Abrir Imagem";
             if (DialogResult.OK == oDlg.ShowDialog())
             {
-                //zoomFactor = 1.0;
-                imagemA.ImagemBMP = (Bitmap)Bitmap.FromFile(oDlg.FileName);
-
-                if (imagens.Count() > 0)
-                {
-                    imagens.Clear();
-                }
-
                 imagemA.ImagemBMP = (Bitmap)Bitmap.FromFile(oDlg.FileName);
                 imagemA.BitmapCaminho = oDlg.FileName;
                 Visualizar(imagemA);
@@ -125,7 +114,6 @@ namespace ImageProcessing
                             "it may be corrupt.\n\nReported error: " + ex.Message);
                     }
                 }
-
                 if (imagens[count - 1] != null)
                 {
                     editarMenu.Enabled = true;
@@ -135,51 +123,64 @@ namespace ImageProcessing
                     editarMenu.Enabled = false;
                 }
             }
-
         }
         private void Visualizar(Imagem imagemA)
         {
-            PictureBox pb = new PictureBox
+            if (imagemA != null)
             {
-                Height = imagemA.ImagemBMP.Height,
-                Width = imagemA.ImagemBMP.Width,
-                Image = imagemA.ImagemBMP,
-                SizeMode = PictureBoxSizeMode.Zoom
-            };
-            //pb.
-            imagens.Add(imagemA);
-            count++;
-            Visualizador visualizador = new Visualizador
-            {
-                //visualizador.
-                Text = imagemA.NomeArquivo(),
-            };
-            visualizador.Controls.Add(pb);
-            //visualizador.Controls.
+                if (imagemA.imageType != ImageType.color)
+                {
+                    imagemA.ToImage();
+                }
+                PictureBox pb = new PictureBox
+                {
+                    Height = imagemA.ImagemBMP.Height,
+                    Width = imagemA.ImagemBMP.Width,
+                    Image = imagemA.ImagemBMP,
+                    SizeMode = PictureBoxSizeMode.Zoom
+                };
+                //pb.
+                imagens.Add(imagemA);
+                count++;
+                Visualizador visualizador = new Visualizador
+                {
+                    //visualizador.
+                    Text = imagemA.NomeArquivo(),
+                };
+                visualizador.Controls.Add(pb);
+                //visualizador.Controls.
 
-            visualizador.Show();
+                visualizador.Show();
+            }
         }
         private void Visualizar(Imagem imagemA, string text)
         {
-            PictureBox pb = new PictureBox
+            if (imagemA != null)
             {
-                Height = imagemA.ImagemBMP.Height,
-                Width = imagemA.ImagemBMP.Width,
-                Image = imagemA.ImagemBMP,
-                SizeMode = PictureBoxSizeMode.Zoom
-            };
-            //pb.
-            imagens.Add(imagemA);
-            count++;
-            Visualizador visualizador = new Visualizador
-            {
-                //visualizador.
-                Text = text,
-            };
-            visualizador.Controls.Add(pb);
-            //visualizador.Controls.
+                if (imagemA.imageType != ImageType.color)
+                {
+                    imagemA.ToImage();
+                }
+                PictureBox pb = new PictureBox
+                {
+                    Height = imagemA.ImagemBMP.Height,
+                    Width = imagemA.ImagemBMP.Width,
+                    Image = imagemA.ImagemBMP,
+                    SizeMode = PictureBoxSizeMode.Zoom
+                };
+                //pb.
+                imagens.Add(imagemA);
+                count++;
+                Visualizador visualizador = new Visualizador
+                {
+                    //visualizador.
+                    Text = text,
+                };
+                visualizador.Controls.Add(pb);
+                //visualizador.Controls.
 
-            visualizador.Show();
+                visualizador.Show();
+            }
         }
         private void Sair_Click(object sender, EventArgs e)
         {
@@ -188,32 +189,74 @@ namespace ImageProcessing
 
         private void Adicao_Click(object sender, EventArgs e)
         {
-            pictureBox1.Image = imagens[count - 1].MathOp(MathOperationType.adicaoLimiar, GetImagemB());
+            Imagem imagemA = imagens[0];
+            if (count == 1)
+                Visualizar(GetImagemB());
+            foreach (Imagem imagem in imagens)
+                imagemA.MathOp(MathOperationType.adicao, imagem);
+            imagemA.CorrecaoMinMax(Correcao.limiar);
+            Visualizar(imagemA, "Soma Limiar");
+            pictureBox1.Image = imagens[count - 1].ImagemBMP;
         }
 
         private void AdicaoMedia_Click(object sender, EventArgs e)
         {
-            pictureBox1.Image = imagens[count - 1].MathOp(MathOperationType.adicaoMedia, GetImagemB());
+            Imagem imagemA = imagens[0];
+            if (count == 1)
+                Visualizar(GetImagemB());
+            foreach (Imagem imagem in imagens)
+                imagemA.MathOp(MathOperationType.adicao, imagem);
+            imagemA.CorrecaoMinMax(Correcao.proporcao);
+            Visualizar(imagemA, "Soma Corrigida");
+            pictureBox1.Image = imagens[count - 1].ImagemBMP;
         }
 
         private void SubtracaoLimiar_Click(object sender, EventArgs e)
         {
-            pictureBox1.Image = imagens[count - 1].MathOp(MathOperationType.subtracaoLimiar, GetImagemB());
+            Imagem imagemA = imagens[0];
+            if (count == 1)
+                Visualizar(GetImagemB());
+            foreach (Imagem imagem in imagens)
+                imagemA.MathOp(MathOperationType.subtracao, imagem);
+            imagemA.CorrecaoMinMax(Correcao.limiar);
+            Visualizar(imagemA, "Subtração Limiar");
+            pictureBox1.Image = imagens[count - 1].ImagemBMP;
         }
 
         private void SubtracaoMedia_Click(object sender, EventArgs e)
         {
-            pictureBox1.Image = imagens[count - 1].MathOp(MathOperationType.subtracaoMedia, GetImagemB());
+            Imagem imagemA = imagens[0];
+            if (count == 1)
+                Visualizar(GetImagemB());
+            foreach (Imagem imagem in imagens)
+                imagemA.MathOp(MathOperationType.subtracao, imagem);
+            imagemA.CorrecaoMinMax(Correcao.proporcao);
+            Visualizar(imagemA, "Subtração Corrigida");
+            pictureBox1.Image = imagens[count - 1].ImagemBMP;
         }
 
         private void Multiplicacao_Click(object sender, EventArgs e)
         {
-            pictureBox1.Image = imagens[count - 1].MathOp(MathOperationType.multiplicacao, GetImagemB());
+            Imagem imagemA = imagens[0];
+            if (count == 1)
+                Visualizar(GetImagemB());
+            foreach (Imagem imagem in imagens)
+                imagemA.MathOp(MathOperationType.multiplicacao, imagem);
+            imagemA.CorrecaoMinMax(Correcao.proporcao);
+            Visualizar(imagemA, "Multiplicação");
+            pictureBox1.Image = imagens[count - 1].ImagemBMP;
         }
 
         private void Divisao_Click(object sender, EventArgs e)
         {
-            pictureBox1.Image = imagens[count - 1].MathOp(MathOperationType.divisao, GetImagemB());
+            Imagem imagemA = imagens[0];
+            if (count == 1)
+                Visualizar(GetImagemB());
+            foreach (Imagem imagem in imagens)
+                imagemA.MathOp(MathOperationType.divisao, imagem);
+            imagemA.CorrecaoMinMax(Correcao.proporcao);
+            Visualizar(imagemA, "Divisão");
+            pictureBox1.Image = imagens[count - 1].ImagemBMP;
         }
 
         private void LogicNot_Click(object sender, EventArgs e)
@@ -249,12 +292,33 @@ namespace ImageProcessing
             {
                 imagemB.ImagemBMP = (Bitmap)Bitmap.FromFile(oDlg.FileName);
                 imagemB.BitmapCaminho = oDlg.FileName;
-                if (imagemB.ImagemBMP.Width > imagens[count - 1].ImagemBMP.Width)
+                int width = 0, height = 0;
+
+                switch (imagens[0].imageType)
+                {
+                    case ImageType.binary:
+                        width = imagens[0].MatrizBool.Width;
+                        height = imagens[0].MatrizBool.Height;
+                        break;
+                    case ImageType.color:
+                        width = imagens[0].ImagemBMP.Width;
+                        height = imagens[0].ImagemBMP.Height;
+                        break;
+                    case ImageType.gray:
+                        width = imagens[0].MatrizGray.Width;
+                        height = imagens[0].MatrizGray.Height;
+                        break;
+                    case ImageType.integer:
+                        width = imagens[0].MatrizCor.Width;
+                        height = imagens[0].MatrizCor.Height;
+                        break;
+                }
+
+                if (imagemB.ImagemBMP.Width > width || imagemB.ImagemBMP.Height > height)
                 {
                     MessageBox.Show("A imagem de destino é maior do que a de origem!", "Erro!");
                     return null;
                 }
-                Visualizar(imagemB);
                 return imagemB;
             }
             return null;
@@ -263,20 +327,47 @@ namespace ImageProcessing
 
         private void FiltroMedia_Click(object sender, EventArgs e)
         {
-            pictureBox1.Image = imagens[count - 1].FiltroMedia();
+            var raioFiltro = new RaioFiltro();
+            if (raioFiltro.ShowDialog() == DialogResult.OK)
+            {
+
+                var imagem = imagens[count - 1];
+                imagem.FiltroMedia(raioFiltro.raio);
+                Visualizar(imagem);
+                pictureBox1.Image = imagens[count - 1].ImagemBMP;
+            }
+            
         }
 
         private void FiltroMediana_Click(object sender, EventArgs e)
         {
-            pictureBox1.Image = imagens[count - 1].FiltroMediana();
+            var raioFiltro = new RaioFiltro();
+            if (raioFiltro.ShowDialog() == DialogResult.OK)
+            {
+                var imagem = imagens[count - 1];
+                imagem.FiltroMediana(raioFiltro.raio);
+                Visualizar(imagem);
+                pictureBox1.Image = imagens[count - 1].ImagemBMP;
+            }
         }
 
         private void Desfazer_Click(object sender, EventArgs e)
         {
-
-            imagens.RemoveAt(count - 1);
-            count--;
-            pictureBox1.Image = imagens[count - 1].ImagemBMP;
+            if (count > 1)
+            {
+                imagens.RemoveAt(count - 1);
+                count--;
+                imagens[count - 1].ToImage();
+                pictureBox1.Image = imagens[count - 1].ImagemBMP;
+            }
+            else
+            {
+                pictureBox1.Image = new Bitmap(1, 1);
+                imagens.Clear();
+                count = 0;
+                editarMenu.Enabled = false;
+                salvarArquivo.Enabled = false;
+            }
         }
 
         private void Histograma_Click(object sender, EventArgs e)
@@ -297,37 +388,35 @@ namespace ImageProcessing
         {
             Imagem imagemA = imagens[0];
             var numImg = imagens.Count();
+            bool cond = true;
             int MaxW = imagemA.MatrizCor.Width;
             int MaxH = imagemA.MatrizCor.Height;
-            int x, y, z;
-            int canal;
-            int[] rgb = { 0, 0, 0 };
-
-            for (x = 0; x < MaxW; x++)
-            {
-                for (y = 0; y < MaxH; y++)
-                {
-                    for (canal = 0; canal < 3; canal++)
-                    {
-                        for (z = 0; z < numImg; z++)
-                        {
-                            rgb[canal] += imagens[z].MatrizCor.Matriz[x, y, canal];
-                        }
-
-                        imagemA.MatrizCor.Matriz[x, y, canal] = rgb[canal] / numImg;
-                        rgb[canal] = 0;
-                    }
-                    
-
-                    //imagemA.MatrizCor.Matriz[x, y, 0] = r / numImg;
-                    //imagemA.MatrizCor.Matriz[x, y, 1] = g / numImg;
-                    //imagemA.MatrizCor.Matriz[x, y, 2] = b / numImg;
-                    //r = 0; g = 0; b = 0;
+            foreach (Imagem imagem in imagens)
+                if (MaxW < imagem.MatrizCor.Width){
+                    cond = false;
+                    break;
                 }
+            if (cond)
+            {
+                int x, y, z;
+                int canal;
+                int[] rgb = { 0, 0, 0 };
+                for (x = 0; x < MaxW; x++)
+                    for (y = 0; y < MaxH; y++)
+                        for (canal = 0; canal < 3; canal++)
+                        {
+                            for (z = 0; z < numImg; z++)
+                                rgb[canal] += imagens[z].MatrizCor.Matriz[x, y, canal];
+                            imagemA.MatrizCor.Matriz[x, y, canal] = rgb[canal] / numImg;
+                            rgb[canal] = 0;
+                        }
+                Visualizar(imagemA, "Média de " + (count) + " imagens");
+                pictureBox1.Image = imagens[count - 1].ImagemBMP;
             }
-            imagemA.ToImage();
-            pictureBox1.Image = (Image)imagemA.ImagemBMP;
-
+            else
+            {
+                MessageBox.Show("Arquivos possuem resoluções diferentes!");
+            }
         }
 
         private void OpQuantizacao_Click(object sender, EventArgs e)
@@ -336,8 +425,9 @@ namespace ImageProcessing
 
             if (quant.ShowDialog() == DialogResult.OK)
             {
-                imagens[count - 1].ToQuant(quant.niveis);
-                imagens[count - 1].ToImage();
+                var imagem = imagens[count - 1];
+                imagem.ToQuant(quant.niveis);
+                Visualizar(imagem);
             }
             //imagens[count-1].ToImage();
             pictureBox1.Image = imagens[count - 1].ImagemBMP;
@@ -346,44 +436,64 @@ namespace ImageProcessing
 
         private void TonsDeCinzaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            imagens[count - 1].ToGray();
-            imagens[count - 1].ToImage();
+            var imagem = imagens[count - 1];
+            imagem.ToGray();
+            Visualizar(imagem);
             pictureBox1.Image = imagens[count - 1].ImagemBMP;
         }
 
         private void SobelToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            pictureBox1.Image = imagens[count - 1].BordasSobel();
+            var imagem = imagens[count - 1];
+            imagem.BordasSobel();
+            Visualizar(imagem);
+            pictureBox1.Image = imagens[count - 1].ImagemBMP;
         }
 
         private void InverterCores_Click(object sender, EventArgs e)
         {
-            imagens[count - 1].InverterCores();
-            imagens[count - 1].ToImage();
+            var imagem = imagens[count - 1];
+            imagem.InverterCores();
+            Visualizar(imagem);
             pictureBox1.Image = imagens[count - 1].ImagemBMP;
         }
         private void PassaAltaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            pictureBox1.Image = imagens[count - 1].FiltroPassaAlta();
+            var imagem = imagens[count - 1];
+            imagem.FiltroPassaAlta(); ;
+            Visualizar(imagem);
+            pictureBox1.Image = imagens[count - 1].ImagemBMP;
         }
         private void PrewittToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            pictureBox1.Image = imagens[count - 1].BordasPrewitt();
+            var imagem = imagens[count - 1];
+            imagem.BordasPrewitt(); ;
+            Visualizar(imagem);
+            pictureBox1.Image = imagens[count - 1].ImagemBMP;
         }
 
         private void RobertsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            pictureBox1.Image = imagens[count - 1].BordasRoberts();
+            var imagem = imagens[count - 1];
+            imagem.BordasRoberts(); ;
+            Visualizar(imagem);
+            pictureBox1.Image = imagens[count - 1].ImagemBMP;
         }
 
         private void BordasIsotropico_Click(object sender, EventArgs e)
         {
-            pictureBox1.Image = imagens[count - 1].BordasIsotropico();
+            var imagem = imagens[count - 1];
+            imagem.BordasIsotropico(); ;
+            Visualizar(imagem);
+            pictureBox1.Image = imagens[count - 1].ImagemBMP;
         }
 
         private void LaplaceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            pictureBox1.Image = imagens[count - 1].BordasLaplace();
+            var imagem = imagens[count - 1];
+            imagem.BordasLaplace(); ;
+            Visualizar(imagem);
+            pictureBox1.Image = imagens[count - 1].ImagemBMP;
         }
 
         private void StLinear_Click(object sender, EventArgs e)

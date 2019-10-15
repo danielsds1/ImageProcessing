@@ -35,12 +35,10 @@ namespace ImageProcessing
     }
     public enum MathOperationType
     {
-        adicaoLimiar = 1,
-        adicaoMedia = 2,
-        subtracaoLimiar = 3,
-        subtracaoMedia = 4,
-        multiplicacao = 5,
-        divisao = 6
+        adicao = 1,
+        subtracao = 2,
+        multiplicacao = 3,
+        divisao = 4
     }
     public enum ImageType
     {

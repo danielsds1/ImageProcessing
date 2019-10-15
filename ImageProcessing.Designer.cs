@@ -163,7 +163,6 @@
             this.desfazer.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
             this.desfazer.Size = new System.Drawing.Size(263, 22);
             this.desfazer.Text = "Desfazer";
-            this.desfazer.Visible = false;
             this.desfazer.Click += new System.EventHandler(this.Desfazer_Click);
             // 
             // opBasicas
