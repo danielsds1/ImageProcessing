@@ -180,6 +180,23 @@ namespace ImageProcessing
                 }
             }
         }
+
+        public void CreatePlainImage( int width, int height, int value)
+        {
+            int x, y, c;
+            MatrizCor = new ImagemInt
+            {
+                Height = height,
+                Width = width,
+                Matriz = new int[width, height,3] 
+            };
+            for (x = 0; x < width; x++)
+                for (y = 0; y < height; y++)
+                    for (c = 0; c <= 2; c++)
+                        MatrizCor.Matriz[x, y, c] = value;
+            this.imageType = ImageType.integer;
+
+        }
         public void ToBool()
         {
             int x, y;
@@ -394,17 +411,18 @@ namespace ImageProcessing
             if (this.imageType != ImageType.integer) { this.ToInt(); }
             int size = ((2 * raio + 1) * (2 * raio + 1));
             int[] r = new int[size];
-            int x, y, i, j, pos = 0,canal;
+            int x, y, i, j, pos = 0, canal;
             int w = MatrizCor.Width - 1;
             int h = MatrizCor.Height - 1;
             var aux = this.MatrizCor;
             for (x = raio; x <= w - raio; x++)
                 for (y = raio; y <= h - raio; y++)
-                    for (canal = 0; canal < 3; canal++){
+                    for (canal = 0; canal < 3; canal++)
+                    {
                         for (i = x - raio; i <= x + raio; i++)
                             for (j = y - raio; j <= y + raio; j++)
                                 r[pos++] = MatrizCor.Matriz[i, j, canal];
-                        Array.Sort(r);                     
+                        Array.Sort(r);
                         aux.Matriz[x, y, canal] = r[size / 2];
                         pos = 0;
                     }
@@ -413,39 +431,26 @@ namespace ImageProcessing
         public void FiltroMedia(int raio)
         {
             if (this.imageType != ImageType.integer) { this.ToInt(); }
-            int r = 0, g = 0, b = 0, x, y, i, j, canal;
-            //int[] rgb = { 0, 0, 0 };
+            int r = 0, x, y, i, j, canal;
             int width = MatrizCor.Width;
             int height = MatrizCor.Height;
             var aux = MatrizCor;
-
-            //int[] aux = new int[9];
             for (x = raio; x < width - raio; x++)
-            {
                 for (y = raio; y < height - raio; y++)
-                {
                     for (canal = 0; canal < 3; canal++)
                     {
                         for (i = x - raio; i <= x + raio; i++)
-                        {
                             for (j = y - raio; j <= y + raio; j++)
-                            {
                                 r += aux.Matriz[i, j, canal];
-                            }
-                        }
                         r /= 9;
                         aux.Matriz[x, y, canal] = r;
-                        r = 0; 
+                        r = 0;
                     }
-                }
-            }
             MatrizCor = aux;
         }
 
         public Image FiltroPassaAlta()
         {
-
-            //this.ToGray();
             if (this.imageType != ImageType.integer) { this.ToInt(); }
             int[,] maskX = new int[3, 3] { { -1, -1, -1 },
                                            { -1, 8, -1 },
@@ -782,7 +787,8 @@ namespace ImageProcessing
 
         public void MathOp(MathOperationType operation, Imagem imagemB)
         {
-            if (this.imageType != ImageType.integer) { this.ToInt(); }
+            if (this.imageType != ImageType.integer)
+                this.ToInt();
             if (imagemB != null)
             {
                 imagemB.ToInt();

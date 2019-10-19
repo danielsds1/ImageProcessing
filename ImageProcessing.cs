@@ -174,7 +174,7 @@ namespace ImageProcessing
                 Visualizador visualizador = new Visualizador
                 {
                     //visualizador.
-                    Text = text,
+                    Text = text
                 };
                 visualizador.Controls.Add(pb);
                 //visualizador.Controls.
@@ -330,13 +330,11 @@ namespace ImageProcessing
             var raioFiltro = new RaioFiltro();
             if (raioFiltro.ShowDialog() == DialogResult.OK)
             {
-
                 var imagem = imagens[count - 1];
                 imagem.FiltroMedia(raioFiltro.raio);
                 Visualizar(imagem);
                 pictureBox1.Image = imagens[count - 1].ImagemBMP;
             }
-            
         }
 
         private void FiltroMediana_Click(object sender, EventArgs e)
@@ -387,51 +385,36 @@ namespace ImageProcessing
         private void MediaImagens_Click(object sender, EventArgs e)
         {
             Imagem imagemA = imagens[0];
-            var numImg = imagens.Count();
             bool cond = true;
-            int MaxW = imagemA.MatrizCor.Width;
-            int MaxH = imagemA.MatrizCor.Height;
-            foreach (Imagem imagem in imagens)
-                if (MaxW < imagem.MatrizCor.Width){
-                    cond = false;
-                    break;
-                }
+            int k=1;
+            while (k < count && cond)
+                cond = imagemA.MatrizCor.Width >= imagens[k].MatrizCor.Width && imagemA.MatrizCor.Height >= imagens[k++].MatrizCor.Height;
             if (cond)
             {
-                int x, y, z;
-                int canal;
-                int[] rgb = { 0, 0, 0 };
-                for (x = 0; x < MaxW; x++)
-                    for (y = 0; y < MaxH; y++)
-                        for (canal = 0; canal < 3; canal++)
-                        {
-                            for (z = 0; z < numImg; z++)
-                                rgb[canal] += imagens[z].MatrizCor.Matriz[x, y, canal];
-                            imagemA.MatrizCor.Matriz[x, y, canal] = rgb[canal] / numImg;
-                            rgb[canal] = 0;
-                        }
+                for (k = 1; k < count; k++)
+                    imagemA.MathOp(MathOperationType.adicao, imagens[k]);
+                Imagem divisor = new Imagem();
+                divisor.CreatePlainImage(imagemA.MatrizCor.Width, imagemA.MatrizCor.Height, count);
+                imagemA.MathOp(MathOperationType.divisao, divisor);
                 Visualizar(imagemA, "Média de " + (count) + " imagens");
                 pictureBox1.Image = imagens[count - 1].ImagemBMP;
             }
             else
             {
-                MessageBox.Show("Arquivos possuem resoluções diferentes!");
+                MessageBox.Show("Imagens possuem resoluções diferentes!");
             }
         }
 
         private void OpQuantizacao_Click(object sender, EventArgs e)
         {
             Quantizacao quant = new Quantizacao();
-
             if (quant.ShowDialog() == DialogResult.OK)
             {
                 var imagem = imagens[count - 1];
                 imagem.ToQuant(quant.niveis);
                 Visualizar(imagem);
             }
-            //imagens[count-1].ToImage();
             pictureBox1.Image = imagens[count - 1].ImagemBMP;
-
         }
 
         private void TonsDeCinzaToolStripMenuItem_Click(object sender, EventArgs e)
