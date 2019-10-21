@@ -16,16 +16,19 @@ namespace ImageProcessing
         {
             InitializeComponent();
         }
-        public int limiar;
-        public int rsup;
-        public int rinf;
-        public int dispersao;
+        public int Limiar { get; set; }
+        public int Rsup { get; set; }
+        public int Rinf { get; set; }
+        public int Dispersao { get; set; }
+        public int Vizinhos { get; set; }
+
         private void BtnOK_Click(object sender, EventArgs e)
         {
-            rsup = (int)ValorRSup.Value;
-            rinf = (int)ValorRInf.Value;
-            limiar = (int)ValorLimiar.Value;
-            dispersao = (int)DtDim.Value;
+            Rsup = (int)ValorRSup.Value;
+            Rinf = (int)ValorRInf.Value;
+            Limiar = (int)ValorLimiar.Value;
+            Dispersao = (int)DtDim.Value;
+            Vizinhos = (int)dtVizinhos.Value;
             this.Invalidate();
             this.Close();
         }

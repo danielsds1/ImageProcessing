@@ -154,9 +154,13 @@ namespace ImageProcessing
             else
             {
                 int canal, x, y, h = MatrizCor.Height, w = MatrizCor.Width;
-                int max = MatrizCor.Matriz.Cast<int>().Max();
-                int min = MatrizCor.Matriz.Cast<int>().Min();
-                if (max > 255 || min < 00)
+                int[,] minmaxRGB = GetMinMax();
+                bool cond = false;
+                if (minmaxRGB[0, 0] > 255 || minmaxRGB[0, 1] > 255 || minmaxRGB[0, 2] > 255 || minmaxRGB[1, 0] < 0 || minmaxRGB[1, 1] < 0 || minmaxRGB[1, 2] < 0)
+                {
+                    cond = true;
+                }
+                if (cond)
                 {
                     if (tipo == Correcao.limiar)
                     {
@@ -175,20 +179,20 @@ namespace ImageProcessing
                         for (x = 0; x < w; x++)
                             for (y = 0; y < h; y++)
                                 for (canal = 0; canal < 3; canal++)
-                                    MatrizCor.Matriz[x, y, canal] = (MatrizCor.Matriz[x, y, canal] - min) * 255 / (max - min);
+                                    MatrizCor.Matriz[x, y, canal] = (MatrizCor.Matriz[x, y, canal] - minmaxRGB[1, canal]) * 255 / (minmaxRGB[0, canal] - minmaxRGB[1, canal]);
                     }
                 }
             }
         }
 
-        public void CreatePlainImage( int width, int height, int value)
+        public void CreatePlainImage(int width, int height, int value)
         {
             int x, y, c;
             MatrizCor = new ImagemInt
             {
                 Height = height,
                 Width = width,
-                Matriz = new int[width, height,3] 
+                Matriz = new int[width, height, 3]
             };
             for (x = 0; x < width; x++)
                 for (y = 0; y < height; y++)
@@ -199,78 +203,61 @@ namespace ImageProcessing
         }
         public void ToBool()
         {
-            int x, y;
-            if (this.imageType != ImageType.gray) { this.ToGray(); }
-            MatrizBool.Matriz = new bool[MatrizGray.Width, MatrizGray.Height];
-            MatrizBool.Width = ImagemBMP.Width;
-            MatrizBool.Height = ImagemBMP.Height;
-            int w = MatrizGray.Width, h = MatrizGray.Height;
-            for (x = 0; x < w; x++)
+            if (this.imageType != ImageType.binary)
             {
-                for (y = 0; y < h; y++)
-                {
-                    MatrizBool.Matriz[x, y] = (MatrizGray.Matriz[x, y] > 127) ? true : false;
-                }
+                int x, y;
+                this.ToGray();
+                MatrizBool.Matriz = new bool[MatrizGray.Width, MatrizGray.Height];
+                MatrizBool.Width = MatrizGray.Width;
+                MatrizBool.Height = MatrizGray.Height;
+                int w = MatrizGray.Width, h = MatrizGray.Height;
+                for (x = 0; x < w; x++)
+                    for (y = 0; y < h; y++)
+                        MatrizBool.Matriz[x, y] = (MatrizGray.Matriz[x, y] > 127) ? true : false;
+                imageType = ImageType.binary;
+                niveisCinza = 2;
+                this.ClearMatriz();
             }
-            imageType = ImageType.binary;
-            niveisCinza = 2;
-            this.ClearMatriz();
         }
         public void ToInt()
         {
-            int x, y;
-            int canal = 0;
             if (imageType != ImageType.integer)
             {
-                MatrizCor.Matriz = new int[ImagemBMP.Width, ImagemBMP.Height, 3];
-                MatrizCor.Width = ImagemBMP.Width;
-                MatrizCor.Height = ImagemBMP.Height;
-            }
-            switch (this.imageType)
-            {
-                case ImageType.color:
-                    Color color;
-
-                    for (x = 0; x < ImagemBMP.Width; x++)
-                    {
-                        for (y = 0; y < ImagemBMP.Height; y++)
-                        {
-                            color = ImagemBMP.GetPixel(x, y);
-                            MatrizCor.Matriz[x, y, 0] = (int)color.R;
-                            MatrizCor.Matriz[x, y, 1] = (int)color.G;
-                            MatrizCor.Matriz[x, y, 2] = (int)color.B;
-                        }
-                    }
-                    break;
-                case ImageType.binary:
-
-                    for (x = 0; x < MatrizCor.Width; x++)
-                    {
-                        for (y = 0; y < MatrizCor.Height; y++)
-                        {
-                            for (canal = 0; canal < 3; canal++)
+                int x, y;
+                int w = new int[] { ImagemBMP.Width, MatrizBool.Width, MatrizGray.Width }.Max(), h = new int[] { ImagemBMP.Height, MatrizBool.Height, MatrizGray.Height }.Max();
+                MatrizCor.Matriz = new int[w, h, 3];
+                MatrizCor.Width = w;
+                MatrizCor.Height = h;
+                int canal;
+                switch (this.imageType)
+                {
+                    case ImageType.color:
+                        Color color;
+                        for (x = 0; x < ImagemBMP.Width; x++)
+                            for (y = 0; y < ImagemBMP.Height; y++)
                             {
-                                MatrizCor.Matriz[x, y, canal] = MatrizBool.Matriz[x, y] ? 255 : 0;
+                                color = ImagemBMP.GetPixel(x, y);
+                                MatrizCor.Matriz[x, y, 0] = (int)color.R;
+                                MatrizCor.Matriz[x, y, 1] = (int)color.G;
+                                MatrizCor.Matriz[x, y, 2] = (int)color.B;
                             }
-                        }
-                    }
-                    break;
-                case ImageType.gray:
-                    for (x = 0; x < MatrizCor.Width; x++)
-                    {
-                        for (y = 0; y < MatrizCor.Height; y++)
-                        {
-                            for (canal = 0; canal < 3; canal++)
-                            {
-                                MatrizCor.Matriz[x, y, canal] = MatrizGray.Matriz[x, y];
-                            }
-                        }
-                    }
-                    break;
+                        break;
+                    case ImageType.binary:
+                        for (x = 0; x < MatrizCor.Width; x++)
+                            for (y = 0; y < MatrizCor.Height; y++)
+                                for (canal = 0; canal < 3; canal++)
+                                    MatrizCor.Matriz[x, y, canal] = MatrizBool.Matriz[x, y] ? 255 : 0;
+                        break;
+                    case ImageType.gray:
+                        for (x = 0; x < MatrizCor.Width; x++)
+                            for (y = 0; y < MatrizCor.Height; y++)
+                                for (canal = 0; canal < 3; canal++)
+                                    MatrizCor.Matriz[x, y, canal] = MatrizGray.Matriz[x, y];
+                        break;
+                }
+                imageType = ImageType.integer;
+                this.ClearMatriz();
             }
-
-            imageType = ImageType.integer;
-            this.ClearMatriz();
         }
         public void ToImage()
         {
@@ -280,33 +267,23 @@ namespace ImageProcessing
                 case ImageType.binary:
                     ImagemBMP = new Bitmap(MatrizBool.Width, MatrizBool.Height);
                     for (x = 0; x < MatrizBool.Width; x++)
-                    {
                         for (y = 0; y < MatrizBool.Height; y++)
                         {
                             r = MatrizBool.Matriz[x, y] ? 255 : 0;
                             ImagemBMP.SetPixel(x, y, Color.FromArgb(r, r, r));
                         }
-                    }
                     break;
                 case ImageType.integer:
                     ImagemBMP = new Bitmap(MatrizCor.Width, MatrizCor.Height);
                     for (x = 0; x < MatrizCor.Width; x++)
-                    {
                         for (y = 0; y < MatrizCor.Height; y++)
-                        {
                             ImagemBMP.SetPixel(x, y, Color.FromArgb(MatrizCor.Matriz[x, y, 0], MatrizCor.Matriz[x, y, 1], MatrizCor.Matriz[x, y, 2]));
-                        }
-                    }
                     break;
                 case ImageType.gray:
                     ImagemBMP = new Bitmap(MatrizGray.Width, MatrizGray.Height);
-                    for (x = 0; x < MatrizCor.Width; x++)
-                    {
-                        for (y = 0; y < MatrizCor.Height; y++)
-                        {
+                    for (x = 0; x < MatrizGray.Width; x++)
+                        for (y = 0; y < MatrizGray.Height; y++)
                             ImagemBMP.SetPixel(x, y, Color.FromArgb(MatrizGray.Matriz[x, y], MatrizGray.Matriz[x, y], MatrizGray.Matriz[x, y]));
-                        }
-                    }
                     break;
             }
 
@@ -315,31 +292,29 @@ namespace ImageProcessing
         }
         public void ToGray()
         {
-            if (this.imageType != ImageType.integer)
+            if (this.imageType != ImageType.gray)
             {
                 this.ToInt();
-            }
-            this.ToInt();
-            int gray = 0, canal, i, j;
-            double[] factors = { 0.299, 0.587, 0.144 };
-            MatrizGray.Matriz = new int[MatrizCor.Width, MatrizCor.Height];
-            MatrizGray.Width = MatrizCor.Width;
-            MatrizGray.Height = MatrizCor.Height;
-            for (i = 0; i < this.MatrizCor.Width; i++)
-            {
-                for (j = 0; j < this.MatrizCor.Height; j++)
+                int gray = 0, canal, i, j;
+                double[] factors = { 0.299, 0.587, 0.144 };
+                MatrizGray.Matriz = new int[MatrizCor.Width, MatrizCor.Height];
+                MatrizGray.Width = MatrizCor.Width;
+                MatrizGray.Height = MatrizCor.Height;
+                for (i = 0; i < this.MatrizCor.Width; i++)
                 {
-                    for (canal = 0; canal < 3; canal++)
+                    for (j = 0; j < this.MatrizCor.Height; j++)
                     {
-                        gray += (int)(factors[canal] * (double)MatrizCor.Matriz[i, j, canal]);
+                        for (canal = 0; canal < 3; canal++)
+                        {
+                            gray += (int)(factors[canal] * (double)MatrizCor.Matriz[i, j, canal]);
+                        }
+                        MatrizGray.Matriz[i, j] = gray;
+                        gray = 0;
                     }
-                    MatrizGray.Matriz[i, j] = gray;
-                    gray = 0;
                 }
+                imageType = ImageType.gray;
+                this.ClearMatriz();
             }
-
-            imageType = ImageType.gray;
-            this.ClearMatriz();
         }
         private void ClearMatriz()
         {
@@ -374,35 +349,27 @@ namespace ImageProcessing
         }
         public void ToQuant(int niveis)
         {
-            //if (this.imageType != ImageType.gray) { this.ToGray(); }
-
-            int canal, x, y, h = this.MatrizCor.Height, w = this.MatrizCor.Width;
-            if (this.imageType == ImageType.integer)
+            int canal, x, y, h = Math.Max(this.MatrizCor.Height, this.MatrizGray.Height), w = Math.Max(this.MatrizCor.Width, this.MatrizGray.Width);
+            switch (this.imageType)
             {
-                for (x = 0; x < w; x++)
-                {
-                    for (y = 0; y < h; y++)
-                    {
-                        for (canal = 0; canal < 3; canal++)
+                case ImageType.integer:
+                    for (x = 0; x < w; x++)
+                        for (y = 0; y < h; y++)
+                            for (canal = 0; canal < 3; canal++)
+                            {
+                                this.MatrizCor.Matriz[x, y, canal] /= (256 / niveis);
+                                this.MatrizCor.Matriz[x, y, canal] *= (256 / niveis);
+                            }
+                    break;
+                case ImageType.gray:
+                    for (x = 0; x < w; x++)
+                        for (y = 0; y < h; y++)
                         {
-                            this.MatrizCor.Matriz[x, y, canal] /= (256 / niveis);
-                            this.MatrizCor.Matriz[x, y, canal] *= (256 / niveis);
+                            this.MatrizGray.Matriz[x, y] /= (256 / niveis);
+                            this.MatrizGray.Matriz[x, y] *= (256 / niveis);
                         }
-                    }
-                }
+                    break;
             }
-            else if (this.imageType == ImageType.gray)
-            {
-                for (x = 0; x < w; x++)
-                {
-                    for (y = 0; y < h; y++)
-                    {
-                        this.MatrizGray.Matriz[x, y] /= (256 / niveis);
-                        this.MatrizGray.Matriz[x, y] *= (256 / niveis);
-                    }
-                }
-            }
-
             this.niveisCinza = niveis;
 
         }
@@ -449,317 +416,126 @@ namespace ImageProcessing
             MatrizCor = aux;
         }
 
-        public Image FiltroPassaAlta()
+        public void FiltroPassaAlta()
         {
             if (this.imageType != ImageType.integer) { this.ToInt(); }
             int[,] maskX = new int[3, 3] { { -1, -1, -1 },
                                            { -1, 8, -1 },
                                            { -1, -1, -1 } };
 
-            int rx = 0, gx = 0, bx = 0, x, y, i, j, k = 0, l = 0;
+            int rx = 0, x, y, i, j, k = 0, l = 0, c = 0;
 
-            int width = ImagemBMP.Width;
-            int height = ImagemBMP.Height;
+            int width = MatrizCor.Width, height = MatrizCor.Height;
             int[,,] G = new int[width, height, 3];
 
             for (x = 1; x < width - 1; x++)
-            {
                 for (y = 1; y < height - 1; y++)
-                {
-                    for (i = x - 1; i < x + 2; i++)
+                    for (c = 0; c <= 2; c++)
                     {
-                        for (j = y - 1; j < y + 2; j++)
+                        for (i = x - 1; i < x + 2; i++)
                         {
-                            rx += (MatrizCor.Matriz[i, j, 0] * maskX[k, l]);
-                            gx += MatrizCor.Matriz[i, j, 1] * maskX[k, l];
-                            bx += MatrizCor.Matriz[i, j, 2] * maskX[k, l];
-                            k++;
+                            for (j = y - 1; j < y + 2; j++)
+                            {
+                                rx += (MatrizCor.Matriz[i, j, c] * maskX[k, l]);
+                                k++;
+                            }
+                            k = 0;
+                            l++;
                         }
-                        k = 0;
-                        l++;
+                        G[x, y, c] = (int)Math.Abs(rx) / 9;
+                        rx = 0;
+                        l = 0;
                     }
-
-                    //aux= (int)Math.Sqrt(Math.Pow((double)rx,2.0) + Math.Pow((double)ry,2.0))/9;
-
-                    G[x, y, 0] = (int)Math.Abs(rx) / 9;
-                    G[x, y, 1] = (int)Math.Abs(gx) / 9;
-                    G[x, y, 2] = (int)Math.Abs(bx) / 9;
-
-                    rx = 0; gx = 0; bx = 0;
-                    l = 0;
-                }
-            }
             MatrizCor.Matriz = G;
-            this.ToImage();
-            return (Image)ImagemBMP;
         }
 
-        public Image BordasSobel()
+        public void Bordas(EdgeDetection borda)
         {
-            if (this.imageType != ImageType.integer) { this.ToInt(); }
-            double[,] maskX = new double[3, 3] { { -1, 00, 01 },
-                                           { -2, 00, 02 },
-                                           { -1, 00, 01 } };
-            double[,] maskY = new double[3, 3] { { -1, -2, -1 },
-                                           { 00, 00, 00 },
-                                           { 01, 02, 01 } };
+            this.ToInt();
+            double[,] maskX = new double[3, 3], maskY = new double[3, 3];
+            int el = 9;
+            switch (borda)
+            {
+                case EdgeDetection.Sobel:
+                    maskX = new double[3, 3] {{ -1, 00, 01 },
+                                              { -2, 00, 02 },
+                                              { -1, 00, 01 }};
+                    maskY = new double[3, 3] {{ -1, -2, -1 },
+                                              { 00, 00, 00 },
+                                              { 01, 02, 01 } };
+                    break;
+                case EdgeDetection.Isotropico:
+                    maskX = new double[3, 3] { { -1, 00, 01 },
+                                               { -1.4142135624, 00, 1.4142135624 },
+                                               { -1, 00, 01 } };
+                    maskY = new double[3, 3] { { -1, -1.4142135624, -1 },
+                                               { 00, 00, 00 },
+                                               { 01, 1.4142135624, 01 } };
+                    break;
+                case EdgeDetection.Laplace:
+                    maskX = new double[3, 3] {{  0, -1,  0 },
+                                              { -1,  4, -1 },
+                                              {  0, -1,  0 }};
 
-            double rx = 0, gx = 0, bx = 0, ry = 0, gy = 0, by = 0;
-            int x, y, i, j, k = 0, l = 0;
+                    maskY = new double[3, 3] {{ -1, -1, -1 },
+                                              { -1,  8, -1 },
+                                              { -1, -1, -1 }};
+                    break;
+                case EdgeDetection.Prewitt:
+                    maskX = new double[3, 3] { { -1, -1, -1 },
+                                               { 00, 00, 00 },
+                                               { 01, 01, 01 } };
+                    maskY = new double[3, 3] { { -1, 00, 01 },
+                                               { -1, 00, 01 },
+                                               { -1, 00, 01 } };
+                    break;
 
-            int width = ImagemBMP.Width;
-            int height = ImagemBMP.Height;
+                case EdgeDetection.Roberts:
+                    maskX = new double[3, 3] { { 00, 00, 00 },
+                                               { 00, 01, 00 },
+                                               { 00, 00, -1 } };
+                    maskY = new double[3, 3] { { 00, 00, 00 },
+                                               { 00, 00, 01 },
+                                               { 00, -1, 00 } };
+                    el = 4;
+                    break;
+
+            }
+            double rx = 0, ry = 0;
+            int x, y, i, j, k = 0, l = 0, canal, width = MatrizCor.Width, height = MatrizCor.Height;
             int[,,] G = new int[width, height, 3];
 
             for (x = 1; x < width - 1; x++)
-            {
                 for (y = 1; y < height - 1; y++)
-                {
-                    for (i = x - 1; i < x + 2; i++)
+                    for (canal = 0; canal < 3; canal++)
                     {
-                        for (j = y - 1; j < y + 2; j++)
+                        for (i = x - 1; i < x + 2; i++)
                         {
-                            rx += (MatrizCor.Matriz[i, j, 0] * maskX[k, l]);
-                            gx += (MatrizCor.Matriz[i, j, 1] * maskX[k, l]);
-                            bx += (MatrizCor.Matriz[i, j, 2] * maskX[k, l]);
-                            ry += (MatrizCor.Matriz[i, j, 0] * maskY[k, l]);
-                            gy += (MatrizCor.Matriz[i, j, 1] * maskY[k, l]);
-                            by += (MatrizCor.Matriz[i, j, 2] * maskY[k, l]);
-                            k++;
+                            for (j = y - 1; j < y + 2; j++)
+                            {
+                                rx += (MatrizCor.Matriz[i, j, canal] * maskX[k, l]);
+                                ry += (MatrizCor.Matriz[i, j, canal] * maskY[k, l]);
+                                k++;
+                            }
+                            k = 0;
+                            l++;
                         }
-                        k = 0;
-                        l++;
+                        G[x, y, canal] = (int)(Math.Sqrt(Math.Pow(rx, 2.0) + Math.Pow(ry, 2.0)) / el);
+                        rx = 0; ry = 0;
+                        l = 0;
                     }
-
-                    G[x, y, 0] = (int)Math.Sqrt(Math.Pow(rx, 2.0) + Math.Pow(ry, 2.0)) / 9;
-                    G[x, y, 1] = (int)Math.Sqrt(Math.Pow(gx, 2.0) + Math.Pow(gy, 2.0)) / 9;
-                    G[x, y, 2] = (int)Math.Sqrt(Math.Pow(bx, 2.0) + Math.Pow(by, 2.0)) / 9;
-
-                    rx = 0; gx = 0; bx = 0;
-                    ry = 0; gy = 0; by = 0;
-                    l = 0;
-                }
-            }
             MatrizCor.Matriz = G;
-            this.ToImage();
-            return (Image)ImagemBMP;
         }
-        public Image BordasPrewitt()
+
+        public void LogicOp(LogicOperationType operation, Imagem imagemB)
         {
-            if (this.imageType != ImageType.integer) { this.ToInt(); }
-            double[,] maskX = new double[3, 3] { { -1, -1, -1 },
-                                                 { 00, 00, 00 },
-                                                 { 01, 01, 01 } };
-            double[,] maskY = new double[3, 3] { { -1, 00, 01 },
-                                                 { -1, 00, 01 },
-                                                 { -1, 00, 01 } };
-
-            double rx = 0, gx = 0, bx = 0, ry = 0, gy = 0, by = 0;
-            int x, y, i, j, k = 0, l = 0;
-
-            int width = ImagemBMP.Width;
-            int height = ImagemBMP.Height;
-            int[,,] G = new int[width, height, 3];
-
-            for (x = 1; x < width - 1; x++)
-            {
-                for (y = 1; y < height - 1; y++)
-                {
-                    for (i = x - 1; i < x + 2; i++)
-                    {
-                        for (j = y - 1; j < y + 2; j++)
-                        {
-                            rx += (MatrizCor.Matriz[i, j, 0] * maskX[k, l]);
-                            gx += (MatrizCor.Matriz[i, j, 1] * maskX[k, l]);
-                            bx += (MatrizCor.Matriz[i, j, 2] * maskX[k, l]);
-                            ry += (MatrizCor.Matriz[i, j, 0] * maskY[k, l]);
-                            gy += (MatrizCor.Matriz[i, j, 1] * maskY[k, l]);
-                            by += (MatrizCor.Matriz[i, j, 2] * maskY[k, l]);
-                            k++;
-                        }
-                        k = 0;
-                        l++;
-                    }
-
-                    G[x, y, 0] = (int)Math.Sqrt(Math.Pow(rx, 2.0) + Math.Pow(ry, 2.0)) / 9;
-                    G[x, y, 1] = (int)Math.Sqrt(Math.Pow(gx, 2.0) + Math.Pow(gy, 2.0)) / 9;
-                    G[x, y, 2] = (int)Math.Sqrt(Math.Pow(bx, 2.0) + Math.Pow(by, 2.0)) / 9;
-
-                    rx = 0; gx = 0; bx = 0;
-                    ry = 0; gy = 0; by = 0;
-                    l = 0;
-                }
-            }
-            MatrizCor.Matriz = G;
-            this.ToImage();
-            return (Image)ImagemBMP;
-        }
-        public Image BordasRoberts()
-        {
-            if (this.imageType != ImageType.integer) { this.ToInt(); }
-            double[,] maskX = new double[2, 2] { { 1, 0},
-                                                 { 0, -1}};
-            double[,] maskY = new double[2, 2] { { 0, 1},
-                                                 { -1, 0}};
-
-            double rx = 0, gx = 0, bx = 0, ry = 0, gy = 0, by = 0;
-            int x, y, i, j, k = 0, l = 0;
-
-            int width = ImagemBMP.Width;
-            int height = ImagemBMP.Height;
-            int[,,] G = new int[width, height, 3];
-
-            for (x = 0; x < width - 1; x++)
-            {
-                for (y = 0; y < height - 1; y++)
-                {
-                    for (i = x; i < x + 2; i++)
-                    {
-                        for (j = y; j < y + 2; j++)
-                        {
-                            rx += (MatrizCor.Matriz[i, j, 0] * maskX[k, l]);
-                            gx += (MatrizCor.Matriz[i, j, 1] * maskX[k, l]);
-                            bx += (MatrizCor.Matriz[i, j, 2] * maskX[k, l]);
-                            ry += (MatrizCor.Matriz[i, j, 0] * maskY[k, l]);
-                            gy += (MatrizCor.Matriz[i, j, 1] * maskY[k, l]);
-                            by += (MatrizCor.Matriz[i, j, 2] * maskY[k, l]);
-                            k++;
-                        }
-                        k = 0;
-                        l++;
-                    }
-
-                    G[x, y, 0] = (int)Math.Sqrt(Math.Pow(rx, 2.0) + Math.Pow(ry, 2.0)) / 4;
-                    G[x, y, 1] = (int)Math.Sqrt(Math.Pow(gx, 2.0) + Math.Pow(gy, 2.0)) / 4;
-                    G[x, y, 2] = (int)Math.Sqrt(Math.Pow(bx, 2.0) + Math.Pow(by, 2.0)) / 4;
-
-                    rx = 0; gx = 0; bx = 0;
-                    ry = 0; gy = 0; by = 0;
-                    l = 0;
-                }
-            }
-            MatrizCor.Matriz = G;
-            this.ToImage();
-            return (Image)ImagemBMP;
-        }
-        public Image BordasIsotropico()
-        {
-            if (this.imageType != ImageType.integer) { this.ToInt(); }
-            double[,] maskX = new double[3, 3] { { -1, 00, 01 },
-                                           { -1.4142135624, 00, 1.4142135624 },
-                                           { -1, 00, 01 } };
-            double[,] maskY = new double[3, 3] { { -1, -1.4142135624, -1 },
-                                           { 00, 00, 00 },
-                                           { 01, 1.4142135624, 01 } };
-
-            //double[,] maskX = new double[3, 3] { { -1.0, 0.0, 1.0 },{ -2‬, 0.0, -2 },{ -1.0, 0.0, 1.0 }};
-            //double[,] maskY = new double[3, 3] { { -1.0, -2, -1.0 },{ 0.0, 0.0, 0.0 },{ 01, 1.4142135624, 01 }};
-
-            double rx = 0, gx = 0, bx = 0, ry = 0, gy = 0, by = 0;
-            int x, y, i, j, k = 0, l = 0;
-
-            int width = ImagemBMP.Width;
-            int height = ImagemBMP.Height;
-            int[,,] G = new int[width, height, 3];
-
-            for (x = 1; x < width - 1; x++)
-            {
-                for (y = 1; y < height - 1; y++)
-                {
-                    for (i = x - 1; i < x + 2; i++)
-                    {
-                        for (j = y - 1; j < y + 2; j++)
-                        {
-                            rx += (MatrizCor.Matriz[i, j, 0] * maskX[k, l]);
-                            gx += (MatrizCor.Matriz[i, j, 1] * maskX[k, l]);
-                            bx += (MatrizCor.Matriz[i, j, 2] * maskX[k, l]);
-                            ry += (MatrizCor.Matriz[i, j, 0] * maskY[k, l]);
-                            gy += (MatrizCor.Matriz[i, j, 1] * maskY[k, l]);
-                            by += (MatrizCor.Matriz[i, j, 2] * maskY[k, l]);
-                            k++;
-                        }
-                        k = 0;
-                        l++;
-                    }
-
-                    G[x, y, 0] = (int)Math.Sqrt(Math.Pow(rx, 2.0) + Math.Pow(ry, 2.0)) / 9;
-                    G[x, y, 1] = (int)Math.Sqrt(Math.Pow(gx, 2.0) + Math.Pow(gy, 2.0)) / 9;
-                    G[x, y, 2] = (int)Math.Sqrt(Math.Pow(bx, 2.0) + Math.Pow(by, 2.0)) / 9;
-
-                    rx = 0; gx = 0; bx = 0;
-                    ry = 0; gy = 0; by = 0;
-                    l = 0;
-                }
-            }
-            MatrizCor.Matriz = G;
-            this.ToImage();
-            return (Image)ImagemBMP;
-        }
-        public Image BordasLaplace()
-        {
-            if (this.imageType != ImageType.integer) { this.ToInt(); }
-            double[,] maskX = new double[3, 3] {{  0, -1,  0 },
-                                                { -1,  4, -1 },
-                                                {  0, -1,  0 }};
-
-            double[,] maskY = new double[3, 3] {{ -1, -1, -1 },
-                                                { -1,  8, -1 },
-                                                { -1, -1, -1 }};
-
-            double rx = 0, gx = 0, bx = 0, ry = 0, gy = 0, by = 0;
-            int x, y, i, j, k = 0, l = 0;
-
-            int width = ImagemBMP.Width;
-            int height = ImagemBMP.Height;
-            int[,,] G = new int[width, height, 3];
-
-            for (x = 1; x < width - 1; x++)
-            {
-                for (y = 1; y < height - 1; y++)
-                {
-                    for (i = x - 1; i < x + 2; i++)
-                    {
-                        for (j = y - 1; j < y + 2; j++)
-                        {
-                            rx += (MatrizCor.Matriz[i, j, 0] * maskX[k, l]);
-                            gx += (MatrizCor.Matriz[i, j, 1] * maskX[k, l]);
-                            bx += (MatrizCor.Matriz[i, j, 2] * maskX[k, l]);
-                            ry += (MatrizCor.Matriz[i, j, 0] * maskY[k, l]);
-                            gy += (MatrizCor.Matriz[i, j, 1] * maskY[k, l]);
-                            by += (MatrizCor.Matriz[i, j, 2] * maskY[k, l]);
-                            k++;
-                        }
-                        k = 0;
-                        l++;
-                    }
-
-                    G[x, y, 0] = (int)Math.Sqrt(Math.Pow(rx, 2.0) + Math.Pow(ry, 2.0)) / 9;
-                    G[x, y, 1] = (int)Math.Sqrt(Math.Pow(gx, 2.0) + Math.Pow(gy, 2.0)) / 9;
-                    G[x, y, 2] = (int)Math.Sqrt(Math.Pow(bx, 2.0) + Math.Pow(by, 2.0)) / 9;
-
-                    rx = 0; gx = 0; bx = 0;
-                    ry = 0; gy = 0; by = 0;
-                    l = 0;
-                }
-            }
-            MatrizCor.Matriz = G;
-            this.ToImage();
-            return (Image)ImagemBMP;
-        }
-        public Image LogicOp(LogicOperationType operation, Imagem imagemB)
-        {
-            if (this.imageType != ImageType.binary) { this.ToBool(); }
-
+            this.ToBool();
             if (imagemB == null)
                 imagemB = this;
-
-            if (imagemB.imageType != ImageType.binary) { imagemB.ToBool(); }
-
+            imagemB.ToBool();
             int x, y;
             for (x = 0; x < imagemB.MatrizBool.Width; x++)
-            {
                 for (y = 0; y < imagemB.MatrizBool.Height; y++)
-                {
                     switch (operation)
                     {
                         case LogicOperationType.not:
@@ -775,14 +551,9 @@ namespace ImageProcessing
                             this.MatrizBool.Matriz[x, y] = this.MatrizBool.Matriz[x, y] && !imagemB.MatrizBool.Matriz[x, y];
                             break;
                         case LogicOperationType.xor:
-                            this.MatrizBool.Matriz[x, y] = this.MatrizBool.Matriz[x, y] && !imagemB.MatrizBool.Matriz[x, y] || !this.MatrizBool.Matriz[x, y] && this.MatrizBool.Matriz[x, y];
+                            this.MatrizBool.Matriz[x, y] = (this.MatrizBool.Matriz[x, y] && !imagemB.MatrizBool.Matriz[x, y]) || (!this.MatrizBool.Matriz[x, y] && imagemB.MatrizBool.Matriz[x, y]);
                             break;
                     }
-                }
-            }
-            this.ToImage();
-
-            return this.ImagemBMP;
         }
 
         public void MathOp(MathOperationType operation, Imagem imagemB)
@@ -865,48 +636,32 @@ namespace ImageProcessing
             return (Image)ImagemBMP;
         }
 
-        public Image ToLimiar(int limiar)
+        public void ToLimiar(int limiar)
         {
-            int x, y, h = MatrizCor.Height, w = MatrizCor.Width;
-            if (this.imageType != ImageType.gray) { this.ToGray(); }
-
+            this.ToGray();
+            int x, y, h = MatrizGray.Height, w = MatrizGray.Width;
             for (x = 0; x < w; x++)
-            {
                 for (y = 0; y < h; y++)
-                {
-                    MatrizCor.Matriz[x, y, 0] = (MatrizCor.Matriz[x, y, 0] > limiar) ? 255 : 0;
-                    //MatrizInt.Matriz[x, y, 1] = MatrizInt.Matriz[x, y, 0];
-                    //MatrizInt.Matriz[x, y, 2] = MatrizInt.Matriz[x, y, 0];
-                }
-            }
+                    MatrizGray.Matriz[x, y] = (MatrizGray.Matriz[x, y] > limiar) ? 255 : 0;
 
-            this.ToImage();
-            return this.ImagemBMP;
         }
-        public Image ToLimiarAleatorio(int limiar, int limRandomInf, int limRandomSup)
+        public void ToLimiarAleatorio(int limiar, int limRandomInf, int limRandomSup)
         {
-            int x, y, h = MatrizCor.Height, w = MatrizCor.Width;
+            this.ToGray();
+            int x, y, h = MatrizGray.Height, w = MatrizGray.Width;
             Random rnd = new Random();
-            int rand;
-            if (this.imageType != ImageType.gray) { this.ToGray(); }
-            int temp;
+            int rand, temp;
             for (x = 0; x < w; x++)
-            {
                 for (y = 0; y < h; y++)
                 {
                     rand = rnd.Next(limRandomInf, limRandomSup + 1);
-                    temp = MatrizCor.Matriz[x, y, 0] + rand;
-
-                    MatrizCor.Matriz[x, y, 0] = (temp > limiar) ? 255 : 0;
+                    temp = MatrizGray.Matriz[x, y] + rand;
+                    MatrizGray.Matriz[x, y] = (temp > limiar) ? 255 : 0;
                 }
-            }
-            this.ToImage();
-            return this.ImagemBMP;
         }
 
-        public Image ToPeriodicoDispersao(int quant)
+        public void ToPeriodicoDispersao(int dispersao)
         {
-
             int[,] D2 = new int[,] { { 0 * 64, 2 * 64 },
                                      { 3 * 64, 1 * 64 } };
 
@@ -919,62 +674,28 @@ namespace ImageProcessing
                                      { 03 * 16, 11 * 16, 01 * 16, 09 * 16 },
                                      { 15 * 16, 07 * 16, 13 * 16, 05 * 16 } };
 
-            List<int[,]> D = new List<int[,]>
-            {
-                D2,
-                D3,
-                D4
-            };
-
-            int i, j, x, y, h = MatrizCor.Height, w = MatrizCor.Width;
-            if (this.imageType != ImageType.gray) { this.ToGray(); }
-
+            List<int[,]> D = new List<int[,]> { D2, D3, D4 };
+            this.ToGray();
+            int i, j, x, y, h = MatrizGray.Height, w = MatrizGray.Width;
             for (x = 0; x < w; x++)
-            {
                 for (y = 0; y < h; y++)
                 {
-                    i = x % quant;
-                    j = y % quant;
-                    if (MatrizCor.Matriz[x, y, 0] > D[quant - 2][i, j])
-                    {
-                        MatrizCor.Matriz[x, y, 0] = 255;
-                    }
+                    i = x % dispersao;
+                    j = y % dispersao;
+                    if (MatrizGray.Matriz[x, y] > D[dispersao - 2][i, j])
+                        MatrizGray.Matriz[x, y] = 255;
                     else
-                    {
-                        MatrizCor.Matriz[x, y, 0] = 0;
-                    }
+                        MatrizGray.Matriz[x, y] = 0;
                 }
-            }
-            this.ToImage();
-            return this.ImagemBMP;
         }
-        public int GetMedia()
+
+        public void ToAperiodicoDispersao(int vizinhos)
         {
-            int x, y, h = MatrizCor.Height, w = MatrizCor.Width;
-            long m = 0;
-            //if (this.imageType != ImageType.gray) { this.ToGray(); }
-            for (x = 0; x < w; x++)
-            {
+            this.ToGray();
+            int x, y, h = MatrizGray.Height - 1, w = MatrizGray.Width - 1, erro;
+            int media = GetMedia();
+            if (vizinhos == 3)
                 for (y = 0; y < h; y++)
-                {
-                    m += (long)MatrizCor.Matriz[x, y, 0];
-                }
-            }
-            Console.WriteLine("A média é:" + m);
-            return (int)(m / (w * h));
-        }
-        public Image ToAperiodicoDispersao(int quant)
-        {
-            int x, y, h = MatrizCor.Height - 1, w = MatrizCor.Width - 1, erro;
-
-            if (this.imageType != ImageType.gray) { this.ToGray(); }
-
-            if (quant == 2)
-            {
-                int media = GetMedia();
-
-                for (y = 0; y < h; y++)
-                {
                     for (x = 0; x < w; x++)
                     {
                         if (MatrizGray.Matriz[x, y] < media)
@@ -991,12 +712,7 @@ namespace ImageProcessing
                         MatrizGray.Matriz[x, y + 1] += (erro * 3 / 8);
                         MatrizGray.Matriz[x + 1, y + 1] += (erro * 2 / 8);
                     }
-                }
-            }
             else
-            {
-
-                int media = GetMedia();
                 for (y = 0; y < h; y++)
                 {
                     for (x = 1; x < w; x++)
@@ -1017,12 +733,94 @@ namespace ImageProcessing
                         MatrizGray.Matriz[x + 1, y + 1] += (erro * 1 / 16);
                     }
                 }
-            }
+            this.CorrecaoMinMax(Correcao.proporcao);
+        }
+        public void ToPeriodicoAglomeracao(int dispersao)
+        {
+            this.ToGray();
+            var Matriz = new int[MatrizGray.Width * dispersao, MatrizGray.Width * dispersao];
+            
+            int[,] D2 = new int[,] { { 0 * 64, 2 * 64 },
+                                     { 3 * 64, 1 * 64 } };
 
+            int[,] D3 = new int[,] { { 06 * 28, 04 * 28, 08 * 28 },
+                                     { 01 * 28, 00 * 28, 03 * 28 },
+                                     { 05 * 28, 02 * 28, 07 * 28 } };
 
-            this.CorrecaoMinMax(Correcao.limiar);
-            this.ToImage();
-            return this.ImagemBMP;
+            int[,] D4 = new int[,] { { 00 * 16, 08 * 16, 02 * 16, 10 * 16 },
+                                     { 12 * 16, 04 * 16, 14 * 16, 06 * 16 },
+                                     { 03 * 16, 11 * 16, 01 * 16, 09 * 16 },
+                                     { 15 * 16, 07 * 16, 13 * 16, 05 * 16 } };
+
+            List<int[,]> D = new List<int[,]> { D2, D3, D4 };
+            int i, j, x, y, h = MatrizGray.Height * dispersao, w = MatrizGray.Width * dispersao;
+            for (x = 0; x < w; x++)
+                for (y = 0; y < h; y++)
+                {
+                    i = x % dispersao;
+                    j = y % dispersao;
+                    if (MatrizGray.Matriz[x / dispersao, y / dispersao] > D[dispersao - 2][i, j])
+                        Matriz[x, y] = 255;
+                    else
+                        Matriz[x, y] = 0;
+                }
+            MatrizGray.Matriz = new int[MatrizGray.Width * dispersao, MatrizGray.Width * dispersao];
+            MatrizGray.Matriz = Matriz;
+            MatrizGray.Width *= dispersao;
+            MatrizGray.Height *= dispersao;
+            //return Matriz;
+        }
+
+        public int GetMedia()
+        {
+            int x, y, h = MatrizGray.Height, w = MatrizGray.Width;
+            long m = 0;
+            for (x = 0; x < w; x++)
+                for (y = 0; y < h; y++)
+                    m += (long)MatrizGray.Matriz[x, y];
+            return (int)(m / (w * h));
+        }
+        public int[,] GetMinMax()
+        {
+            int[,] RGB = { { 255, 255, 255 }, { 0, 0, 0 } };
+            int x, y, c;
+
+            for (x = 0; x < MatrizCor.Width; x++)
+                for (y = 0; y < MatrizCor.Height; y++)
+                    for (c = 0; c <= 2; c++)
+                    {
+                        if (MatrizCor.Matriz[x, y, c] > RGB[0, c])
+                            RGB[0, c] = MatrizCor.Matriz[x, y, c];
+                        if (MatrizCor.Matriz[x, y, c] < RGB[1, c])
+                            RGB[0, c] = MatrizCor.Matriz[x, y, c];
+                    }
+            return RGB;
+        }
+        public void Stretching(StretchingType stretching, double A, double B)
+        {
+            this.ToInt();
+            int x, y, c, h = MatrizCor.Height, w = MatrizCor.Width;
+            for (x = 0; x < w; x++)
+                for (y = 0; y < h; y++)
+                    for (c = 0; c <= 2; c++)
+                        switch (stretching)
+                        {
+                            case StretchingType.linear:
+                                MatrizCor.Matriz[x, y, c] = (int)(MatrizCor.Matriz[x, y, c] * A + B);
+                                break;
+                            case StretchingType.log:
+                                MatrizCor.Matriz[x, y, c] = (int)(A * Math.Log10(MatrizCor.Matriz[x, y, 0] + 1));
+                                break;
+                            case StretchingType.neg:
+                                MatrizCor.Matriz[x, y, c] = (int)(-(MatrizCor.Matriz[x, y, 0] * A + B));
+                                break;
+                            case StretchingType.quad:
+                                MatrizCor.Matriz[x, y, c] = (int)(A * Math.Pow(MatrizCor.Matriz[x, y, c], 2));
+                                break;
+                            case StretchingType.srqt:
+                                MatrizCor.Matriz[x, y, c] = (int)(A * Math.Sqrt(MatrizCor.Matriz[x, y, c]));
+                                break;
+                        }
         }
     }
 }

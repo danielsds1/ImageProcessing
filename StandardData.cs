@@ -49,8 +49,25 @@ namespace ImageProcessing
     }
     public enum Correcao
     {
-        limiar=0,
-        proporcao=1
+        limiar = 0,
+        proporcao = 1
+    }
+    public enum StretchingType
+    {
+        linear = 0,
+        quad = 1,
+        srqt = 2,
+        log = 3,
+        neg = 4
+    }
+    public enum EdgeDetection
+    {
+        Sobel = 0,
+        Prewitt = 1,
+        Isotropico = 2,
+        Laplace = 3,
+        Roberts = 4,
+
     }
     //public enum MaskType
     //{
@@ -66,6 +83,6 @@ namespace ImageProcessing
     //public struct MaskMatrix
     //{
     //    public double[,] passaAlta = new double[,] { { -1.0, -1.0, -1.0 }, { -1.0, -1.0, -1.0 }, { -1.0, -1.0, -1.0 } };
-        
+
     //}
 }

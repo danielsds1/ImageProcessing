@@ -23,7 +23,6 @@ namespace ImageProcessing
 
         public ImageProcessing()
         {
-
             InitializeComponent();
             oDlg = new OpenFileDialog
             {
@@ -41,9 +40,7 @@ namespace ImageProcessing
                 //InitialDirectory = "C:\\Users\\",
                 FilterIndex = 1,
                 Filter = "jpg Files (*.jpg)|*.jpg|gif Files (*.gif)|*.gif|png Files (*.png)|*.png;*.PNG |bmp Files (*.bmp)|*.bmp"
-            }; // Save Dialog Initialization
-            /*************************/
-            //cZoom = menuItemZoom100; // Current Zoom Percentage = 100%
+            };
         }
 
         private void SalvarArquivo_Click(object sender, EventArgs e)
@@ -166,7 +163,7 @@ namespace ImageProcessing
                     Height = imagemA.ImagemBMP.Height,
                     Width = imagemA.ImagemBMP.Width,
                     Image = imagemA.ImagemBMP,
-                    SizeMode = PictureBoxSizeMode.Zoom
+                    SizeMode = PictureBoxSizeMode.AutoSize
                 };
                 //pb.
                 imagens.Add(imagemA);
@@ -174,7 +171,7 @@ namespace ImageProcessing
                 Visualizador visualizador = new Visualizador
                 {
                     //visualizador.
-                    Text = text
+                    Text = text,
                 };
                 visualizador.Controls.Add(pb);
                 //visualizador.Controls.
@@ -261,27 +258,61 @@ namespace ImageProcessing
 
         private void LogicNot_Click(object sender, EventArgs e)
         {
-            pictureBox1.Image = imagens[count - 1].LogicOp(LogicOperationType.not, null);
+            var count2 = count;
+            for (int k = 0; k < count2; k++)
+            {
+                var imagem = imagens[k];
+                imagem.LogicOp(LogicOperationType.not, null);
+                Visualizar(imagem, "NOT " + imagem.NomeArquivo());
+            }
+
+            pictureBox1.Image = imagens[count - 1].ImagemBMP;
         }
 
         private void LogicOr_Click(object sender, EventArgs e)
         {
-            pictureBox1.Image = imagens[count - 1].LogicOp(LogicOperationType.or, GetImagemB());
+            Imagem imagemA = imagens[0];
+            if (count == 1)
+                Visualizar(GetImagemB());
+            for (int k = 1; k < count; k++)
+                imagemA.LogicOp(LogicOperationType.or, imagens[k]);
+            Visualizar(imagemA, "OR");
+            pictureBox1.Image = imagens[count - 1].ImagemBMP;
+            //pictureBox1.Image = imagens[count - 1].LogicOp(LogicOperationType.or, GetImagemB());
         }
 
         private void LogicAnd_Click(object sender, EventArgs e)
         {
-            pictureBox1.Image = imagens[count - 1].LogicOp(LogicOperationType.and, GetImagemB());
+            Imagem imagemA = imagens[0];
+            if (count == 1)
+                Visualizar(GetImagemB());
+            for (int k = 1; k < count; k++)
+                imagemA.LogicOp(LogicOperationType.and, imagens[k]);
+            Visualizar(imagemA, "AND");
+            pictureBox1.Image = imagens[count - 1].ImagemBMP;
         }
 
         private void LogicXor_Click(object sender, EventArgs e)
         {
-            pictureBox1.Image = imagens[count - 1].LogicOp(LogicOperationType.xor, GetImagemB());
+            Imagem imagemA = imagens[0];
+            if (count == 1)
+                Visualizar(GetImagemB());
+            for (int k = 1; k < count; k++)
+                imagemA.LogicOp(LogicOperationType.xor, imagens[k]);
+            Visualizar(imagemA, "XOR");
+            pictureBox1.Image = imagens[count - 1].ImagemBMP;
         }
 
         private void LogicSub_Click(object sender, EventArgs e)
         {
-            pictureBox1.Image = imagens[count - 1].LogicOp(LogicOperationType.sub, GetImagemB());
+            Imagem imagemA = imagens[0];
+            if (count == 1)
+                Visualizar(GetImagemB());
+            for (int k = 1; k < count; k++)
+                imagemA.LogicOp(LogicOperationType.sub, imagens[k]);
+            Visualizar(imagemA, "SUB");
+            pictureBox1.Image = imagens[count - 1].ImagemBMP;
+            //pictureBox1.Image = imagens[count - 1].LogicOp(LogicOperationType.sub, GetImagemB());
         }
 
         public Imagem GetImagemB()
@@ -324,7 +355,26 @@ namespace ImageProcessing
             return null;
 
         }
+        private void Desfazer_Click(object sender, EventArgs e)
+        {
+            if (count > 1)
+            {
 
+                imagens.RemoveAt(count - 1);
+                count--;
+                imagens[count - 1].ToImage();
+                pictureBox1.Image = imagens[count - 1].ImagemBMP;
+                imagens[count - 1].ToInt();
+            }
+            else
+            {
+                pictureBox1.Image = new Bitmap(1, 1);
+                imagens.Clear();
+                count = 0;
+                editarMenu.Enabled = false;
+                salvarArquivo.Enabled = false;
+            }
+        }
         private void FiltroMedia_Click(object sender, EventArgs e)
         {
             var raioFiltro = new RaioFiltro();
@@ -349,25 +399,6 @@ namespace ImageProcessing
             }
         }
 
-        private void Desfazer_Click(object sender, EventArgs e)
-        {
-            if (count > 1)
-            {
-                imagens.RemoveAt(count - 1);
-                count--;
-                imagens[count - 1].ToImage();
-                pictureBox1.Image = imagens[count - 1].ImagemBMP;
-            }
-            else
-            {
-                pictureBox1.Image = new Bitmap(1, 1);
-                imagens.Clear();
-                count = 0;
-                editarMenu.Enabled = false;
-                salvarArquivo.Enabled = false;
-            }
-        }
-
         private void Histograma_Click(object sender, EventArgs e)
         {
             pictureBox1.Image = imagens[count - 1].CorrecaoHistograma();
@@ -386,7 +417,7 @@ namespace ImageProcessing
         {
             Imagem imagemA = imagens[0];
             bool cond = true;
-            int k=1;
+            int k = 1;
             while (k < count && cond)
                 cond = imagemA.MatrizCor.Width >= imagens[k].MatrizCor.Width && imagemA.MatrizCor.Height >= imagens[k++].MatrizCor.Height;
             if (cond)
@@ -427,9 +458,9 @@ namespace ImageProcessing
 
         private void SobelToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var imagem = imagens[count - 1];
-            imagem.BordasSobel();
-            Visualizar(imagem);
+            Imagem imagem = imagens[count - 1];
+            imagem.Bordas(EdgeDetection.Sobel);
+            Visualizar(imagem, "Bordas Sobel " + imagem.NomeArquivo());
             pictureBox1.Image = imagens[count - 1].ImagemBMP;
         }
 
@@ -437,74 +468,64 @@ namespace ImageProcessing
         {
             var imagem = imagens[count - 1];
             imagem.InverterCores();
-            Visualizar(imagem);
+            Visualizar(imagem, "Inverso " + imagem.NomeArquivo());
             pictureBox1.Image = imagens[count - 1].ImagemBMP;
         }
         private void PassaAltaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var imagem = imagens[count - 1];
             imagem.FiltroPassaAlta(); ;
-            Visualizar(imagem);
+            Visualizar(imagem, "Filtro Passa-Alta " + imagem.NomeArquivo());
             pictureBox1.Image = imagens[count - 1].ImagemBMP;
         }
         private void PrewittToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var imagem = imagens[count - 1];
-            imagem.BordasPrewitt(); ;
-            Visualizar(imagem);
+            imagem.Bordas(EdgeDetection.Prewitt);
+            Visualizar(imagem, "Bordas Prewitt " + imagem.NomeArquivo());
             pictureBox1.Image = imagens[count - 1].ImagemBMP;
         }
 
         private void RobertsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var imagem = imagens[count - 1];
-            imagem.BordasRoberts(); ;
-            Visualizar(imagem);
+            imagem.Bordas(EdgeDetection.Roberts);
+            Visualizar(imagem, "Bordas Roberts " + imagem.NomeArquivo());
             pictureBox1.Image = imagens[count - 1].ImagemBMP;
         }
 
         private void BordasIsotropico_Click(object sender, EventArgs e)
         {
             var imagem = imagens[count - 1];
-            imagem.BordasIsotropico(); ;
-            Visualizar(imagem);
+            imagem.Bordas(EdgeDetection.Isotropico);
+            Visualizar(imagem, "Bordas Isotrópico " + imagem.NomeArquivo());
             pictureBox1.Image = imagens[count - 1].ImagemBMP;
         }
 
         private void LaplaceToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var imagem = imagens[count - 1];
-            imagem.BordasLaplace(); ;
-            Visualizar(imagem);
+            imagem.Bordas(EdgeDetection.Laplace);
+            Visualizar(imagem, "Bordas Laplace " + imagem.NomeArquivo());
             pictureBox1.Image = imagens[count - 1].ImagemBMP;
         }
 
         private void StLinear_Click(object sender, EventArgs e)
         {
+
             Stretching stretching = new Stretching();
 
             if (stretching.ShowDialog() == DialogResult.OK)
             {
-                //imagens[count-1].ToGray();
-                imagens[count - 1].ToInt();
-
-                int x, y, h = imagens[count - 1].MatrizCor.Height, w = imagens[count - 1].MatrizCor.Width, r = 0, g = 0, b = 0;
-
-                for (x = 0; x < w; x++)
-                {
-                    for (y = 0; y < h; y++)
-                    {
-                        r = (int)(imagens[count - 1].MatrizCor.Matriz[x, y, 0] * stretching.A + stretching.B);
-                        g = (int)(imagens[count - 1].MatrizCor.Matriz[x, y, 1] * stretching.A + stretching.B);
-                        b = (int)(imagens[count - 1].MatrizCor.Matriz[x, y, 2] * stretching.A + stretching.B);
-                        imagens[count - 1].MatrizCor.Matriz[x, y, 0] = (r > 255) ? 255 : (r < 0) ? 0 : r;
-                        imagens[count - 1].MatrizCor.Matriz[x, y, 1] = (g > 255) ? 255 : (g < 0) ? 0 : g;
-                        imagens[count - 1].MatrizCor.Matriz[x, y, 2] = (b > 255) ? 255 : (g < 0) ? 0 : b;
-                    }
-                }
+                var imagem = imagens[count - 1];
+                imagem.Stretching(StretchingType.linear, stretching.A, stretching.B);
+                if (stretching.correcaoProporcional)
+                    imagem.CorrecaoMinMax(Correcao.proporcao);
+                else
+                    imagem.CorrecaoMinMax(Correcao.limiar);
+                Visualizar(imagem, "Stretching Linear [" + stretching.A + "X + " + stretching.B + "] " + imagem.NomeArquivo());
+                pictureBox1.Image = imagens[count - 1].ImagemBMP;
             }
-            imagens[count - 1].ToImage();
-            pictureBox1.Image = imagens[count - 1].ImagemBMP;
         }
 
         private void StQuadrado_Click(object sender, EventArgs e)
@@ -513,54 +534,31 @@ namespace ImageProcessing
 
             if (stretching.ShowDialog() == DialogResult.OK)
             {
-                //imagens[count-1].ToGray();
-                if (imagens[count - 1].imageType != ImageType.integer) imagens[count - 1].ToInt();
-
-                int x, y, h = imagens[count - 1].MatrizCor.Height, w = imagens[count - 1].MatrizCor.Width, r = 0, g = 0, b = 0;
-
-                for (x = 0; x < w; x++)
-                {
-                    for (y = 0; y < h; y++)
-                    {
-                        r = (int)((double)stretching.A * Math.Pow(imagens[count - 1].MatrizCor.Matriz[x, y, 0], 2));
-                        g = (int)((double)stretching.A * Math.Pow(imagens[count - 1].MatrizCor.Matriz[x, y, 1], 2));
-                        b = (int)((double)stretching.A * Math.Pow(imagens[count - 1].MatrizCor.Matriz[x, y, 2], 2));
-                        imagens[count - 1].MatrizCor.Matriz[x, y, 0] = (r > 255) ? 255 : (r < 0) ? 0 : r;
-                        imagens[count - 1].MatrizCor.Matriz[x, y, 1] = (g > 255) ? 255 : (g < 0) ? 0 : g;
-                        imagens[count - 1].MatrizCor.Matriz[x, y, 2] = (b > 255) ? 255 : (g < 0) ? 0 : b;
-                    }
-                }
+                var imagem = imagens[count - 1];
+                imagem.Stretching(StretchingType.quad, stretching.A, stretching.B);
+                if (stretching.correcaoProporcional)
+                    imagem.CorrecaoMinMax(Correcao.proporcao);
+                else
+                    imagem.CorrecaoMinMax(Correcao.limiar);
+                Visualizar(imagem, "Stretching Quadrado " + imagem.NomeArquivo());
+                pictureBox1.Image = imagens[count - 1].ImagemBMP;
             }
-            imagens[count - 1].ToImage();
-            pictureBox1.Image = imagens[count - 1].ImagemBMP;
         }
 
         private void StRaizQuadrada_Click(object sender, EventArgs e)
         {
             Stretching stretching = new Stretching();
-
             if (stretching.ShowDialog() == DialogResult.OK)
             {
-                //imagens[count-1].ToGray();
-                imagens[count - 1].ToInt();
-
-                int x, y, h = imagens[count - 1].MatrizCor.Height, w = imagens[count - 1].MatrizCor.Width, r = 0, g = 0, b = 0;
-
-                for (x = 0; x < w; x++)
-                {
-                    for (y = 0; y < h; y++)
-                    {
-                        r = (int)((double)stretching.A * Math.Sqrt(imagens[count - 1].MatrizCor.Matriz[x, y, 0]));
-                        g = (int)((double)stretching.A * Math.Sqrt(imagens[count - 1].MatrizCor.Matriz[x, y, 1]));
-                        b = (int)((double)stretching.A * Math.Sqrt(imagens[count - 1].MatrizCor.Matriz[x, y, 2]));
-                        imagens[count - 1].MatrizCor.Matriz[x, y, 0] = (r > 255) ? 255 : (r < 0) ? 0 : r;
-                        imagens[count - 1].MatrizCor.Matriz[x, y, 1] = (g > 255) ? 255 : (g < 0) ? 0 : g;
-                        imagens[count - 1].MatrizCor.Matriz[x, y, 2] = (b > 255) ? 255 : (g < 0) ? 0 : b;
-                    }
-                }
+                var imagem = imagens[count - 1];
+                imagem.Stretching(StretchingType.linear, stretching.A, stretching.B);
+                if (stretching.correcaoProporcional)
+                    imagem.CorrecaoMinMax(Correcao.proporcao);
+                else
+                    imagem.CorrecaoMinMax(Correcao.limiar);
+                Visualizar(imagem, "Stretching Raiz Quadrada " + imagem.NomeArquivo());
+                pictureBox1.Image = imagens[count - 1].ImagemBMP;
             }
-            imagens[count - 1].ToImage();
-            pictureBox1.Image = imagens[count - 1].ImagemBMP;
         }
 
         private void StLogaritmico_Click(object sender, EventArgs e)
@@ -569,26 +567,15 @@ namespace ImageProcessing
 
             if (stretching.ShowDialog() == DialogResult.OK)
             {
-                //imagens[count-1].ToGray();
-                imagens[count - 1].ToInt();
-
-                int x, y, h = imagens[count - 1].MatrizCor.Height, w = imagens[count - 1].MatrizCor.Width, r = 0, g = 0, b = 0;
-
-                for (x = 0; x < w; x++)
-                {
-                    for (y = 0; y < h; y++)
-                    {
-                        r = (int)(stretching.A * Math.Log10(imagens[count - 1].MatrizCor.Matriz[x, y, 0] + 1));
-                        g = (int)(stretching.A * Math.Log10(imagens[count - 1].MatrizCor.Matriz[x, y, 1] + 1));
-                        b = (int)(stretching.A * Math.Log10(imagens[count - 1].MatrizCor.Matriz[x, y, 2] + 1));
-                        imagens[count - 1].MatrizCor.Matriz[x, y, 0] = (r > 255) ? 255 : (r < 0) ? 0 : r;
-                        imagens[count - 1].MatrizCor.Matriz[x, y, 1] = (g > 255) ? 255 : (g < 0) ? 0 : g;
-                        imagens[count - 1].MatrizCor.Matriz[x, y, 2] = (b > 255) ? 255 : (g < 0) ? 0 : b;
-                    }
-                }
+                var imagem = imagens[count - 1];
+                imagem.Stretching(StretchingType.linear, stretching.A, stretching.B);
+                if (stretching.correcaoProporcional)
+                    imagem.CorrecaoMinMax(Correcao.proporcao);
+                else
+                    imagem.CorrecaoMinMax(Correcao.limiar);
+                Visualizar(imagem, "Stretching Logarítmico [" + stretching.A + "*log(X)] " + imagem.NomeArquivo());
+                pictureBox1.Image = imagens[count - 1].ImagemBMP;
             }
-            imagens[count - 1].ToImage();
-            pictureBox1.Image = imagens[count - 1].ImagemBMP;
         }
 
         private void StNegativo_Click(object sender, EventArgs e)
@@ -597,23 +584,14 @@ namespace ImageProcessing
 
             if (stretching.ShowDialog() == DialogResult.OK)
             {
-                //imagens[count-1].ToGray();
-                imagens[count - 1].ToInt();
-
-                int x, y, h = imagens[count - 1].MatrizCor.Height, w = imagens[count - 1].MatrizCor.Width, r = 0, g = 0, b = 0;
-
-                for (x = 0; x < w; x++)
-                {
-                    for (y = 0; y < h; y++)
-                    {
-                        r = (int)(-(imagens[count - 1].MatrizCor.Matriz[x, y, 0] * stretching.A + stretching.B));
-                        g = (int)(-(imagens[count - 1].MatrizCor.Matriz[x, y, 1] * stretching.A + stretching.B));
-                        b = (int)(-(imagens[count - 1].MatrizCor.Matriz[x, y, 2] * stretching.A + stretching.B));
-                        imagens[count - 1].MatrizCor.Matriz[x, y, 0] = (r > 255) ? 255 : (r < 0) ? 0 : r;
-                        imagens[count - 1].MatrizCor.Matriz[x, y, 1] = (g > 255) ? 255 : (g < 0) ? 0 : g;
-                        imagens[count - 1].MatrizCor.Matriz[x, y, 2] = (b > 255) ? 255 : (g < 0) ? 0 : b;
-                    }
-                }
+                var imagem = imagens[count - 1];
+                imagem.Stretching(StretchingType.linear, stretching.A, stretching.B);
+                if (stretching.correcaoProporcional)
+                    imagem.CorrecaoMinMax(Correcao.proporcao);
+                else
+                    imagem.CorrecaoMinMax(Correcao.limiar);
+                Visualizar(imagem, "Stretching Linear [-" + stretching.A + "X - " + stretching.B + "] " + imagem.NomeArquivo());
+                pictureBox1.Image = imagens[count - 1].ImagemBMP;
             }
             imagens[count - 1].ToImage();
             pictureBox1.Image = imagens[count - 1].ImagemBMP;
@@ -622,13 +600,18 @@ namespace ImageProcessing
         private void Limiar_Click(object sender, EventArgs e)
         {
             Dithering dithering = new Dithering();
+            Imagem B = new Imagem
+            {
+                MatrizCor = imagens[count - 1].MatrizCor,
+                imageType = ImageType.integer
+            };
 
             if (dithering.ShowDialog() == DialogResult.OK)
             {
-                pictureBox1.Image = imagens[count - 1].ToLimiar(dithering.limiar);
+                B.ToLimiar(dithering.Limiar);
+                Visualizar(B);
+                pictureBox1.Image = imagens[count - 1].ImagemBMP;
             }
-            //imagens[count-1].ToImage();
-            //pictureBox1.Image = imagens[count-1].BitmapAtual;
         }
 
         private void LimiarComRuido_Click(object sender, EventArgs e)
@@ -637,13 +620,13 @@ namespace ImageProcessing
             Imagem B = new Imagem
             {
                 MatrizCor = imagens[count - 1].MatrizCor,
-                ImagemBMP = (Bitmap)imagens[count - 1].ImagemBMP.Clone()
+                imageType = ImageType.integer
             };
-
             if (dithering.ShowDialog() == DialogResult.OK)
             {
-                pictureBox1.Image = B.ToLimiarAleatorio(dithering.limiar, dithering.rinf, dithering.rsup);
+                B.ToLimiarAleatorio(dithering.Limiar, dithering.Rinf, dithering.Rsup);
                 Visualizar(B);
+                pictureBox1.Image = imagens[count - 1].ImagemBMP;
             }
         }
 
@@ -653,13 +636,14 @@ namespace ImageProcessing
             Imagem B = new Imagem
             {
                 MatrizCor = imagens[count - 1].MatrizCor,
-                ImagemBMP = (Bitmap)imagens[count - 1].ImagemBMP.Clone()
+                imageType = ImageType.integer
             };
 
             if (dithering.ShowDialog() == DialogResult.OK)
             {
-                pictureBox1.Image = B.ToPeriodicoDispersao(dithering.dispersao);
-                Visualizar(B, "Dithering " + dithering.dispersao + "X" + dithering.dispersao + " " + imagens[count - 1].NomeArquivo() + imagens[count - 1].ExtensaoArquivo());
+                B.ToPeriodicoDispersao(dithering.Dispersao);
+                Visualizar(B, "Dithering " + dithering.Dispersao + "X" + dithering.Dispersao + " " + imagens[count - 1].NomeArquivo() + imagens[count - 1].ExtensaoArquivo());
+                pictureBox1.Image = imagens[count - 1].ImagemBMP;
             }
         }
 
@@ -669,19 +653,40 @@ namespace ImageProcessing
             Imagem B = new Imagem
             {
                 MatrizCor = imagens[count - 1].MatrizCor,
-                ImagemBMP = (Bitmap)imagens[count - 1].ImagemBMP.Clone()
+                imageType = ImageType.integer
             };
 
             if (dithering.ShowDialog() == DialogResult.OK)
             {
-                pictureBox1.Image = B.ToAperiodicoDispersao(dithering.dispersao);
-                Visualizar(B, "Dithering " + dithering.dispersao + "X" + dithering.dispersao + " " + imagens[count - 1].NomeArquivo() + imagens[count - 1].ExtensaoArquivo());
+                B.ToAperiodicoDispersao(dithering.Vizinhos);
+                Visualizar(B, "Dithering " + dithering.Dispersao + "X" + dithering.Dispersao + " " + imagens[count - 1].NomeArquivo() + imagens[count - 1].ExtensaoArquivo());
+                pictureBox1.Image = imagens[count - 1].ImagemBMP;
             }
         }
 
         private void Histograma_Click_1(object sender, EventArgs e)
         {
             pictureBox1.Image = imagens[count - 1].CorrecaoHistograma();
+        }
+
+        private void PeriodicoPorAglomeracao_Click(object sender, EventArgs e)
+        {
+            Dithering dithering = new Dithering();
+
+
+            if (dithering.ShowDialog() == DialogResult.OK)
+            {
+                Imagem B = new Imagem
+                {
+                    MatrizCor = imagens[count - 1].MatrizCor,
+                    imageType = ImageType.integer
+                };
+                B.ToGray();
+                B.ToQuant(dithering.Dispersao * dithering.Dispersao + 1);
+                B.ToPeriodicoAglomeracao(dithering.Dispersao);
+                Visualizar(B, "Dithering Aglomeração" + dithering.Dispersao + "X" + dithering.Dispersao + " " + imagens[count - 1].NomeArquivo() + imagens[count - 1].ExtensaoArquivo());
+                pictureBox1.Image = imagens[count - 1].ImagemBMP;
+            }
         }
     }
 }

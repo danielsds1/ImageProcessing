@@ -19,11 +19,13 @@ namespace ImageProcessing
 
         public double A { get; set; }
         public double B { get; set; }
+        public bool correcaoProporcional { get; set; }
 
         private void BtnOK_Click(object sender, EventArgs e)
         {
             A = (double)ValorA.Value;
             B = (double)ValorB.Value;
+            correcaoProporcional = StCorrecaoCB.Checked;
             this.Invalidate();
             this.Close();
         }

@@ -34,6 +34,8 @@
             this.ValorA = new System.Windows.Forms.NumericUpDown();
             this.LabelValorB = new System.Windows.Forms.Label();
             this.ValorB = new System.Windows.Forms.NumericUpDown();
+            this.labelCorreção = new System.Windows.Forms.Label();
+            this.StCorrecaoCB = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.ValorA)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ValorB)).BeginInit();
             this.SuspendLayout();
@@ -42,7 +44,7 @@
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCancel.Location = new System.Drawing.Point(99, 62);
+            this.btnCancel.Location = new System.Drawing.Point(99, 86);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 23;
@@ -53,7 +55,7 @@
             // 
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btnOK.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnOK.Location = new System.Drawing.Point(15, 62);
+            this.btnOK.Location = new System.Drawing.Point(15, 86);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 22;
@@ -105,11 +107,35 @@
             this.ValorB.Size = new System.Drawing.Size(75, 20);
             this.ValorB.TabIndex = 24;
             // 
+            // labelCorreção
+            // 
+            this.labelCorreção.AutoSize = true;
+            this.labelCorreção.Location = new System.Drawing.Point(12, 61);
+            this.labelCorreção.Name = "labelCorreção";
+            this.labelCorreção.Size = new System.Drawing.Size(112, 13);
+            this.labelCorreção.TabIndex = 27;
+            this.labelCorreção.Text = "Correção Proporcional";
+            // 
+            // StCorrecaoCB
+            // 
+            this.StCorrecaoCB.AutoSize = true;
+            this.StCorrecaoCB.Checked = true;
+            this.StCorrecaoCB.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.StCorrecaoCB.Location = new System.Drawing.Point(159, 61);
+            this.StCorrecaoCB.Name = "StCorrecaoCB";
+            this.StCorrecaoCB.Size = new System.Drawing.Size(15, 14);
+            this.StCorrecaoCB.TabIndex = 28;
+            this.StCorrecaoCB.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.StCorrecaoCB.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
+            this.StCorrecaoCB.UseVisualStyleBackColor = true;
+            // 
             // Stretching
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(190, 100);
+            this.ClientSize = new System.Drawing.Size(190, 121);
+            this.Controls.Add(this.StCorrecaoCB);
+            this.Controls.Add(this.labelCorreção);
             this.Controls.Add(this.LabelValorB);
             this.Controls.Add(this.ValorB);
             this.Controls.Add(this.btnCancel);
@@ -134,5 +160,7 @@
         private System.Windows.Forms.NumericUpDown ValorA;
         private System.Windows.Forms.Label LabelValorB;
         private System.Windows.Forms.NumericUpDown ValorB;
+        private System.Windows.Forms.Label labelCorreção;
+        private System.Windows.Forms.CheckBox StCorrecaoCB;
     }
 }

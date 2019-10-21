@@ -38,10 +38,13 @@
             this.ValorLimiar = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
             this.DtDim = new System.Windows.Forms.NumericUpDown();
+            this.dtVizinhos = new System.Windows.Forms.NumericUpDown();
+            this.labelVizinhosDithering = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.ValorRInf)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ValorRSup)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ValorLimiar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DtDim)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtVizinhos)).BeginInit();
             this.SuspendLayout();
             // 
             // LabelValorB
@@ -79,7 +82,7 @@
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCancel.Location = new System.Drawing.Point(142, 118);
+            this.btnCancel.Location = new System.Drawing.Point(142, 143);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 29;
@@ -90,7 +93,7 @@
             // 
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btnOK.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnOK.Location = new System.Drawing.Point(58, 118);
+            this.btnOK.Location = new System.Drawing.Point(58, 143);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 28;
@@ -181,11 +184,44 @@
             0,
             0});
             // 
+            // dtVizinhos
+            // 
+            this.dtVizinhos.Location = new System.Drawing.Point(142, 111);
+            this.dtVizinhos.Maximum = new decimal(new int[] {
+            4,
+            0,
+            0,
+            0});
+            this.dtVizinhos.Minimum = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            this.dtVizinhos.Name = "dtVizinhos";
+            this.dtVizinhos.Size = new System.Drawing.Size(75, 20);
+            this.dtVizinhos.TabIndex = 36;
+            this.dtVizinhos.Value = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            // 
+            // labelVizinhosDithering
+            // 
+            this.labelVizinhosDithering.AutoSize = true;
+            this.labelVizinhosDithering.Location = new System.Drawing.Point(19, 113);
+            this.labelVizinhosDithering.Name = "labelVizinhosDithering";
+            this.labelVizinhosDithering.Size = new System.Drawing.Size(91, 13);
+            this.labelVizinhosDithering.TabIndex = 37;
+            this.labelVizinhosDithering.Text = "Vizinhos Dithering";
+            // 
             // Dithering
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(273, 153);
+            this.ClientSize = new System.Drawing.Size(241, 174);
+            this.Controls.Add(this.labelVizinhosDithering);
+            this.Controls.Add(this.dtVizinhos);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.DtDim);
             this.Controls.Add(this.label1);
@@ -202,6 +238,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.ValorRSup)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ValorLimiar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DtDim)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtVizinhos)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -219,5 +256,7 @@
         private System.Windows.Forms.NumericUpDown ValorLimiar;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.NumericUpDown DtDim;
+        private System.Windows.Forms.NumericUpDown dtVizinhos;
+        private System.Windows.Forms.Label labelVizinhosDithering;
     }
 }

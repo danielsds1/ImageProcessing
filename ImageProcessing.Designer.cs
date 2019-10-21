@@ -79,6 +79,7 @@
             this.dtAperiodicoDispersao = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.periodicoPorAglomeracao = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -448,6 +449,7 @@
             this.dtLimiar,
             this.dtLimiarComRuido,
             this.dtPeriodicoDispersao,
+            this.periodicoPorAglomeracao,
             this.dtAperiodicoDispersao});
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
             this.toolStripMenuItem2.Size = new System.Drawing.Size(263, 22);
@@ -456,28 +458,28 @@
             // dtLimiar
             // 
             this.dtLimiar.Name = "dtLimiar";
-            this.dtLimiar.Size = new System.Drawing.Size(207, 22);
+            this.dtLimiar.Size = new System.Drawing.Size(219, 22);
             this.dtLimiar.Text = "Limiar";
             this.dtLimiar.Click += new System.EventHandler(this.Limiar_Click);
             // 
             // dtLimiarComRuido
             // 
             this.dtLimiarComRuido.Name = "dtLimiarComRuido";
-            this.dtLimiarComRuido.Size = new System.Drawing.Size(207, 22);
+            this.dtLimiarComRuido.Size = new System.Drawing.Size(219, 22);
             this.dtLimiarComRuido.Text = "Limiar Com Ruído";
             this.dtLimiarComRuido.Click += new System.EventHandler(this.LimiarComRuido_Click);
             // 
             // dtPeriodicoDispersao
             // 
             this.dtPeriodicoDispersao.Name = "dtPeriodicoDispersao";
-            this.dtPeriodicoDispersao.Size = new System.Drawing.Size(207, 22);
+            this.dtPeriodicoDispersao.Size = new System.Drawing.Size(219, 22);
             this.dtPeriodicoDispersao.Text = "Periódico por Dispersão";
             this.dtPeriodicoDispersao.Click += new System.EventHandler(this.DtPeriodicoDispersão_Click);
             // 
             // dtAperiodicoDispersao
             // 
             this.dtAperiodicoDispersao.Name = "dtAperiodicoDispersao";
-            this.dtAperiodicoDispersao.Size = new System.Drawing.Size(207, 22);
+            this.dtAperiodicoDispersao.Size = new System.Drawing.Size(219, 22);
             this.dtAperiodicoDispersao.Text = "Aperiódico por Dispersão";
             this.dtAperiodicoDispersao.Click += new System.EventHandler(this.DtAperiodicoDispersao_Click);
             // 
@@ -500,6 +502,13 @@
             this.pictureBox1.Size = new System.Drawing.Size(800, 426);
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
+            // 
+            // periodicoPorAglomeracao
+            // 
+            this.periodicoPorAglomeracao.Name = "periodicoPorAglomeracao";
+            this.periodicoPorAglomeracao.Size = new System.Drawing.Size(219, 22);
+            this.periodicoPorAglomeracao.Text = "Periódico por Aglomeração";
+            this.periodicoPorAglomeracao.Click += new System.EventHandler(this.PeriodicoPorAglomeracao_Click);
             // 
             // ImageProcessing
             // 
@@ -572,6 +581,7 @@
         private System.Windows.Forms.ToolStripMenuItem dtLimiar;
         private System.Windows.Forms.ToolStripMenuItem dtPeriodicoDispersao;
         private System.Windows.Forms.ToolStripMenuItem dtAperiodicoDispersao;
+        private System.Windows.Forms.ToolStripMenuItem periodicoPorAglomeracao;
     }
 }
 

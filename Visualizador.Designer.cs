@@ -40,6 +40,7 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.CausesValidation = false;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.MaximumSize = new System.Drawing.Size(1366, 768);
             this.MinimumSize = new System.Drawing.Size(200, 200);
             this.Name = "Visualizador";
             this.ShowIcon = false;
