@@ -134,6 +134,7 @@ namespace ImageProcessing
                     Height = imagemA.ImagemBMP.Height,
                     Width = imagemA.ImagemBMP.Width,
                     Image = imagemA.ImagemBMP,
+                    MaximumSize = new Size(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height),
                     SizeMode = PictureBoxSizeMode.Zoom
                 };
                 //pb.
@@ -143,6 +144,7 @@ namespace ImageProcessing
                 {
                     //visualizador.
                     Text = imagemA.NomeArquivo(),
+                    AutoSize=true
                 };
                 visualizador.Controls.Add(pb);
                 //visualizador.Controls.
@@ -163,7 +165,8 @@ namespace ImageProcessing
                     Height = imagemA.ImagemBMP.Height,
                     Width = imagemA.ImagemBMP.Width,
                     Image = imagemA.ImagemBMP,
-                    SizeMode = PictureBoxSizeMode.AutoSize
+                    MaximumSize = new Size(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height),
+                    SizeMode = PictureBoxSizeMode.Zoom
                 };
                 //pb.
                 imagens.Add(imagemA);
@@ -172,6 +175,8 @@ namespace ImageProcessing
                 {
                     //visualizador.
                     Text = text,
+                    
+                    AutoSize = true
                 };
                 visualizador.Controls.Add(pb);
                 //visualizador.Controls.
@@ -186,7 +191,11 @@ namespace ImageProcessing
 
         private void Adicao_Click(object sender, EventArgs e)
         {
-            Imagem imagemA = imagens[0];
+            Imagem imagemA = new Imagem
+            {
+                MatrizCor = imagens[0].MatrizCor,
+                imageType = ImageType.integer
+            };
             if (count == 1)
                 Visualizar(GetImagemB());
             foreach (Imagem imagem in imagens)
@@ -198,7 +207,11 @@ namespace ImageProcessing
 
         private void AdicaoMedia_Click(object sender, EventArgs e)
         {
-            Imagem imagemA = imagens[0];
+            Imagem imagemA = new Imagem
+            {
+                MatrizCor = imagens[0].MatrizCor,
+                imageType = ImageType.integer
+            };
             if (count == 1)
                 Visualizar(GetImagemB());
             foreach (Imagem imagem in imagens)
@@ -210,7 +223,11 @@ namespace ImageProcessing
 
         private void SubtracaoLimiar_Click(object sender, EventArgs e)
         {
-            Imagem imagemA = imagens[0];
+            Imagem imagemA = new Imagem
+            {
+                MatrizCor = imagens[0].MatrizCor,
+                imageType = ImageType.integer
+            };
             if (count == 1)
                 Visualizar(GetImagemB());
             foreach (Imagem imagem in imagens)
@@ -222,7 +239,11 @@ namespace ImageProcessing
 
         private void SubtracaoMedia_Click(object sender, EventArgs e)
         {
-            Imagem imagemA = imagens[0];
+            Imagem imagemA = new Imagem
+            {
+                MatrizCor = imagens[0].MatrizCor,
+                imageType = ImageType.integer
+            };
             if (count == 1)
                 Visualizar(GetImagemB());
             foreach (Imagem imagem in imagens)
@@ -234,7 +255,11 @@ namespace ImageProcessing
 
         private void Multiplicacao_Click(object sender, EventArgs e)
         {
-            Imagem imagemA = imagens[0];
+            Imagem imagemA = new Imagem
+            {
+                MatrizCor = imagens[0].MatrizCor,
+                imageType = ImageType.integer
+            };
             if (count == 1)
                 Visualizar(GetImagemB());
             foreach (Imagem imagem in imagens)
@@ -246,7 +271,11 @@ namespace ImageProcessing
 
         private void Divisao_Click(object sender, EventArgs e)
         {
-            Imagem imagemA = imagens[0];
+            Imagem imagemA = new Imagem
+            {
+                MatrizCor = imagens[0].MatrizCor,
+                imageType = ImageType.integer
+            };
             if (count == 1)
                 Visualizar(GetImagemB());
             foreach (Imagem imagem in imagens)
@@ -261,7 +290,12 @@ namespace ImageProcessing
             var count2 = count;
             for (int k = 0; k < count2; k++)
             {
-                var imagem = imagens[k];
+                Imagem imagem = new Imagem
+                {
+                    MatrizCor = imagens[k].MatrizCor,
+                    imageType = ImageType.integer
+                };
+                //var imagem = imagens[k];
                 imagem.LogicOp(LogicOperationType.not, null);
                 Visualizar(imagem, "NOT " + imagem.NomeArquivo());
             }
@@ -271,7 +305,11 @@ namespace ImageProcessing
 
         private void LogicOr_Click(object sender, EventArgs e)
         {
-            Imagem imagemA = imagens[0];
+            Imagem imagemA = new Imagem
+            {
+                MatrizCor = imagens[0].MatrizCor,
+                imageType = ImageType.integer
+            };
             if (count == 1)
                 Visualizar(GetImagemB());
             for (int k = 1; k < count; k++)
@@ -283,7 +321,11 @@ namespace ImageProcessing
 
         private void LogicAnd_Click(object sender, EventArgs e)
         {
-            Imagem imagemA = imagens[0];
+            Imagem imagemA = new Imagem
+            {
+                MatrizCor = imagens[0].MatrizCor,
+                imageType = ImageType.integer
+            };
             if (count == 1)
                 Visualizar(GetImagemB());
             for (int k = 1; k < count; k++)
@@ -294,7 +336,11 @@ namespace ImageProcessing
 
         private void LogicXor_Click(object sender, EventArgs e)
         {
-            Imagem imagemA = imagens[0];
+            Imagem imagemA = new Imagem
+            {
+                MatrizCor = imagens[0].MatrizCor,
+                imageType = ImageType.integer
+            };
             if (count == 1)
                 Visualizar(GetImagemB());
             for (int k = 1; k < count; k++)
@@ -305,7 +351,11 @@ namespace ImageProcessing
 
         private void LogicSub_Click(object sender, EventArgs e)
         {
-            Imagem imagemA = imagens[0];
+            Imagem imagemA = new Imagem
+            {
+                MatrizCor = imagens[0].MatrizCor,
+                imageType = ImageType.integer
+            };
             if (count == 1)
                 Visualizar(GetImagemB());
             for (int k = 1; k < count; k++)
@@ -380,7 +430,11 @@ namespace ImageProcessing
             var raioFiltro = new RaioFiltro();
             if (raioFiltro.ShowDialog() == DialogResult.OK)
             {
-                var imagem = imagens[count - 1];
+                Imagem imagem = new Imagem
+                {
+                    MatrizCor = imagens[count - 1].MatrizCor,
+                    imageType = ImageType.integer
+                };
                 imagem.FiltroMedia(raioFiltro.raio);
                 Visualizar(imagem);
                 pictureBox1.Image = imagens[count - 1].ImagemBMP;
@@ -392,16 +446,15 @@ namespace ImageProcessing
             var raioFiltro = new RaioFiltro();
             if (raioFiltro.ShowDialog() == DialogResult.OK)
             {
-                var imagem = imagens[count - 1];
+                Imagem imagem = new Imagem
+                {
+                    MatrizCor = imagens[count - 1].MatrizCor,
+                    imageType = ImageType.integer
+                };
                 imagem.FiltroMediana(raioFiltro.raio);
                 Visualizar(imagem);
                 pictureBox1.Image = imagens[count - 1].ImagemBMP;
             }
-        }
-
-        private void Histograma_Click(object sender, EventArgs e)
-        {
-            pictureBox1.Image = imagens[count - 1].CorrecaoHistograma();
         }
 
         private void FecharToolStripMenuItem_Click(object sender, EventArgs e)
@@ -415,7 +468,11 @@ namespace ImageProcessing
 
         private void MediaImagens_Click(object sender, EventArgs e)
         {
-            Imagem imagemA = imagens[0];
+            Imagem imagemA = new Imagem
+            {
+                MatrizCor = imagens[0].MatrizCor,
+                imageType = ImageType.integer
+            };
             bool cond = true;
             int k = 1;
             while (k < count && cond)
@@ -441,7 +498,11 @@ namespace ImageProcessing
             Quantizacao quant = new Quantizacao();
             if (quant.ShowDialog() == DialogResult.OK)
             {
-                var imagem = imagens[count - 1];
+                Imagem imagem = new Imagem
+                {
+                    MatrizCor = imagens[count - 1].MatrizCor,
+                    imageType = ImageType.integer
+                };
                 imagem.ToQuant(quant.niveis);
                 Visualizar(imagem);
             }
@@ -450,7 +511,11 @@ namespace ImageProcessing
 
         private void TonsDeCinzaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var imagem = imagens[count - 1];
+            Imagem imagem = new Imagem
+            {
+                MatrizCor = imagens[count - 1].MatrizCor,
+                imageType = ImageType.integer
+            };
             imagem.ToGray();
             Visualizar(imagem);
             pictureBox1.Image = imagens[count - 1].ImagemBMP;
@@ -458,7 +523,11 @@ namespace ImageProcessing
 
         private void SobelToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Imagem imagem = imagens[count - 1];
+            Imagem imagem = new Imagem
+            {
+                MatrizCor = imagens[count - 1].MatrizCor,
+                imageType = ImageType.integer
+            };
             imagem.Bordas(EdgeDetection.Sobel);
             Visualizar(imagem, "Bordas Sobel " + imagem.NomeArquivo());
             pictureBox1.Image = imagens[count - 1].ImagemBMP;
@@ -466,21 +535,33 @@ namespace ImageProcessing
 
         private void InverterCores_Click(object sender, EventArgs e)
         {
-            var imagem = imagens[count - 1];
+            Imagem imagem = new Imagem
+            {
+                MatrizCor = imagens[count - 1].MatrizCor,
+                imageType = ImageType.integer
+            };
             imagem.InverterCores();
             Visualizar(imagem, "Inverso " + imagem.NomeArquivo());
             pictureBox1.Image = imagens[count - 1].ImagemBMP;
         }
         private void PassaAltaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var imagem = imagens[count - 1];
+            Imagem imagem = new Imagem
+            {
+                MatrizCor = imagens[count - 1].MatrizCor,
+                imageType = ImageType.integer
+            };
             imagem.FiltroPassaAlta(); ;
             Visualizar(imagem, "Filtro Passa-Alta " + imagem.NomeArquivo());
             pictureBox1.Image = imagens[count - 1].ImagemBMP;
         }
         private void PrewittToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var imagem = imagens[count - 1];
+            Imagem imagem = new Imagem
+            {
+                MatrizCor = imagens[count - 1].MatrizCor,
+                imageType = ImageType.integer
+            };
             imagem.Bordas(EdgeDetection.Prewitt);
             Visualizar(imagem, "Bordas Prewitt " + imagem.NomeArquivo());
             pictureBox1.Image = imagens[count - 1].ImagemBMP;
@@ -488,7 +569,11 @@ namespace ImageProcessing
 
         private void RobertsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var imagem = imagens[count - 1];
+            Imagem imagem = new Imagem
+            {
+                MatrizCor = imagens[count - 1].MatrizCor,
+                imageType = ImageType.integer
+            };
             imagem.Bordas(EdgeDetection.Roberts);
             Visualizar(imagem, "Bordas Roberts " + imagem.NomeArquivo());
             pictureBox1.Image = imagens[count - 1].ImagemBMP;
@@ -496,7 +581,11 @@ namespace ImageProcessing
 
         private void BordasIsotropico_Click(object sender, EventArgs e)
         {
-            var imagem = imagens[count - 1];
+            Imagem imagem = new Imagem
+            {
+                MatrizCor = imagens[count - 1].MatrizCor,
+                imageType = ImageType.integer
+            };
             imagem.Bordas(EdgeDetection.Isotropico);
             Visualizar(imagem, "Bordas Isotrópico " + imagem.NomeArquivo());
             pictureBox1.Image = imagens[count - 1].ImagemBMP;
@@ -504,7 +593,11 @@ namespace ImageProcessing
 
         private void LaplaceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var imagem = imagens[count - 1];
+            Imagem imagem = new Imagem
+            {
+                MatrizCor = imagens[count - 1].MatrizCor,
+                imageType = ImageType.integer
+            };
             imagem.Bordas(EdgeDetection.Laplace);
             Visualizar(imagem, "Bordas Laplace " + imagem.NomeArquivo());
             pictureBox1.Image = imagens[count - 1].ImagemBMP;
@@ -517,7 +610,11 @@ namespace ImageProcessing
 
             if (stretching.ShowDialog() == DialogResult.OK)
             {
-                var imagem = imagens[count - 1];
+                Imagem imagem = new Imagem
+                {
+                    MatrizCor = imagens[count - 1].MatrizCor,
+                    imageType = ImageType.integer
+                };
                 imagem.Stretching(StretchingType.linear, stretching.A, stretching.B);
                 if (stretching.correcaoProporcional)
                     imagem.CorrecaoMinMax(Correcao.proporcao);
@@ -534,7 +631,11 @@ namespace ImageProcessing
 
             if (stretching.ShowDialog() == DialogResult.OK)
             {
-                var imagem = imagens[count - 1];
+                Imagem imagem = new Imagem
+                {
+                    MatrizCor = imagens[count - 1].MatrizCor,
+                    imageType = ImageType.integer
+                };
                 imagem.Stretching(StretchingType.quad, stretching.A, stretching.B);
                 if (stretching.correcaoProporcional)
                     imagem.CorrecaoMinMax(Correcao.proporcao);
@@ -550,7 +651,11 @@ namespace ImageProcessing
             Stretching stretching = new Stretching();
             if (stretching.ShowDialog() == DialogResult.OK)
             {
-                var imagem = imagens[count - 1];
+                Imagem imagem = new Imagem
+                {
+                    MatrizCor = imagens[count - 1].MatrizCor,
+                    imageType = ImageType.integer
+                };
                 imagem.Stretching(StretchingType.linear, stretching.A, stretching.B);
                 if (stretching.correcaoProporcional)
                     imagem.CorrecaoMinMax(Correcao.proporcao);
@@ -567,7 +672,11 @@ namespace ImageProcessing
 
             if (stretching.ShowDialog() == DialogResult.OK)
             {
-                var imagem = imagens[count - 1];
+                Imagem imagem = new Imagem
+                {
+                    MatrizCor = imagens[count - 1].MatrizCor,
+                    imageType = ImageType.integer
+                };
                 imagem.Stretching(StretchingType.linear, stretching.A, stretching.B);
                 if (stretching.correcaoProporcional)
                     imagem.CorrecaoMinMax(Correcao.proporcao);
@@ -584,7 +693,11 @@ namespace ImageProcessing
 
             if (stretching.ShowDialog() == DialogResult.OK)
             {
-                var imagem = imagens[count - 1];
+                Imagem imagem = new Imagem
+                {
+                    MatrizCor = imagens[count - 1].MatrizCor,
+                    imageType = ImageType.integer
+                };
                 imagem.Stretching(StretchingType.linear, stretching.A, stretching.B);
                 if (stretching.correcaoProporcional)
                     imagem.CorrecaoMinMax(Correcao.proporcao);
@@ -666,7 +779,14 @@ namespace ImageProcessing
 
         private void Histograma_Click_1(object sender, EventArgs e)
         {
-            pictureBox1.Image = imagens[count - 1].CorrecaoHistograma();
+            Imagem imagem = new Imagem
+            {
+                MatrizCor = imagens[count - 1].MatrizCor,
+                imageType = ImageType.integer
+            };
+            imagem.CorrecaoHistograma();
+            Visualizar(imagem, "Histograma Corrigido " + imagem.NomeArquivo());
+            pictureBox1.Image = imagens[count - 1].ImagemBMP;
         }
 
         private void PeriodicoPorAglomeracao_Click(object sender, EventArgs e)
@@ -681,7 +801,7 @@ namespace ImageProcessing
                     MatrizCor = imagens[count - 1].MatrizCor,
                     imageType = ImageType.integer
                 };
-                B.ToGray();
+                //B.ToGray();
                 B.ToQuant(dithering.Dispersao * dithering.Dispersao + 1);
                 B.ToPeriodicoAglomeracao(dithering.Dispersao);
                 Visualizar(B, "Dithering Aglomeração" + dithering.Dispersao + "X" + dithering.Dispersao + " " + imagens[count - 1].NomeArquivo() + imagens[count - 1].ExtensaoArquivo());

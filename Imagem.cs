@@ -301,17 +301,16 @@ namespace ImageProcessing
                 MatrizGray.Width = MatrizCor.Width;
                 MatrizGray.Height = MatrizCor.Height;
                 for (i = 0; i < this.MatrizCor.Width; i++)
-                {
                     for (j = 0; j < this.MatrizCor.Height; j++)
                     {
                         for (canal = 0; canal < 3; canal++)
-                        {
                             gray += (int)(factors[canal] * (double)MatrizCor.Matriz[i, j, canal]);
-                        }
-                        MatrizGray.Matriz[i, j] = gray;
+                        if (gray <= 255)
+                            MatrizGray.Matriz[i, j] = gray;
+                        else
+                            MatrizGray.Matriz[i, j] = 255;
                         gray = 0;
                     }
-                }
                 imageType = ImageType.gray;
                 this.ClearMatriz();
             }
@@ -595,34 +594,24 @@ namespace ImageProcessing
             }
         }
 
-        public Image CorrecaoHistograma()
+        public void CorrecaoHistograma()
         {
             if (this.imageType != ImageType.integer) { this.ToInt(); }
             int[] histograma = new int[256];
             int[] histogramaAc = new int[256];
             int[] histogramaCalc = new int[256];
-            int x, y, width = this.ImagemBMP.Width, height = this.ImagemBMP.Height;
+            int x, y, width = this.MatrizCor.Width, height = this.MatrizCor.Height;
             for (x = 0; x < width; x++)
-            {
                 for (y = 0; y < height; y++)
-                {
                     histograma[MatrizCor.Matriz[x, y, 0]]++;
-                }
-            }
             histogramaAc[0] = histograma[0];
             for (x = 1; x < 256; x++)
-            {
                 histogramaAc[x] = histogramaAc[x - 1] + histograma[x];
-            }
-
             for (x = 0; x < 256; x++)
-            {
                 histogramaCalc[x] = (int)(255 * histogramaAc[x] / (width * height));
-                Console.WriteLine(histogramaCalc[x]);
-            }
             int aux;
             for (x = 0; x < width; x++)
-            {
+
                 for (y = 0; y < height; y++)
                 {
                     aux = histogramaCalc[MatrizCor.Matriz[x, y, 0]];
@@ -630,10 +619,6 @@ namespace ImageProcessing
                     MatrizCor.Matriz[x, y, 1] = aux;
                     MatrizCor.Matriz[x, y, 2] = aux;
                 }
-            }
-            this.ToImage();
-
-            return (Image)ImagemBMP;
         }
 
         public void ToLimiar(int limiar)
@@ -737,9 +722,6 @@ namespace ImageProcessing
         }
         public void ToPeriodicoAglomeracao(int dispersao)
         {
-            this.ToGray();
-            var Matriz = new int[MatrizGray.Width * dispersao, MatrizGray.Width * dispersao];
-            
             int[,] D2 = new int[,] { { 0 * 64, 2 * 64 },
                                      { 3 * 64, 1 * 64 } };
 
@@ -753,24 +735,46 @@ namespace ImageProcessing
                                      { 15 * 16, 07 * 16, 13 * 16, 05 * 16 } };
 
             List<int[,]> D = new List<int[,]> { D2, D3, D4 };
-            int i, j, x, y, h = MatrizGray.Height * dispersao, w = MatrizGray.Width * dispersao;
-            for (x = 0; x < w; x++)
-                for (y = 0; y < h; y++)
-                {
-                    i = x % dispersao;
-                    j = y % dispersao;
-                    if (MatrizGray.Matriz[x / dispersao, y / dispersao] > D[dispersao - 2][i, j])
-                        Matriz[x, y] = 255;
-                    else
-                        Matriz[x, y] = 0;
-                }
-            MatrizGray.Matriz = new int[MatrizGray.Width * dispersao, MatrizGray.Width * dispersao];
-            MatrizGray.Matriz = Matriz;
-            MatrizGray.Width *= dispersao;
-            MatrizGray.Height *= dispersao;
-            //return Matriz;
-        }
+            if (this.imageType == ImageType.gray)
+            {
+                var Matriz = new int[MatrizGray.Width * dispersao, MatrizGray.Width * dispersao];
+                int i, j, x, y, h = MatrizGray.Height * dispersao, w = MatrizGray.Width * dispersao;
+                for (x = 0; x < w; x++)
+                    for (y = 0; y < h; y++)
+                    {
+                        i = x % dispersao;
+                        j = y % dispersao;
+                        if (MatrizGray.Matriz[x / dispersao, y / dispersao] > D[dispersao - 2][i, j])
+                            Matriz[x, y] = 255;
+                        else
+                            Matriz[x, y] = 0;
+                    }
+                MatrizGray.Matriz = Matriz;
+                MatrizGray.Width *= dispersao;
+                MatrizGray.Height *= dispersao;
+            }
+            else
+            {
+                this.ToInt();
+                var Matriz = new int[MatrizCor.Width * dispersao, MatrizCor.Width * dispersao, 3];
+                int i, j, x, y, c, h = MatrizCor.Height * dispersao, w = MatrizCor.Width * dispersao;
+                for (x = 0; x < w; x++)
+                    for (y = 0; y < h; y++)
+                    {
+                        i = x % dispersao;
+                        j = y % dispersao;
+                        for (c = 0; c < 3; c++)
+                            if (MatrizCor.Matriz[x / dispersao, y / dispersao, c] > D[dispersao - 2][i, j])
+                                Matriz[x, y, c] = 255;
+                            else
+                                Matriz[x, y, c] = 0;
+                    }
 
+                MatrizCor.Matriz = Matriz;
+                MatrizCor.Width *= dispersao;
+                MatrizCor.Height *= dispersao;
+            }
+        }
         public int GetMedia()
         {
             int x, y, h = MatrizGray.Height, w = MatrizGray.Width;

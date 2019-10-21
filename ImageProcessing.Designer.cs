@@ -76,10 +76,10 @@
             this.dtLimiar = new System.Windows.Forms.ToolStripMenuItem();
             this.dtLimiarComRuido = new System.Windows.Forms.ToolStripMenuItem();
             this.dtPeriodicoDispersao = new System.Windows.Forms.ToolStripMenuItem();
+            this.periodicoPorAglomeracao = new System.Windows.Forms.ToolStripMenuItem();
             this.dtAperiodicoDispersao = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.periodicoPorAglomeracao = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -476,6 +476,13 @@
             this.dtPeriodicoDispersao.Text = "Periódico por Dispersão";
             this.dtPeriodicoDispersao.Click += new System.EventHandler(this.DtPeriodicoDispersão_Click);
             // 
+            // periodicoPorAglomeracao
+            // 
+            this.periodicoPorAglomeracao.Name = "periodicoPorAglomeracao";
+            this.periodicoPorAglomeracao.Size = new System.Drawing.Size(219, 22);
+            this.periodicoPorAglomeracao.Text = "Periódico por Aglomeração";
+            this.periodicoPorAglomeracao.Click += new System.EventHandler(this.PeriodicoPorAglomeracao_Click);
+            // 
             // dtAperiodicoDispersao
             // 
             this.dtAperiodicoDispersao.Name = "dtAperiodicoDispersao";
@@ -498,17 +505,12 @@
             // 
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox1.Location = new System.Drawing.Point(0, 24);
+            this.pictureBox1.MaximumSize = new System.Drawing.Size(1366, 768);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(800, 426);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
-            // 
-            // periodicoPorAglomeracao
-            // 
-            this.periodicoPorAglomeracao.Name = "periodicoPorAglomeracao";
-            this.periodicoPorAglomeracao.Size = new System.Drawing.Size(219, 22);
-            this.periodicoPorAglomeracao.Text = "Periódico por Aglomeração";
-            this.periodicoPorAglomeracao.Click += new System.EventHandler(this.PeriodicoPorAglomeracao_Click);
             // 
             // ImageProcessing
             // 
