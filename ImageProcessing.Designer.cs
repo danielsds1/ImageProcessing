@@ -37,11 +37,6 @@
             this.sairToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editarMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.desfazer = new System.Windows.Forms.ToolStripMenuItem();
-            this.opBasicas = new System.Windows.Forms.ToolStripMenuItem();
-            this.opQuantizacao = new System.Windows.Forms.ToolStripMenuItem();
-            this.opMinMax = new System.Windows.Forms.ToolStripMenuItem();
-            this.toTonsDeCinza = new System.Windows.Forms.ToolStripMenuItem();
-            this.inverterCores = new System.Windows.Forms.ToolStripMenuItem();
             this.opAritmeticas = new System.Windows.Forms.ToolStripMenuItem();
             this.adicaoLimiar = new System.Windows.Forms.ToolStripMenuItem();
             this.adicaoMedia = new System.Windows.Forms.ToolStripMenuItem();
@@ -80,6 +75,27 @@
             this.dtAperiodicoDispersao = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.opQuantizacao = new System.Windows.Forms.ToolStripMenuItem();
+            this.toTonsDeCinza = new System.Windows.Forms.ToolStripMenuItem();
+            this.inverterCores = new System.Windows.Forms.ToolStripMenuItem();
+            this.opBasicas = new System.Windows.Forms.ToolStripMenuItem();
+            this.morfologiaMatematicaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.bináriosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.monocromáticosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.erosao = new System.Windows.Forms.ToolStripMenuItem();
+            this.dilataçãoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aberturaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fechamentoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.bordaInternaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.bordaExternaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.acertoEErroToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.esqueletoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.erosãoToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.dilataçãoToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.aberturaToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.fechamentoToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.smoothingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gradienteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -166,45 +182,6 @@
             this.desfazer.Text = "Desfazer";
             this.desfazer.Click += new System.EventHandler(this.Desfazer_Click);
             // 
-            // opBasicas
-            // 
-            this.opBasicas.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.opQuantizacao,
-            this.opMinMax,
-            this.toTonsDeCinza,
-            this.inverterCores});
-            this.opBasicas.Name = "opBasicas";
-            this.opBasicas.Size = new System.Drawing.Size(263, 22);
-            this.opBasicas.Text = "Operações Básicas";
-            // 
-            // opQuantizacao
-            // 
-            this.opQuantizacao.Name = "opQuantizacao";
-            this.opQuantizacao.Size = new System.Drawing.Size(185, 22);
-            this.opQuantizacao.Text = "Quantização";
-            this.opQuantizacao.Click += new System.EventHandler(this.OpQuantizacao_Click);
-            // 
-            // opMinMax
-            // 
-            this.opMinMax.Name = "opMinMax";
-            this.opMinMax.Size = new System.Drawing.Size(185, 22);
-            this.opMinMax.Text = "Correção (Min-Max)";
-            this.opMinMax.Visible = false;
-            // 
-            // toTonsDeCinza
-            // 
-            this.toTonsDeCinza.Name = "toTonsDeCinza";
-            this.toTonsDeCinza.Size = new System.Drawing.Size(185, 22);
-            this.toTonsDeCinza.Text = "Descolorir para Cinza";
-            this.toTonsDeCinza.Click += new System.EventHandler(this.TonsDeCinzaToolStripMenuItem_Click);
-            // 
-            // inverterCores
-            // 
-            this.inverterCores.Name = "inverterCores";
-            this.inverterCores.Size = new System.Drawing.Size(185, 22);
-            this.inverterCores.Text = "Inverter Cores";
-            this.inverterCores.Click += new System.EventHandler(this.InverterCores_Click);
-            // 
             // opAritmeticas
             // 
             this.opAritmeticas.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -221,42 +198,42 @@
             // adicaoLimiar
             // 
             this.adicaoLimiar.Name = "adicaoLimiar";
-            this.adicaoLimiar.Size = new System.Drawing.Size(163, 22);
+            this.adicaoLimiar.Size = new System.Drawing.Size(180, 22);
             this.adicaoLimiar.Text = "Adição Limiar";
             this.adicaoLimiar.Click += new System.EventHandler(this.Adicao_Click);
             // 
             // adicaoMedia
             // 
             this.adicaoMedia.Name = "adicaoMedia";
-            this.adicaoMedia.Size = new System.Drawing.Size(163, 22);
+            this.adicaoMedia.Size = new System.Drawing.Size(180, 22);
             this.adicaoMedia.Text = "Adição Média";
             this.adicaoMedia.Click += new System.EventHandler(this.AdicaoMedia_Click);
             // 
             // subtracaoLimiar
             // 
             this.subtracaoLimiar.Name = "subtracaoLimiar";
-            this.subtracaoLimiar.Size = new System.Drawing.Size(163, 22);
+            this.subtracaoLimiar.Size = new System.Drawing.Size(180, 22);
             this.subtracaoLimiar.Text = "Subtração Limiar";
             this.subtracaoLimiar.Click += new System.EventHandler(this.SubtracaoLimiar_Click);
             // 
             // subtracaoMedia
             // 
             this.subtracaoMedia.Name = "subtracaoMedia";
-            this.subtracaoMedia.Size = new System.Drawing.Size(163, 22);
+            this.subtracaoMedia.Size = new System.Drawing.Size(180, 22);
             this.subtracaoMedia.Text = "Subtração Média";
             this.subtracaoMedia.Click += new System.EventHandler(this.SubtracaoMedia_Click);
             // 
             // multiplicacao
             // 
             this.multiplicacao.Name = "multiplicacao";
-            this.multiplicacao.Size = new System.Drawing.Size(163, 22);
+            this.multiplicacao.Size = new System.Drawing.Size(180, 22);
             this.multiplicacao.Text = "Multiplicação";
             this.multiplicacao.Click += new System.EventHandler(this.Multiplicacao_Click);
             // 
             // divisao
             // 
             this.divisao.Name = "divisao";
-            this.divisao.Size = new System.Drawing.Size(163, 22);
+            this.divisao.Size = new System.Drawing.Size(180, 22);
             this.divisao.Text = "Divisão";
             this.divisao.Click += new System.EventHandler(this.Divisao_Click);
             // 
@@ -276,35 +253,35 @@
             // 
             this.not.Name = "not";
             this.not.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.not.Size = new System.Drawing.Size(137, 22);
+            this.not.Size = new System.Drawing.Size(180, 22);
             this.not.Text = "Not";
             this.not.Click += new System.EventHandler(this.LogicNot_Click);
             // 
             // logicOr
             // 
             this.logicOr.Name = "logicOr";
-            this.logicOr.Size = new System.Drawing.Size(137, 22);
+            this.logicOr.Size = new System.Drawing.Size(180, 22);
             this.logicOr.Text = "Or";
             this.logicOr.Click += new System.EventHandler(this.LogicOr_Click);
             // 
             // LogicAnd
             // 
             this.LogicAnd.Name = "LogicAnd";
-            this.LogicAnd.Size = new System.Drawing.Size(137, 22);
+            this.LogicAnd.Size = new System.Drawing.Size(180, 22);
             this.LogicAnd.Text = "And";
             this.LogicAnd.Click += new System.EventHandler(this.LogicAnd_Click);
             // 
             // logicXor
             // 
             this.logicXor.Name = "logicXor";
-            this.logicXor.Size = new System.Drawing.Size(137, 22);
+            this.logicXor.Size = new System.Drawing.Size(180, 22);
             this.logicXor.Text = "Xor";
             this.logicXor.Click += new System.EventHandler(this.LogicXor_Click);
             // 
             // LogicSub
             // 
             this.LogicSub.Name = "LogicSub";
-            this.LogicSub.Size = new System.Drawing.Size(137, 22);
+            this.LogicSub.Size = new System.Drawing.Size(180, 22);
             this.LogicSub.Text = "Sub";
             this.LogicSub.Click += new System.EventHandler(this.LogicSub_Click);
             // 
@@ -326,56 +303,56 @@
             // filtroMedia
             // 
             this.filtroMedia.Name = "filtroMedia";
-            this.filtroMedia.Size = new System.Drawing.Size(127, 22);
+            this.filtroMedia.Size = new System.Drawing.Size(180, 22);
             this.filtroMedia.Text = "Média";
             this.filtroMedia.Click += new System.EventHandler(this.FiltroMedia_Click);
             // 
             // filtroMediana
             // 
             this.filtroMediana.Name = "filtroMediana";
-            this.filtroMediana.Size = new System.Drawing.Size(127, 22);
+            this.filtroMediana.Size = new System.Drawing.Size(180, 22);
             this.filtroMediana.Text = "Mediana";
             this.filtroMediana.Click += new System.EventHandler(this.FiltroMediana_Click);
             // 
             // passaAltaToolStripMenuItem
             // 
             this.passaAltaToolStripMenuItem.Name = "passaAltaToolStripMenuItem";
-            this.passaAltaToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.passaAltaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.passaAltaToolStripMenuItem.Text = "Passa Alta";
             this.passaAltaToolStripMenuItem.Click += new System.EventHandler(this.PassaAltaToolStripMenuItem_Click);
             // 
             // sobelToolStripMenuItem
             // 
             this.sobelToolStripMenuItem.Name = "sobelToolStripMenuItem";
-            this.sobelToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.sobelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.sobelToolStripMenuItem.Text = "Sobel";
             this.sobelToolStripMenuItem.Click += new System.EventHandler(this.SobelToolStripMenuItem_Click);
             // 
             // prewittToolStripMenuItem
             // 
             this.prewittToolStripMenuItem.Name = "prewittToolStripMenuItem";
-            this.prewittToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.prewittToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.prewittToolStripMenuItem.Text = "Prewitt";
             this.prewittToolStripMenuItem.Click += new System.EventHandler(this.PrewittToolStripMenuItem_Click);
             // 
             // robertsToolStripMenuItem
             // 
             this.robertsToolStripMenuItem.Name = "robertsToolStripMenuItem";
-            this.robertsToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.robertsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.robertsToolStripMenuItem.Text = "Roberts";
             this.robertsToolStripMenuItem.Click += new System.EventHandler(this.RobertsToolStripMenuItem_Click);
             // 
             // bordasIsotropico
             // 
             this.bordasIsotropico.Name = "bordasIsotropico";
-            this.bordasIsotropico.Size = new System.Drawing.Size(127, 22);
+            this.bordasIsotropico.Size = new System.Drawing.Size(180, 22);
             this.bordasIsotropico.Text = "Isotrópico";
             this.bordasIsotropico.Click += new System.EventHandler(this.BordasIsotropico_Click);
             // 
             // laplaceToolStripMenuItem
             // 
             this.laplaceToolStripMenuItem.Name = "laplaceToolStripMenuItem";
-            this.laplaceToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.laplaceToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.laplaceToolStripMenuItem.Text = "Laplace";
             this.laplaceToolStripMenuItem.Click += new System.EventHandler(this.LaplaceToolStripMenuItem_Click);
             // 
@@ -494,7 +471,8 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuToolStripMenuItem,
-            this.editarMenu});
+            this.editarMenu,
+            this.morfologiaMatematicaToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(800, 24);
@@ -511,6 +489,160 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
+            // 
+            // opQuantizacao
+            // 
+            this.opQuantizacao.Name = "opQuantizacao";
+            this.opQuantizacao.Size = new System.Drawing.Size(185, 22);
+            this.opQuantizacao.Text = "Quantização";
+            this.opQuantizacao.Click += new System.EventHandler(this.OpQuantizacao_Click);
+            // 
+            // toTonsDeCinza
+            // 
+            this.toTonsDeCinza.Name = "toTonsDeCinza";
+            this.toTonsDeCinza.Size = new System.Drawing.Size(185, 22);
+            this.toTonsDeCinza.Text = "Descolorir para Cinza";
+            this.toTonsDeCinza.Click += new System.EventHandler(this.TonsDeCinzaToolStripMenuItem_Click);
+            // 
+            // inverterCores
+            // 
+            this.inverterCores.Name = "inverterCores";
+            this.inverterCores.Size = new System.Drawing.Size(185, 22);
+            this.inverterCores.Text = "Inverter Cores";
+            this.inverterCores.Click += new System.EventHandler(this.InverterCores_Click);
+            // 
+            // opBasicas
+            // 
+            this.opBasicas.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.opQuantizacao,
+            this.toTonsDeCinza,
+            this.inverterCores});
+            this.opBasicas.Name = "opBasicas";
+            this.opBasicas.Size = new System.Drawing.Size(263, 22);
+            this.opBasicas.Text = "Operações Básicas";
+            // 
+            // morfologiaMatematicaToolStripMenuItem
+            // 
+            this.morfologiaMatematicaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.bináriosToolStripMenuItem,
+            this.monocromáticosToolStripMenuItem});
+            this.morfologiaMatematicaToolStripMenuItem.Name = "morfologiaMatematicaToolStripMenuItem";
+            this.morfologiaMatematicaToolStripMenuItem.Size = new System.Drawing.Size(144, 20);
+            this.morfologiaMatematicaToolStripMenuItem.Text = "Morfologia Matemática";
+            // 
+            // bináriosToolStripMenuItem
+            // 
+            this.bináriosToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.erosao,
+            this.dilataçãoToolStripMenuItem,
+            this.aberturaToolStripMenuItem,
+            this.fechamentoToolStripMenuItem,
+            this.bordaInternaToolStripMenuItem,
+            this.bordaExternaToolStripMenuItem,
+            this.acertoEErroToolStripMenuItem,
+            this.esqueletoToolStripMenuItem});
+            this.bináriosToolStripMenuItem.Name = "bináriosToolStripMenuItem";
+            this.bináriosToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.bináriosToolStripMenuItem.Text = "Binários";
+            // 
+            // monocromáticosToolStripMenuItem
+            // 
+            this.monocromáticosToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.erosãoToolStripMenuItem1,
+            this.dilataçãoToolStripMenuItem1,
+            this.aberturaToolStripMenuItem1,
+            this.fechamentoToolStripMenuItem1,
+            this.smoothingToolStripMenuItem,
+            this.gradienteToolStripMenuItem});
+            this.monocromáticosToolStripMenuItem.Name = "monocromáticosToolStripMenuItem";
+            this.monocromáticosToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.monocromáticosToolStripMenuItem.Text = "Monocromáticos";
+            // 
+            // erosao
+            // 
+            this.erosao.Name = "erosao";
+            this.erosao.Size = new System.Drawing.Size(180, 22);
+            this.erosao.Text = "Erosão";
+            this.erosao.Click += new System.EventHandler(this.Erosao_Click);
+            // 
+            // dilataçãoToolStripMenuItem
+            // 
+            this.dilataçãoToolStripMenuItem.Name = "dilataçãoToolStripMenuItem";
+            this.dilataçãoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.dilataçãoToolStripMenuItem.Text = "Dilatação";
+            this.dilataçãoToolStripMenuItem.Click += new System.EventHandler(this.DilataçãoToolStripMenuItem_Click);
+            // 
+            // aberturaToolStripMenuItem
+            // 
+            this.aberturaToolStripMenuItem.Name = "aberturaToolStripMenuItem";
+            this.aberturaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aberturaToolStripMenuItem.Text = "Abertura";
+            // 
+            // fechamentoToolStripMenuItem
+            // 
+            this.fechamentoToolStripMenuItem.Name = "fechamentoToolStripMenuItem";
+            this.fechamentoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.fechamentoToolStripMenuItem.Text = "Fechamento";
+            // 
+            // bordaInternaToolStripMenuItem
+            // 
+            this.bordaInternaToolStripMenuItem.Name = "bordaInternaToolStripMenuItem";
+            this.bordaInternaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.bordaInternaToolStripMenuItem.Text = "Borda Interna";
+            // 
+            // bordaExternaToolStripMenuItem
+            // 
+            this.bordaExternaToolStripMenuItem.Name = "bordaExternaToolStripMenuItem";
+            this.bordaExternaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.bordaExternaToolStripMenuItem.Text = "Borda Externa";
+            // 
+            // acertoEErroToolStripMenuItem
+            // 
+            this.acertoEErroToolStripMenuItem.Name = "acertoEErroToolStripMenuItem";
+            this.acertoEErroToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.acertoEErroToolStripMenuItem.Text = "Acerto e Erro";
+            // 
+            // esqueletoToolStripMenuItem
+            // 
+            this.esqueletoToolStripMenuItem.Name = "esqueletoToolStripMenuItem";
+            this.esqueletoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.esqueletoToolStripMenuItem.Text = "Esqueleto";
+            // 
+            // erosãoToolStripMenuItem1
+            // 
+            this.erosãoToolStripMenuItem1.Name = "erosãoToolStripMenuItem1";
+            this.erosãoToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.erosãoToolStripMenuItem1.Text = "Erosão";
+            // 
+            // dilataçãoToolStripMenuItem1
+            // 
+            this.dilataçãoToolStripMenuItem1.Name = "dilataçãoToolStripMenuItem1";
+            this.dilataçãoToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.dilataçãoToolStripMenuItem1.Text = "Dilatação";
+            // 
+            // aberturaToolStripMenuItem1
+            // 
+            this.aberturaToolStripMenuItem1.Name = "aberturaToolStripMenuItem1";
+            this.aberturaToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.aberturaToolStripMenuItem1.Text = "Abertura";
+            // 
+            // fechamentoToolStripMenuItem1
+            // 
+            this.fechamentoToolStripMenuItem1.Name = "fechamentoToolStripMenuItem1";
+            this.fechamentoToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.fechamentoToolStripMenuItem1.Text = "Fechamento";
+            // 
+            // smoothingToolStripMenuItem
+            // 
+            this.smoothingToolStripMenuItem.Name = "smoothingToolStripMenuItem";
+            this.smoothingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.smoothingToolStripMenuItem.Text = "Smoothing";
+            // 
+            // gradienteToolStripMenuItem
+            // 
+            this.gradienteToolStripMenuItem.Name = "gradienteToolStripMenuItem";
+            this.gradienteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.gradienteToolStripMenuItem.Text = "Gradiente";
             // 
             // ImageProcessing
             // 
@@ -558,9 +690,6 @@
         private System.Windows.Forms.ToolStripMenuItem logicXor;
         private System.Windows.Forms.ToolStripMenuItem LogicSub;
         private System.Windows.Forms.ToolStripMenuItem desfazer;
-        private System.Windows.Forms.ToolStripMenuItem opBasicas;
-        private System.Windows.Forms.ToolStripMenuItem opQuantizacao;
-        private System.Windows.Forms.ToolStripMenuItem opMinMax;
         private System.Windows.Forms.ToolStripMenuItem passaAltaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sobelToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem prewittToolStripMenuItem;
@@ -576,14 +705,33 @@
         private System.Windows.Forms.ToolStripMenuItem histograma;
         private System.Windows.Forms.ToolStripMenuItem abrirVarios;
         private System.Windows.Forms.ToolStripMenuItem mediaImagens;
-        private System.Windows.Forms.ToolStripMenuItem toTonsDeCinza;
-        private System.Windows.Forms.ToolStripMenuItem inverterCores;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem dtLimiarComRuido;
         private System.Windows.Forms.ToolStripMenuItem dtLimiar;
         private System.Windows.Forms.ToolStripMenuItem dtPeriodicoDispersao;
         private System.Windows.Forms.ToolStripMenuItem dtAperiodicoDispersao;
         private System.Windows.Forms.ToolStripMenuItem periodicoPorAglomeracao;
+        private System.Windows.Forms.ToolStripMenuItem opBasicas;
+        private System.Windows.Forms.ToolStripMenuItem opQuantizacao;
+        private System.Windows.Forms.ToolStripMenuItem toTonsDeCinza;
+        private System.Windows.Forms.ToolStripMenuItem inverterCores;
+        private System.Windows.Forms.ToolStripMenuItem morfologiaMatematicaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem bináriosToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem erosao;
+        private System.Windows.Forms.ToolStripMenuItem dilataçãoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aberturaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem fechamentoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem bordaInternaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem bordaExternaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem acertoEErroToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem esqueletoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem monocromáticosToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem erosãoToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem dilataçãoToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem aberturaToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem fechamentoToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem smoothingToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem gradienteToolStripMenuItem;
     }
 }
 

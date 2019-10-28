@@ -6,24 +6,11 @@ using System.Threading.Tasks;
 
 namespace ImageProcessing
 {
-    public struct ImagemBool
-    {
 
-        public int Width, Height;
-        public bool[,] Matriz;
-
-    };
     public struct ImagemInt
     {
-
         public int Width, Height;
         public int[,,] Matriz;
-    };
-    public struct ImagemGray
-    {
-
-        public int Width, Height;
-        public int[,] Matriz;
     };
     public enum LogicOperationType
     {
@@ -40,13 +27,7 @@ namespace ImageProcessing
         multiplicacao = 3,
         divisao = 4
     }
-    public enum ImageType
-    {
-        binary = 2,
-        integer = 1,
-        gray = 256,
-        color = 0,
-    }
+
     public enum Correcao
     {
         limiar = 0,
@@ -69,20 +50,11 @@ namespace ImageProcessing
         Roberts = 4,
 
     }
-    //public enum MaskType
-    //{
-    //    media = 0,
-    //    mediana = 1,
-    //    passaAlta = 2,
-    //    sobel = 3,
-    //    prewitt = 4,
-    //    roberts = 5,
-    //    Isotropico =6,
-    //    laplace=7
-    //}
-    //public struct MaskMatrix
-    //{
-    //    public double[,] passaAlta = new double[,] { { -1.0, -1.0, -1.0 }, { -1.0, -1.0, -1.0 }, { -1.0, -1.0, -1.0 } };
-
-    //}
+ 
+    public enum ElEst
+    {
+        quadrado =0,
+        cruz=1,
+        ponto=2,
+    }
 }
