@@ -50,13 +50,14 @@ namespace ImageProcessing
         Roberts = 4,
 
     }
- 
+
     public enum ElEst
     {
-        quadrado =0,
-        cruz=1,
-        ponto=2,
-        circulo=3,
-        mask=4
+        quadrado = 0,
+        cruz = 1,
+        ponto = 2,
+        circulo = 3,
+        cruzCinza = 4,
+        quadradoCinza=5,
     }
 }

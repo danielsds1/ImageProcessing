@@ -781,12 +781,12 @@ namespace ImageProcessing
                         for (int y = 0; y < lengthY; y++)
                             EE[x, y] = 255;
                     break;
-                case ElEst.mask:
+                case ElEst.quadradoCinza:
                     for (int x = 0; x < lengthX; x++)
                         for (int y = 0; y < lengthY; y++)
                             EE[x, y] = 1;
                     EE[rx / 2, ry / 2] = 2;
-                            break;
+                    break;
 
             }
             return EE;
@@ -802,12 +802,18 @@ namespace ImageProcessing
         }
         public void AddBorder(int rx, int ry, int v)
         {
-            int x, y, c, w = this.MatrizCor.Width, h = this.MatrizCor.Height;
-            var aux = new int[w, h, 3];
-            for (x = 0; x < w; x++)
-                for (y = 0; y < h; y++)
+            int x, y, c, w = this.MatrizCor.Width + 2 * rx, h = this.MatrizCor.Height + 2 * ry;
+            var aux = new Imagem();
+            aux.CreatePlainImage(w, h, v);
+
+            for (x = 0; x < MatrizCor.Width; x++)
+                for (y = 0; y < MatrizCor.Width; y++)
                     for (c = 0; c < 3; c++)
-                        aux[x, y, c] = ((x < rx) || (x > w - rx) || (y < ry) || (y > h - ry)) ? MatrizCor.Matriz[x, y, c] : v;
+                        aux.MatrizCor.Matriz[x+rx, y+ry, c] = MatrizCor.Matriz[x, y, c];
+
+            this.MatrizCor.Matriz = aux.MatrizCor.Matriz;
+            this.MatrizCor.Height = h;
+            this.MatrizCor.Width = w;
         }
         public bool IsNull()
         {
@@ -821,14 +827,60 @@ namespace ImageProcessing
             return true;
 
         }
+        public void ErosaoCinza(ElEst el, int rx, int ry)
+        {
+            Imagem img = this;
+            int[,] ee = GetEE(el, rx, ry);
+            int h = this.MatrizCor.Height;
+            int w = this.MatrizCor.Width;
+            Imagem saida = new Imagem();
+            saida.Clone(this);
+            int x, y, c, i, j, min, aux;
+            for (c = 0; c < 3; c++)
+                for (x = rx; x < (w - rx); x++)
+                    for (y = ry; y < (h - ry); y++)
+                    {
+                        aux = 255;
+                        for (i = -rx; i <= rx; i++)
+                            for (j = -ry; j <= ry; j++)
+                            {
+                                min = img.MatrizCor.Matriz[x + i, y + j, c] - (ee[rx + i, ry + j]);
+                                if (min < aux)
+                                    aux = min;
+                            }
+                        saida.MatrizCor.Matriz[x, y, c] = aux;
+                    }
 
-        //public void Esqueletizacao()
-        //{
+            this.MatrizCor = saida.MatrizCor;
+        }
+        public void DilatacaoCinza(ElEst el, int rx, int ry)
+        {
+            Imagem img = this;
+            int[,] ee = GetEE(el, rx, ry);
+            int h = this.MatrizCor.Height;
+            int w = this.MatrizCor.Width;
+            Imagem saida = new Imagem();
+            saida.Clone(this);
+            int x, y, c, i, j, max, aux;
+            for (c = 0; c < 3; c++)
+                for (x = rx; x < (w - rx); x++)
+                    for (y = ry; y < (h - ry); y++)
+                    {
+                        aux = 0;
+                        for (i = -rx; i <= rx; i++)
+                            for (j = -ry; j <= ry; j++)
+                            {
+                                max = img.MatrizCor.Matriz[x + i, y + j, c] + (ee[rx + i, ry + j]);
+                                if (max > aux)
+                                    aux = max;
+                            }
+                        saida.MatrizCor.Matriz[x, y, c] = aux;
+                    }
+
+            this.MatrizCor = saida.MatrizCor;
+        }
 
 
-        //    this.MatrizCor = saida.MatrizCor;
-
-        //}
 
 
 

@@ -89,12 +89,12 @@
             this.acertoEErro = new System.Windows.Forms.ToolStripMenuItem();
             this.esqueleto = new System.Windows.Forms.ToolStripMenuItem();
             this.monocromáticosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.erosãoToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.dilataçãoToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.aberturaToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.fechamentoToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.smoothingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.gradienteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.erosaoCinza = new System.Windows.Forms.ToolStripMenuItem();
+            this.dilatacaoCinza = new System.Windows.Forms.ToolStripMenuItem();
+            this.aberturaCinza = new System.Windows.Forms.ToolStripMenuItem();
+            this.fechamentoCinza = new System.Windows.Forms.ToolStripMenuItem();
+            this.smoothing = new System.Windows.Forms.ToolStripMenuItem();
+            this.gradiente = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -538,107 +538,113 @@
             // 
             this.erosao.Name = "erosao";
             this.erosao.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
-            this.erosao.Size = new System.Drawing.Size(180, 22);
+            this.erosao.Size = new System.Drawing.Size(149, 22);
             this.erosao.Text = "Erosão";
             this.erosao.Click += new System.EventHandler(this.Erosao_Click);
             // 
             // dilatacao
             // 
             this.dilatacao.Name = "dilatacao";
-            this.dilatacao.Size = new System.Drawing.Size(180, 22);
+            this.dilatacao.Size = new System.Drawing.Size(149, 22);
             this.dilatacao.Text = "Dilatação";
             this.dilatacao.Click += new System.EventHandler(this.DilataçãoToolStripMenuItem_Click);
             // 
             // abertura
             // 
             this.abertura.Name = "abertura";
-            this.abertura.Size = new System.Drawing.Size(180, 22);
+            this.abertura.Size = new System.Drawing.Size(149, 22);
             this.abertura.Text = "Abertura";
             this.abertura.Click += new System.EventHandler(this.Abertura_Click);
             // 
             // fechamento
             // 
             this.fechamento.Name = "fechamento";
-            this.fechamento.Size = new System.Drawing.Size(180, 22);
+            this.fechamento.Size = new System.Drawing.Size(149, 22);
             this.fechamento.Text = "Fechamento";
             this.fechamento.Click += new System.EventHandler(this.Fechamento_Click);
             // 
             // bordaInterna
             // 
             this.bordaInterna.Name = "bordaInterna";
-            this.bordaInterna.Size = new System.Drawing.Size(180, 22);
+            this.bordaInterna.Size = new System.Drawing.Size(149, 22);
             this.bordaInterna.Text = "Borda Interna";
             this.bordaInterna.Click += new System.EventHandler(this.BordaInterna_Click);
             // 
             // bordaExterna
             // 
             this.bordaExterna.Name = "bordaExterna";
-            this.bordaExterna.Size = new System.Drawing.Size(180, 22);
+            this.bordaExterna.Size = new System.Drawing.Size(149, 22);
             this.bordaExterna.Text = "Borda Externa";
             this.bordaExterna.Click += new System.EventHandler(this.BordaExterna_Click);
             // 
             // acertoEErro
             // 
             this.acertoEErro.Name = "acertoEErro";
-            this.acertoEErro.Size = new System.Drawing.Size(180, 22);
+            this.acertoEErro.Size = new System.Drawing.Size(149, 22);
             this.acertoEErro.Text = "Acerto e Erro";
             this.acertoEErro.Click += new System.EventHandler(this.AcertoEErro_Click);
             // 
             // esqueleto
             // 
             this.esqueleto.Name = "esqueleto";
-            this.esqueleto.Size = new System.Drawing.Size(180, 22);
+            this.esqueleto.Size = new System.Drawing.Size(149, 22);
             this.esqueleto.Text = "Esqueleto";
             this.esqueleto.Click += new System.EventHandler(this.Esqueleto_Click);
             // 
             // monocromáticosToolStripMenuItem
             // 
             this.monocromáticosToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.erosãoToolStripMenuItem1,
-            this.dilataçãoToolStripMenuItem1,
-            this.aberturaToolStripMenuItem1,
-            this.fechamentoToolStripMenuItem1,
-            this.smoothingToolStripMenuItem,
-            this.gradienteToolStripMenuItem});
+            this.erosaoCinza,
+            this.dilatacaoCinza,
+            this.aberturaCinza,
+            this.fechamentoCinza,
+            this.smoothing,
+            this.gradiente});
             this.monocromáticosToolStripMenuItem.Name = "monocromáticosToolStripMenuItem";
             this.monocromáticosToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.monocromáticosToolStripMenuItem.Text = "Monocromáticos";
             // 
-            // erosãoToolStripMenuItem1
+            // erosaoCinza
             // 
-            this.erosãoToolStripMenuItem1.Name = "erosãoToolStripMenuItem1";
-            this.erosãoToolStripMenuItem1.Size = new System.Drawing.Size(140, 22);
-            this.erosãoToolStripMenuItem1.Text = "Erosão";
+            this.erosaoCinza.Name = "erosaoCinza";
+            this.erosaoCinza.Size = new System.Drawing.Size(180, 22);
+            this.erosaoCinza.Text = "Erosão";
+            this.erosaoCinza.Click += new System.EventHandler(this.ErosaoCinza_Click);
             // 
-            // dilataçãoToolStripMenuItem1
+            // dilatacaoCinza
             // 
-            this.dilataçãoToolStripMenuItem1.Name = "dilataçãoToolStripMenuItem1";
-            this.dilataçãoToolStripMenuItem1.Size = new System.Drawing.Size(140, 22);
-            this.dilataçãoToolStripMenuItem1.Text = "Dilatação";
+            this.dilatacaoCinza.Name = "dilatacaoCinza";
+            this.dilatacaoCinza.Size = new System.Drawing.Size(180, 22);
+            this.dilatacaoCinza.Text = "Dilatação";
+            this.dilatacaoCinza.Click += new System.EventHandler(this.DilatacaoCinza_Click);
             // 
-            // aberturaToolStripMenuItem1
+            // aberturaCinza
             // 
-            this.aberturaToolStripMenuItem1.Name = "aberturaToolStripMenuItem1";
-            this.aberturaToolStripMenuItem1.Size = new System.Drawing.Size(140, 22);
-            this.aberturaToolStripMenuItem1.Text = "Abertura";
+            this.aberturaCinza.Name = "aberturaCinza";
+            this.aberturaCinza.Size = new System.Drawing.Size(180, 22);
+            this.aberturaCinza.Text = "Abertura";
+            this.aberturaCinza.Click += new System.EventHandler(this.AberturaCinza_Click);
             // 
-            // fechamentoToolStripMenuItem1
+            // fechamentoCinza
             // 
-            this.fechamentoToolStripMenuItem1.Name = "fechamentoToolStripMenuItem1";
-            this.fechamentoToolStripMenuItem1.Size = new System.Drawing.Size(140, 22);
-            this.fechamentoToolStripMenuItem1.Text = "Fechamento";
+            this.fechamentoCinza.Name = "fechamentoCinza";
+            this.fechamentoCinza.Size = new System.Drawing.Size(180, 22);
+            this.fechamentoCinza.Text = "Fechamento";
+            this.fechamentoCinza.Click += new System.EventHandler(this.FechamentoCinza_Click);
             // 
-            // smoothingToolStripMenuItem
+            // smoothing
             // 
-            this.smoothingToolStripMenuItem.Name = "smoothingToolStripMenuItem";
-            this.smoothingToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
-            this.smoothingToolStripMenuItem.Text = "Smoothing";
+            this.smoothing.Name = "smoothing";
+            this.smoothing.Size = new System.Drawing.Size(180, 22);
+            this.smoothing.Text = "Smoothing";
+            this.smoothing.Click += new System.EventHandler(this.Smoothing_Click);
             // 
-            // gradienteToolStripMenuItem
+            // gradiente
             // 
-            this.gradienteToolStripMenuItem.Name = "gradienteToolStripMenuItem";
-            this.gradienteToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
-            this.gradienteToolStripMenuItem.Text = "Gradiente";
+            this.gradiente.Name = "gradiente";
+            this.gradiente.Size = new System.Drawing.Size(180, 22);
+            this.gradiente.Text = "Gradiente";
+            this.gradiente.Click += new System.EventHandler(this.Gradiente_Click);
             // 
             // pictureBox1
             // 
@@ -733,12 +739,12 @@
         private System.Windows.Forms.ToolStripMenuItem acertoEErro;
         private System.Windows.Forms.ToolStripMenuItem esqueleto;
         private System.Windows.Forms.ToolStripMenuItem monocromáticosToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem erosãoToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem dilataçãoToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem aberturaToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem fechamentoToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem smoothingToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem gradienteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem erosaoCinza;
+        private System.Windows.Forms.ToolStripMenuItem dilatacaoCinza;
+        private System.Windows.Forms.ToolStripMenuItem aberturaCinza;
+        private System.Windows.Forms.ToolStripMenuItem fechamentoCinza;
+        private System.Windows.Forms.ToolStripMenuItem smoothing;
+        private System.Windows.Forms.ToolStripMenuItem gradiente;
     }
 }
 

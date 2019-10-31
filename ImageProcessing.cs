@@ -689,14 +689,29 @@ namespace ImageProcessing
         private void AcertoEErro_Click(object sender, EventArgs e)
         {
             Imagem A = new Imagem();
+            Imagem Ac = new Imagem();
             A.Clone(imagens[count - 1]);
-            Imagem X = GetImagemB();
-            Imagem W = new Imagem();
-            W.CreatePlainImage(X.MatrizCor.Width + 2, X.MatrizCor.Height + 2, 255);
-            W.MathOp(MathOperationType.subtracao, X, 1);
-            Visualizar(X, "Teste");
+            Ac.Clone(A);
+            Ac.LogicOp(LogicOperationType.not, null);
+            Imagem B = GetImagemB();
+            B.ToInt();
+            Visualizar(B);
+            Imagem B1 = new Imagem();
+            Imagem B2 = new Imagem();
+            B1.Clone(B);
+            B2.Clone(B);
+            B2.AddBorder(1, 1, 0);
+            B2.LogicOp(LogicOperationType.not, null);
+            A.Erosao(ElEst.quadrado, 1, 1, B1);
+            Ac.Erosao(ElEst.quadrado, 1, 1, B2);
+            A.LogicOp(LogicOperationType.and, Ac);
             A.Dilatacao(ElEst.quadrado, 1, 1, null);
-            A.CorrecaoMinMax(Correcao.limiar);
+            Visualizar(A);
+
+            //W.MathOp(MathOperationType.subtracao, B, 1);
+            //Visualizar(B, "Teste");
+            //A.Dilatacao(ElEst.quadrado, 1, 1, null);
+            //A.CorrecaoMinMax(Correcao.limiar);
             //Visualizar(A, "Dilatação " + A.NomeArquivo());
 
         }
@@ -708,17 +723,13 @@ namespace ImageProcessing
             Imagem op = new Imagem();
             Imagem saida = new Imagem();
             saida.CreatePlainImage(imagens[count - 1].MatrizCor.Width, imagens[count - 1].MatrizCor.Height, 0);
-
             process.Clone(imagens[count - 1]);//armazena a saida
-            //origem.Clone(imagens[count - 1]);//armazena a entrada
             entrada.Clone(imagens[count - 1]);//armazena a entrada erodida
             op.Clone(imagens[count - 1]); //Imagem que sofre abertura
 
             while (!entrada.IsNull())
             {
-                
                 op.Erosao(ElEst.quadrado, 1, 1, null); op.Dilatacao(ElEst.quadrado, 1, 1, null);
-                //Visualizar(op);
                 process.MathOp(MathOperationType.subtracao, op);
                 saida.LogicOp(LogicOperationType.or, process);
                 entrada.Erosao(ElEst.quadrado, 1, 1, null);
@@ -731,10 +742,92 @@ namespace ImageProcessing
             combo.MathOp(MathOperationType.subtracao, saida);
             combo.CorrecaoMinMax(Correcao.limiar);
             Visualizar(combo, "Esqueletização " + saida.NomeArquivo());
+        }
 
+        private void ErosaoCinza_Click(object sender, EventArgs e)
+        {
+            Imagem B = new Imagem();
+            B.Clone(imagens[count - 1]);
+            B.ErosaoCinza(ElEst.quadradoCinza, 1, 1);
+            B.CorrecaoMinMax(Correcao.proporcao);
+            Visualizar(B, "Erosão " + B.NomeArquivo());
+        }
 
+        private void DilatacaoCinza_Click(object sender, EventArgs e)
+        {
+            Imagem B = new Imagem();
+            B.Clone(imagens[count - 1]);
+            B.DilatacaoCinza(ElEst.quadradoCinza, 1, 1);
+            B.CorrecaoMinMax(Correcao.proporcao);
+            Visualizar(B, "Erosão " + B.NomeArquivo());
+        }
 
+        private void AberturaCinza_Click(object sender, EventArgs e)
+        {
+            Imagem erod = new Imagem();
+            erod.Clone(imagens[count - 1]);
+            erod.ErosaoCinza(ElEst.quadradoCinza, 1, 1);
+            Visualizar(erod, "Erosão " + erod.NomeArquivo());
+            Imagem dil = new Imagem();
+            dil.Clone(imagens[count - 1]);
+            dil.DilatacaoCinza(ElEst.quadradoCinza, 1, 1);
+            dil.CorrecaoMinMax(Correcao.proporcao);
+            Visualizar(dil, "Abertura " + dil.NomeArquivo());
+        }
 
+        private void FechamentoCinza_Click(object sender, EventArgs e)
+        {
+            Imagem dil = new Imagem();
+            dil.Clone(imagens[count - 1]);
+            dil.DilatacaoCinza(ElEst.quadradoCinza, 1, 1);
+            dil.CorrecaoMinMax(Correcao.proporcao);
+            Visualizar(dil, "Dilatação " + dil.NomeArquivo());
+            Imagem erod = new Imagem();
+            erod.Clone(imagens[count - 1]);
+            erod.ErosaoCinza(ElEst.quadradoCinza, 1, 1);
+            Visualizar(erod, "Fechamento " + erod.NomeArquivo());
+        }
+
+        private void Smoothing_Click(object sender, EventArgs e)
+        {
+            Imagem erod = new Imagem();
+            erod.Clone(imagens[count - 1]);
+            erod.ErosaoCinza(ElEst.quadradoCinza, 1, 1);
+            Visualizar(erod, "Erosão " + erod.NomeArquivo());
+            Imagem dil = new Imagem();
+            dil.Clone(imagens[count - 1]);
+            dil.DilatacaoCinza(ElEst.quadradoCinza, 1, 1);
+            dil.CorrecaoMinMax(Correcao.proporcao);
+            Visualizar(dil, "Abertura " + dil.NomeArquivo());
+            Imagem dil2 = new Imagem();
+            dil2.Clone(imagens[count - 1]);
+            dil2.DilatacaoCinza(ElEst.quadradoCinza, 1, 1);
+            dil2.CorrecaoMinMax(Correcao.proporcao);
+            Visualizar(dil2, "Dilatação " + dil2.NomeArquivo());
+            Imagem erod2 = new Imagem();
+            erod2.Clone(imagens[count - 1]);
+            erod2.ErosaoCinza(ElEst.quadradoCinza, 1, 1);
+            Visualizar(erod2, "Fechamento -> Smoothing" + erod2.NomeArquivo());
+        }
+
+        private void Gradiente_Click(object sender, EventArgs e)
+        {
+            Imagem dil = new Imagem();
+            Imagem erod = new Imagem();
+            erod.Clone(imagens[count - 1]);
+            dil.Clone(imagens[count - 1]);
+
+            dil.DilatacaoCinza(ElEst.quadradoCinza, 1, 1);
+            dil.CorrecaoMinMax(Correcao.proporcao);
+            Visualizar(dil, "Dilatação " + dil.NomeArquivo());
+
+            erod.ErosaoCinza(ElEst.quadradoCinza, 1, 1);
+            erod.CorrecaoMinMax(Correcao.proporcao);
+            Visualizar(erod, "Erosão " + erod.NomeArquivo());
+
+            dil.MathOp(MathOperationType.subtracao, erod);
+            dil.CorrecaoMinMax(Correcao.proporcao);
+            Visualizar(dil, "Gradiente " + dil.NomeArquivo());
         }
     }
 }
