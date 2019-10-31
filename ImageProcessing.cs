@@ -33,6 +33,7 @@ namespace ImageProcessing
             }; // Open Dialog Initialization
             editarMenu.Enabled = false;
             salvarArquivo.Enabled = false;
+            morfologia.Enabled = false;
             /*************************/
             sDlg = new SaveFileDialog
             {
@@ -71,6 +72,7 @@ namespace ImageProcessing
                     imagens[count - 1].ToInt();
                     salvarArquivo.Enabled = true;
                     editarMenu.Enabled = true;
+                    morfologia.Enabled = true;
                 }
             }
         }
@@ -333,6 +335,7 @@ namespace ImageProcessing
                 count = 0;
                 editarMenu.Enabled = false;
                 salvarArquivo.Enabled = false;
+                morfologia.Enabled = false;
             }
         }
         private void FiltroMedia_Click(object sender, EventArgs e)
@@ -366,6 +369,7 @@ namespace ImageProcessing
             count = 0;
             editarMenu.Enabled = false;
             salvarArquivo.Enabled = false;
+            morfologia.Enabled = false;
         }
         private void MediaImagens_Click(object sender, EventArgs e)
         {
@@ -618,7 +622,7 @@ namespace ImageProcessing
         {
             Imagem B = new Imagem();
             B.Clone(imagens[count - 1]);
-            B.Erosao(ElEst.cruz,1);
+            B.Erosao(ElEst.quadrado, 1, 1, null);
             Visualizar(B, "Erosão " + B.NomeArquivo());
         }
 
@@ -626,8 +630,111 @@ namespace ImageProcessing
         {
             Imagem B = new Imagem();
             B.Clone(imagens[count - 1]);
-            B.Dilatacao(ElEst.quadrado, 1);
-            Visualizar(B, "Dialação " + B.NomeArquivo());
+            B.Dilatacao(ElEst.quadrado, 1, 1, null);
+            Visualizar(B, "Dilatação " + B.NomeArquivo());
+        }
+
+        private void BordaInterna_Click(object sender, EventArgs e)
+        {
+            Imagem erod = new Imagem();
+            erod.Clone(imagens[count - 1]);
+            erod.Erosao(ElEst.quadrado, 1, 1, null);
+            Visualizar(erod, "Erosão " + erod.NomeArquivo());
+            Imagem borda = new Imagem();
+            borda.Clone(imagens[count - 2]);
+            borda.MathOp(MathOperationType.subtracao, imagens[count - 1]);
+            borda.CorrecaoMinMax(Correcao.limiar);
+            Visualizar(borda, "Borda Interna " + borda.NomeArquivo());
+        }
+
+        private void BordaExterna_Click(object sender, EventArgs e)
+        {
+            Imagem dil = new Imagem();
+            dil.Clone(imagens[count - 1]);
+            dil.Dilatacao(ElEst.quadrado, 1, 1, null);
+            Visualizar(dil, "Dilatação " + dil.NomeArquivo());
+            Imagem borda = new Imagem();
+            borda.Clone(imagens[count - 1]);
+            borda.MathOp(MathOperationType.subtracao, imagens[count - 2]);
+            borda.CorrecaoMinMax(Correcao.limiar);
+            Visualizar(borda, "Borda Externa " + borda.NomeArquivo());
+        }
+
+        private void Abertura_Click(object sender, EventArgs e)
+        {
+            Imagem erod = new Imagem();
+            erod.Clone(imagens[count - 1]);
+            erod.Erosao(ElEst.quadrado, 1, 1, null);
+            Visualizar(erod, "Erosão " + erod.NomeArquivo());
+            Imagem dil = new Imagem();
+            dil.Clone(imagens[count - 1]);
+            dil.Dilatacao(ElEst.quadrado, 1, 1, null);
+            dil.CorrecaoMinMax(Correcao.limiar);
+            Visualizar(dil, "Abertura " + dil.NomeArquivo());
+        }
+
+        private void Fechamento_Click(object sender, EventArgs e)
+        {
+            Imagem dil = new Imagem();
+            dil.Clone(imagens[count - 1]);
+            dil.Dilatacao(ElEst.quadrado, 1, 1, null);
+            dil.CorrecaoMinMax(Correcao.limiar);
+            Visualizar(dil, "Dilatação " + dil.NomeArquivo());
+            Imagem erod = new Imagem();
+            erod.Clone(imagens[count - 1]);
+            erod.Erosao(ElEst.quadrado, 1, 1, null);
+            Visualizar(erod, "Fechamento " + erod.NomeArquivo());
+        }
+
+        private void AcertoEErro_Click(object sender, EventArgs e)
+        {
+            Imagem A = new Imagem();
+            A.Clone(imagens[count - 1]);
+            Imagem X = GetImagemB();
+            Imagem W = new Imagem();
+            W.CreatePlainImage(X.MatrizCor.Width + 2, X.MatrizCor.Height + 2, 255);
+            W.MathOp(MathOperationType.subtracao, X, 1);
+            Visualizar(X, "Teste");
+            A.Dilatacao(ElEst.quadrado, 1, 1, null);
+            A.CorrecaoMinMax(Correcao.limiar);
+            //Visualizar(A, "Dilatação " + A.NomeArquivo());
+
+        }
+
+        private void Esqueleto_Click(object sender, EventArgs e)
+        {
+            Imagem process = new Imagem();
+            Imagem entrada = new Imagem();
+            Imagem op = new Imagem();
+            Imagem saida = new Imagem();
+            saida.CreatePlainImage(imagens[count - 1].MatrizCor.Width, imagens[count - 1].MatrizCor.Height, 0);
+
+            process.Clone(imagens[count - 1]);//armazena a saida
+            //origem.Clone(imagens[count - 1]);//armazena a entrada
+            entrada.Clone(imagens[count - 1]);//armazena a entrada erodida
+            op.Clone(imagens[count - 1]); //Imagem que sofre abertura
+
+            while (!entrada.IsNull())
+            {
+                
+                op.Erosao(ElEst.quadrado, 1, 1, null); op.Dilatacao(ElEst.quadrado, 1, 1, null);
+                //Visualizar(op);
+                process.MathOp(MathOperationType.subtracao, op);
+                saida.LogicOp(LogicOperationType.or, process);
+                entrada.Erosao(ElEst.quadrado, 1, 1, null);
+                process.Clone(entrada);
+                op.Clone(entrada);
+            }
+            Imagem combo = new Imagem();
+            combo.Clone(imagens[count-1]);
+            Visualizar(saida, "Esqueletização " + saida.NomeArquivo());
+            combo.MathOp(MathOperationType.subtracao, saida);
+            combo.CorrecaoMinMax(Correcao.limiar);
+            Visualizar(combo, "Esqueletização " + saida.NomeArquivo());
+
+
+
+
         }
     }
 }

@@ -142,7 +142,6 @@ namespace ImageProcessing
 
             }
         }
-
         public void CreatePlainImage(int width, int height, int value)
         {
             int x, y, c;
@@ -254,7 +253,6 @@ namespace ImageProcessing
                     }
             MatrizCor = aux;
         }
-
         public void FiltroPassaAlta()
         {
             int[,] maskX = new int[3, 3] { { -1, -1, -1 },
@@ -420,6 +418,42 @@ namespace ImageProcessing
                         }
             }
         }
+        public void MathOp(MathOperationType operation, Imagem imagemB, int r)
+        {
+
+            if (imagemB != null)
+            {
+                int width = this.MatrizCor.Width;
+                int height = this.MatrizCor.Height;
+                int[] rgbA = { 0, 0, 0 }, rgbB = { 0, 0, 0 };
+                int x, y, canal;
+
+                for (x = r; x < width - r; x++)
+                    for (y = r; y < height - r; y++)
+                        for (canal = 0; canal < 3; canal++)
+                        {
+                            rgbA[canal] = this.MatrizCor.Matriz[x, y, canal];
+                            rgbB[canal] = imagemB.MatrizCor.Matriz[x - r, y - r, canal];
+                            switch (operation)
+                            {
+                                case MathOperationType.adicao:
+                                    rgbA[canal] += rgbB[canal];
+                                    break;
+                                case MathOperationType.divisao:
+                                    rgbA[canal] = (rgbA[canal] < 1) ? 1 : rgbA[canal];
+                                    rgbA[canal] /= rgbB[canal];
+                                    break;
+                                case MathOperationType.multiplicacao:
+                                    rgbA[canal] *= rgbB[canal];
+                                    break;
+                                case MathOperationType.subtracao:
+                                    rgbA[canal] -= rgbB[canal];
+                                    break;
+                            }
+                            this.MatrizCor.Matriz[x, y, canal] = rgbA[canal];
+                        }
+            }
+        }
         public void CorrecaoHistograma()
         {
             int[,] histograma = new int[256, 3];
@@ -472,20 +506,6 @@ namespace ImageProcessing
 
         public void ToPeriodicoDispersao(int dispersao)
         {
-            //int[,] D2 = new int[,] { { 0 * 64, 2 * 64 },
-            //                         { 3 * 64, 1 * 64 } };
-
-            //int[,] D3 = new int[,] { { 06 * 28, 04 * 28, 08 * 28 },
-            //                         { 01 * 28, 00 * 28, 03 * 28 },
-            //                         { 05 * 28, 02 * 28, 07 * 28 } };
-
-            //int[,] D4 = new int[,] { { 00 * 16, 08 * 16, 02 * 16, 10 * 16 },
-            //                         { 12 * 16, 04 * 16, 14 * 16, 06 * 16 },
-            //                         { 03 * 16, 11 * 16, 01 * 16, 09 * 16 },
-            //                         { 15 * 16, 07 * 16, 13 * 16, 05 * 16 } };
-
-            //List<int[,]> D = new List<int[,]> { D2, D3, D4 };
-
             int[,] D = GetDispersao(dispersao);
             int i, j, x, y, c, h = MatrizCor.Height, w = MatrizCor.Width;
             for (x = 0; x < w; x++)
@@ -658,46 +678,58 @@ namespace ImageProcessing
             else
                 return 0;
         }
-        public void Erosao(ElEst el, int r)
+        public void Erosao(ElEst el, int rx, int ry, Imagem B)
         {
             int x, y, i, j, c, w = MatrizCor.Width, h = MatrizCor.Height;
-            int length = (2 * r + 1);
-            int[,] ee = GetEE(el, r);
-            bool iguais = true;
+            int[,] ee;
+            if (B == null)
+                ee = GetEE(el, rx, ry);
+            else
+            {
+                ee = GetEE(B);
+                rx = B.MatrizCor.Width / 2;
+                ry = B.MatrizCor.Height / 2;
+            }
+
+            bool iguais;
             var aux = new int[w, h, 3];
             for (c = 0; c < 3; c++)
-                for (x = r; x < w - r; x++)
-                    for (y = r; y < h - r; y++)
+                for (x = rx; x < w - rx; x++)
+                    for (y = ry; y < h - ry; y++)
                     {
                         iguais = true;
-                        for (i = -r; i <= r && iguais; i++)
-                            for (j = -r; j <= r && iguais; j++)
-                                if (ee[r + i, r + j] >= 0)
-                                    iguais = MatrizCor.Matriz[x + i, y + j, c] == ee[r + i, r + j];
+                        for (i = -rx; i <= rx && iguais; i++)
+                            for (j = -ry; j <= ry && iguais; j++)
+                                if (ee[rx + i, ry + j] >= 0)
+                                    iguais = MatrizCor.Matriz[x + i, y + j, c] == ee[rx + i, ry + j];
                         aux[x, y, c] = iguais ? 255 : 0;
                     }
             this.MatrizCor.Matriz = aux;
         }
-        public void Dilatacao(ElEst el, int r)
+        public void Dilatacao(ElEst el, int rx, int ry, Imagem B)
         {
             int x, y, i, j, c, w = MatrizCor.Width, h = MatrizCor.Height;
-            int length = (2 * r + 1);
-            int[,] ee = GetEE(el, r);
-            bool iguais = true;
-            int ig = 0;
+            int[,] ee;
+            if (B == null)
+                ee = GetEE(el, rx, ry);
+            else
+            {
+                ee = GetEE(B);
+                rx = B.MatrizCor.Width / 2;
+                ry = B.MatrizCor.Height / 2;
+            }
+            bool iguais;
             var aux = new int[w, h, 3];
             for (c = 0; c < 3; c++)
-                for (x = r; x < w - r; x++)
-                    for (y = r; y < h - r; y++)
+                for (x = rx; x < w - rx; x++)
+                    for (y = ry; y < h - ry; y++)
                     {
                         iguais = false;
-                        ig = 0;
-                        for (i = -r; i <= r; i++)
-                            for (j = -r; j <= r; j++)
-                                if (ee[r + i, r + j] >= 0)
-                                    //ig = Math.Max(MatrizCor.Matriz[x + i, y + j, c], ee[r + i, r + j]);
-                                    iguais = iguais||(MatrizCor.Matriz[x + i, y + j, c] == ee[r + i, r + j] );
-                        aux[x, y, c] = iguais?255:0;
+                        for (i = -rx; i <= rx; i++)
+                            for (j = -ry; j <= ry; j++)
+                                if (ee[rx + i, ry + j] >= 0)
+                                    iguais = iguais || (MatrizCor.Matriz[x + i, y + j, c] == ee[rx + i, ry + j]);
+                        aux[x, y, c] = iguais ? 255 : 0;
                     }
             this.MatrizCor.Matriz = aux;
         }
@@ -725,31 +757,81 @@ namespace ImageProcessing
             }
             return D;
         }
-        public int[,] GetEE(ElEst el, int r)
+        public int[,] GetEE(ElEst el, int rx, int ry)
         {
-            int length = (2 * r + 1);
-            int[,] EE = new int[length, length];
+            int lengthX = (2 * rx + 1), lengthY = (2 * ry + 1); ;
+
+            int[,] EE = new int[lengthX, lengthY];
             switch (el)
             {
+                case ElEst.circulo:
                 case ElEst.cruz:
-                    for (int x = 0; x < length; x++)
-                        for (int y = 0; y < length; y++)
-                            if (x == (r - 1) / 2 || y == (r - 1) / 2)
+                    for (int x = 0; x < lengthX; x++)
+                        for (int y = 0; y < lengthY; y++)
+                            if (x == (rx - 1) / 2 || y == (ry - 1) / 2)
                                 EE[x, y] = 255;
                             else
                                 EE[x, y] = -1;
                     break;
                 case ElEst.ponto:
-                    EE[(r - 1) / 2, (r - 1) / 2] = 255;
+                    EE[(rx - 1) / 2, (ry - 1) / 2] = 255;
                     break;
                 case ElEst.quadrado:
-                    for (int x = 0; x < length; x++)
-                        for (int y = 0; y < length; y++)
+                    for (int x = 0; x < lengthX; x++)
+                        for (int y = 0; y < lengthY; y++)
                             EE[x, y] = 255;
                     break;
+                case ElEst.mask:
+                    for (int x = 0; x < lengthX; x++)
+                        for (int y = 0; y < lengthY; y++)
+                            EE[x, y] = 1;
+                    EE[rx / 2, ry / 2] = 2;
+                            break;
+
             }
             return EE;
         }
+        public int[,] GetEE(Imagem B)
+        {
+            int x, y;
+            int[,] EE = new int[B.MatrizCor.Width, B.MatrizCor.Height];
+            for (x = 0; x < B.MatrizCor.Width; x++)
+                for (y = 0; y < B.MatrizCor.Height; y++)
+                    EE[x, y] = B.MatrizCor.Matriz[x, y, 0];
+            return EE;
+        }
+        public void AddBorder(int rx, int ry, int v)
+        {
+            int x, y, c, w = this.MatrizCor.Width, h = this.MatrizCor.Height;
+            var aux = new int[w, h, 3];
+            for (x = 0; x < w; x++)
+                for (y = 0; y < h; y++)
+                    for (c = 0; c < 3; c++)
+                        aux[x, y, c] = ((x < rx) || (x > w - rx) || (y < ry) || (y > h - ry)) ? MatrizCor.Matriz[x, y, c] : v;
+        }
+        public bool IsNull()
+        {
+            int x, y, c, w = this.MatrizCor.Width, h = this.MatrizCor.Height;
+            for (x = 0; x < w; x++)
+                for (y = 0; y < h; y++)
+                    for (c = 0; c < 3; c++)
+                        if (MatrizCor.Matriz[x, y, c] == 255)
+                            return false;
+
+            return true;
+
+        }
+
+        //public void Esqueletizacao()
+        //{
+
+
+        //    this.MatrizCor = saida.MatrizCor;
+
+        //}
+
+
+
     }
 }
 

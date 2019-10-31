@@ -56,5 +56,7 @@ namespace ImageProcessing
         quadrado =0,
         cruz=1,
         ponto=2,
+        circulo=3,
+        mask=4
     }
 }
