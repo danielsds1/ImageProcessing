@@ -96,6 +96,7 @@
             this.smoothing = new System.Windows.Forms.ToolStripMenuItem();
             this.gradiente = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.wavefrontToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -169,7 +170,8 @@
             this.stretching,
             this.histograma,
             this.mediaImagens,
-            this.toolStripMenuItem2});
+            this.toolStripMenuItem2,
+            this.wavefrontToolStripMenuItem});
             this.editarMenu.Name = "editarMenu";
             this.editarMenu.Size = new System.Drawing.Size(49, 20);
             this.editarMenu.Text = "Editar";
@@ -531,7 +533,7 @@
             this.acertoEErro,
             this.esqueleto});
             this.bináriosToolStripMenuItem.Name = "bináriosToolStripMenuItem";
-            this.bináriosToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.bináriosToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.bináriosToolStripMenuItem.Text = "Binários";
             // 
             // erosao
@@ -601,48 +603,48 @@
             this.smoothing,
             this.gradiente});
             this.monocromáticosToolStripMenuItem.Name = "monocromáticosToolStripMenuItem";
-            this.monocromáticosToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.monocromáticosToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
             this.monocromáticosToolStripMenuItem.Text = "Monocromáticos";
             // 
             // erosaoCinza
             // 
             this.erosaoCinza.Name = "erosaoCinza";
-            this.erosaoCinza.Size = new System.Drawing.Size(180, 22);
+            this.erosaoCinza.Size = new System.Drawing.Size(140, 22);
             this.erosaoCinza.Text = "Erosão";
             this.erosaoCinza.Click += new System.EventHandler(this.ErosaoCinza_Click);
             // 
             // dilatacaoCinza
             // 
             this.dilatacaoCinza.Name = "dilatacaoCinza";
-            this.dilatacaoCinza.Size = new System.Drawing.Size(180, 22);
+            this.dilatacaoCinza.Size = new System.Drawing.Size(140, 22);
             this.dilatacaoCinza.Text = "Dilatação";
             this.dilatacaoCinza.Click += new System.EventHandler(this.DilatacaoCinza_Click);
             // 
             // aberturaCinza
             // 
             this.aberturaCinza.Name = "aberturaCinza";
-            this.aberturaCinza.Size = new System.Drawing.Size(180, 22);
+            this.aberturaCinza.Size = new System.Drawing.Size(140, 22);
             this.aberturaCinza.Text = "Abertura";
             this.aberturaCinza.Click += new System.EventHandler(this.AberturaCinza_Click);
             // 
             // fechamentoCinza
             // 
             this.fechamentoCinza.Name = "fechamentoCinza";
-            this.fechamentoCinza.Size = new System.Drawing.Size(180, 22);
+            this.fechamentoCinza.Size = new System.Drawing.Size(140, 22);
             this.fechamentoCinza.Text = "Fechamento";
             this.fechamentoCinza.Click += new System.EventHandler(this.FechamentoCinza_Click);
             // 
             // smoothing
             // 
             this.smoothing.Name = "smoothing";
-            this.smoothing.Size = new System.Drawing.Size(180, 22);
+            this.smoothing.Size = new System.Drawing.Size(140, 22);
             this.smoothing.Text = "Smoothing";
             this.smoothing.Click += new System.EventHandler(this.Smoothing_Click);
             // 
             // gradiente
             // 
             this.gradiente.Name = "gradiente";
-            this.gradiente.Size = new System.Drawing.Size(180, 22);
+            this.gradiente.Size = new System.Drawing.Size(140, 22);
             this.gradiente.Text = "Gradiente";
             this.gradiente.Click += new System.EventHandler(this.Gradiente_Click);
             // 
@@ -656,6 +658,13 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
+            // 
+            // wavefrontToolStripMenuItem
+            // 
+            this.wavefrontToolStripMenuItem.Name = "wavefrontToolStripMenuItem";
+            this.wavefrontToolStripMenuItem.Size = new System.Drawing.Size(263, 22);
+            this.wavefrontToolStripMenuItem.Text = "Wavefront";
+            this.wavefrontToolStripMenuItem.Click += new System.EventHandler(this.wavefrontToolStripMenuItem_Click);
             // 
             // ImageProcessing
             // 
@@ -745,6 +754,7 @@
         private System.Windows.Forms.ToolStripMenuItem fechamentoCinza;
         private System.Windows.Forms.ToolStripMenuItem smoothing;
         private System.Windows.Forms.ToolStripMenuItem gradiente;
+        private System.Windows.Forms.ToolStripMenuItem wavefrontToolStripMenuItem;
     }
 }
 

@@ -732,7 +732,7 @@ namespace ImageProcessing
                 op.Erosao(ElEst.quadrado, 1, 1, null); op.Dilatacao(ElEst.quadrado, 1, 1, null);
                 process.MathOp(MathOperationType.subtracao, op);
                 saida.LogicOp(LogicOperationType.or, process);
-                entrada.Erosao(ElEst.quadrado, 1, 1, null);
+                entrada.Erosao(ElEst.quadrado, 3, 3, null);
                 process.Clone(entrada);
                 op.Clone(entrada);
             }
@@ -828,6 +828,15 @@ namespace ImageProcessing
             dil.MathOp(MathOperationType.subtracao, erod);
             dil.CorrecaoMinMax(Correcao.proporcao);
             Visualizar(dil, "Gradiente " + dil.NomeArquivo());
+        }
+
+        private void wavefrontToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Imagem B = new Imagem();
+            B.Clone(imagens[count - 1]);
+            B.Wavefront();
+            B.CorrecaoMinMax(Correcao.proporcao);
+            Visualizar(B, "Erosão " + B.NomeArquivo());
         }
     }
 }

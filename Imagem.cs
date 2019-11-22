@@ -809,7 +809,7 @@ namespace ImageProcessing
             for (x = 0; x < MatrizCor.Width; x++)
                 for (y = 0; y < MatrizCor.Width; y++)
                     for (c = 0; c < 3; c++)
-                        aux.MatrizCor.Matriz[x+rx, y+ry, c] = MatrizCor.Matriz[x, y, c];
+                        aux.MatrizCor.Matriz[x + rx, y + ry, c] = MatrizCor.Matriz[x, y, c];
 
             this.MatrizCor.Matriz = aux.MatrizCor.Matriz;
             this.MatrizCor.Height = h;
@@ -880,7 +880,91 @@ namespace ImageProcessing
             this.MatrizCor = saida.MatrizCor;
         }
 
+        public void Wavefront()
+        {
+            int x, y, c, w = this.MatrizCor.Width, h = this.MatrizCor.Height, i, j;
+            List<int> coordsX = new List<int>();
+            List<int> coordsY = new List<int>();
+            int[] o = { 0, 0 };
+            int[] d = { w - 2, h - 2 };
+            for (c = 0; c < 3; c++)
+                for (x = 0; x < (w); x++)
+                    for (y = 0; y < (h); y++)
+                        if (this.MatrizCor.Matriz[x, y, c] == 255)
+                            this.MatrizCor.Matriz[x, y, c] = (-1);
+            var aux = new Imagem();
+            aux.Clone(this);
+            var saida = new Imagem();
+            saida.Clone(this);
+            x = 1; y = 1; c = 0;
+            do
+            {
+                for (i = x - 1; i <= x + 1; i++)
+                    for (j = y - 1; j <= y + 1; j++)
+                        if (i != x || j != y || this.MatrizCor.Matriz[i, j, c] != (-1))
+                            if (this.MatrizCor.Matriz[i, j, c] == 0)
+                            {
+                                this.MatrizCor.Matriz[i, j, c] = this.MatrizCor.Matriz[x, y, c] + 1;
+                                if (i != 0 && i != w - 1 && j != 0 && j != h - 1)
+                                {
+                                    coordsX.Add(i);
+                                    coordsY.Add(j);
+                                }
+                            }
+                            else
+                            {
+                                if (this.MatrizCor.Matriz[i, j, c] != (-1) && this.MatrizCor.Matriz[i, j, c] > this.MatrizCor.Matriz[x, y, c] + 1)
+                                {
+                                    this.MatrizCor.Matriz[i, j, c] = this.MatrizCor.Matriz[x, y, c] + 1;
+                                }
+                            }
+                if (coordsX.Count > 0)
+                {
+                    x = coordsX[0];
+                    y = coordsY[0];
+                    coordsX.RemoveAt(0);
+                    coordsY.RemoveAt(0);
+                }
 
+            } while (coordsX.Count > 0);
+            //aux.MatrizCor.Matriz[x, y, c] = MatrizCor.Matriz[x, y, c];
+            x = d[0];
+            y = d[1];
+            saida.MatrizCor.Matriz[x, y, 0] = 255;
+            int tx = x, ty = y;
+            while (x != 1 && y != 1)
+            {
+                for (i = x - 1; i <= x + 1; i++)
+                    for (j = y - 1; j <= y + 1; j++)
+                    {
+                        if (i != 0 && i != (w - 1 ) && j != 0 && j != (h - 1))
+                            if (this.MatrizCor.Matriz[i, j, c] < this.MatrizCor.Matriz[tx, ty, c] && this.MatrizCor.Matriz[i, j, c] != (-1))
+                            {
+                                tx = i;
+                                ty = j;
+                            }
+                    }
+                x = tx;
+                y = ty;
+                saida.MatrizCor.Matriz[x, y, 0] = 255;
+            }
+            this.Clone(saida);
+            //for (x = 0; x < (w); x++)
+            //    for (y = 0; y < (h); y++)
+            //        for (c = 0; c < 3; c++)
+            //            if (this.MatrizCor.Matriz[x, y, c] == -1)
+            //                this.MatrizCor.Matriz[x, y, c] = 255;
+
+            //this.CorrecaoMinMax(Correcao.proporcao);
+
+            //for (x = 0; x < (w); x++)
+            //    for (y = 0; y < (h); y++)
+            //        if (this.MatrizCor.Matriz[x, y, 2] == 255)
+            //            this.MatrizCor.Matriz[x, y, 0] = 255;
+
+
+
+        }
 
 
 
